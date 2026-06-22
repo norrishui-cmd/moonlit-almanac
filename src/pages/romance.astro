@@ -2,16 +2,35 @@
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
 
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+// Named in pre-launch coverage/previews — NOT first-party confirmed except Dracula.
+// Verify every name against the live build at launch, then promote to "confirmed".
+const named = [
+  { name: 'Count Dracula', family: 'Vampire', note: 'Your father. Story character — not romanceable.', status: 'confirmed' },
+  { name: 'Saga', family: 'Werewolf', note: 'Early fan favourite; her energy shifts with the full moon.', status: 'reported' },
+  { name: 'Orlock', family: 'Vampire', note: 'A vampire family head.', status: 'reported' },
+  { name: 'Luna', family: 'Witch', note: 'A farming witch.', status: 'reported' },
+  { name: 'Pumpkin Head', family: '—', note: 'Theatrical event host around town.', status: 'reported' },
+  { name: 'Logan', family: 'Werewolf', note: 'Has a distinctive werewolf house.', status: 'reported' },
+];
+
+const faq = [
+  { q: 'How many romanceable characters are in Moonlight Peaks?', a: 'Around two dozen (roughly 24). Earlier coverage cited 15, so the cast grew during development, and the developers have said they hope to keep adding to it.' },
+  { q: 'Can you get married in Moonlight Peaks?', a: 'Yes, you can marry a romance partner. There are no children in the game.' },
+  { q: 'Is dating gender-locked?', a: 'No. Character models are intentionally gender-neutral, so you can romance any eligible resident regardless of how you build your own vampire.' },
+  { q: 'Can a vampire romance a werewolf?', a: 'Yes. Vampires and werewolves in town rarely get along and trade petty spats, so pursuing a werewolf such as Saga means romancing across that divide — which is part of the charm.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
     { '@type': 'ListItem', position: 2, name: 'Romance', item: new URL('/romance', SITE.url).href },
-  ],
-};
+  ] },
+];
 ---
 <Base
-  title="Moonlight Peaks Romance & the Seven Families — Who You Can Date | Moonlit Almanac"
-  description="Romance in Moonlight Peaks: the seven families, the creatures of the night you can befriend and romance, and their gift preferences. Full candidate list at launch."
+  title="Moonlight Peaks Romance & Marriage — Every Dateable Character & the Seven Families | Moonlit Almanac"
+  description="Romance in Moonlight Peaks: around two dozen dateable supernatural residents, gender-neutral dating, marriage (no children), the seven families, and named characters so far."
   path="/romance"
   jsonLd={jsonLd}
   crumbs={[{ label: 'Romance & families' }]}
@@ -19,31 +38,64 @@ const jsonLd = {
   <article class="page">
     <div class="wrap">
       <p class="eyebrow">Entry · Hearts</p>
-      <h1>Romance & the <em>seven families</em></h1>
+      <h1>Moonlight Peaks <em>romance</em> & the seven families</h1>
       <p class="intro">
-        Who you can befriend, who you can romance, and what to gift them. Moonlight Peaks centers
-        relationships with the town's creatures of the night. Updated {SITE.updated}.
+        Who you can date and marry in {GAME.title}, how relationships work, and the supernatural
+        families that shape the town. We mark each character as <strong>confirmed</strong> or
+        <strong>reported</strong> and verify names against the live build. Updated {SITE.updated}.
       </p>
 
-      <h2>What we know</h2>
-      <p>
-        The town is inhabited by seven families spanning humans and supernatural folk — werewolves,
-        witches, mermaids, and others, with Death as a notable character. You can befriend and
-        romance residents as a core pillar of the game. The demo introduces several townsfolk ahead
-        of the full cast at launch.
-      </p>
-
-      <h2>Coming at launch ({GAME.releaseLabel})</h2>
+      <h2>How romance works</h2>
       <ul>
-        <li><strong>Every romance candidate</strong> — names, families, and how to meet them.</li>
-        <li><strong>Gift guide</strong> — loved and liked gifts for each character.</li>
-        <li><strong>Relationship steps</strong> — friendship to dating to marriage, with milestones.</li>
-        <li><strong>The seven families</strong> — who belongs to which, and their stories.</li>
+        <li><strong>Around two dozen (~24) romanceable residents</strong> — the roster grew from an earlier 15 and may keep expanding.</li>
+        <li><strong>Gender-neutral dating</strong> — romance anyone eligible; the game never forces an identity on you.</li>
+        <li><strong>Marriage, but no children</strong> — you can settle down with a partner; there are no kids.</li>
+        <li><strong>Befriend or romance</strong> — relationships are a core pillar, woven through the seven families.</li>
+        <li><strong>Vampire vs werewolf tension</strong> — the two groups bicker, so dating across that line adds drama.</li>
       </ul>
 
+      <h2>The seven families</h2>
+      <p>
+        Seven founding supernatural families are said to hold the town's history and secrets between
+        them. The confirmed make-up spans <strong>vampires, werewolves, witches, mermaids, ghosts</strong>
+        and stranger folk besides (there are even ordinary "normies"). Not every family has been named
+        yet — the full roster is expected to be confirmed around the {GAME.releaseLabel} launch. Your
+        standing with a family is expected to shape festivals, gifts, and which doors open to you.
+      </p>
+
+      <h2>Named characters so far</h2>
+      <p>Only Count Dracula is first-party confirmed; the rest appear in pre-launch coverage and previews and will be verified at launch.</p>
+      <table class="facts">
+        <tr><th>Character</th><th>Family / status</th></tr>
+        {named.map((c) => (
+          <tr>
+            <td><strong>{c.name}</strong> {c.status === 'reported' && <span style="color:var(--faint);font-family:var(--mono);font-size:0.7rem">reported</span>}<br /><span style="color:var(--muted);font-size:0.85rem">{c.note}</span></td>
+            <td>{c.family}</td>
+          </tr>
+        ))}
+      </table>
+
+      <h2>Gift guide</h2>
+      <p>
+        Loved and liked gifts for each character will be published — and turned into a gift tracker —
+        once the live build confirms them on {GAME.releaseLabel}. We won't list a gift as "loved"
+        until it's verified in-game.
+      </p>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+
       <div class="callout wip">
-        Placeholder entry until {GAME.title} ships on {GAME.releaseLabel} and the full cast and gift
-        tables are known. We'll fill it in fast — gift guides are among the most-searched cozy pages.
+        Pre-launch entry. At launch this becomes the full named cast + a gift tracker. Related:
+        <a href="/beginner-guide">beginner guide</a>, <a href="/platforms">platforms</a>,
+        <a href="/release-date">release date</a>.
       </div>
     </div>
   </article>
