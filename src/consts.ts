@@ -4,7 +4,7 @@ export const SITE = {
   name: 'Moonlit Almanac — Moonlight Peaks Guide & Wiki',
   tagline: 'A field almanac for the cozy vampire life sim.',
   // Change to your real domain (no trailing slash).
-  url: 'https://moonlitalmanac.example.com',
+  url: 'https://moonlightpeax.wiki',
   updated: 'June 22, 2026',
   contact: 'hello@moonlitalmanac.example.com',
 };
