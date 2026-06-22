@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Moonlit Almanac — preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap"/>
+<style>
+/* =========================================================
+   Moonlit Almanac — design tokens & components
+   Direction: a vampire farmer's almanac. Cozy-gothic, not spooky:
+   deep plum night, warm candlelight gold, a wine accent. The
+   signature is the "almanac entry" framing + a moon-phase motif
+   (the game farms at night). Warm, hand-kept, legible.
+   ========================================================= */
+
+:root {
+  --ink: #15101d;       /* plum-black night */
+  --ink-2: #1b1526;
+  --surface: #241b31;   /* parchment-in-the-dark cards */
+  --surface-2: #2f2440;
+  --line: #3c2f50;      /* hairline */
+  --mist: #f0e9f4;      /* primary text */
+  --muted: #b4a6c4;     /* secondary */
+  --faint: #7c6e90;     /* tertiary */
+
+  --candle: #f3c969;    /* moonlight / candle gold — primary accent */
+  --candle-dim: #6a531f;
+  --wine: #c0436a;      /* garnet — secondary accent */
+  --leaf: #8fb98a;      /* soft sage for farming bits */
+
+  --glow: radial-gradient(120% 120% at 50% 0%, rgba(243,201,105,0.16), transparent 60%);
+
+  --display: 'Fraunces', Georgia, serif;
+  --body: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --maxw: 1060px;
+  --radius: 14px;
+  --gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(820px 460px at 82% -6%, rgba(192,67,106,0.10), transparent 60%),
+    radial-gradient(760px 480px at 10% -4%, rgba(243,201,105,0.10), transparent 58%),
+    var(--ink);
+  color: var(--mist);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--ink) 84%, transparent);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .bar { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); }
+.brand .moon {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 32%, var(--candle), #cda23f);
+  box-shadow: 0 0 14px rgba(243,201,105,0.5);
+}
+.brand .mark { font-weight: 600; font-size: 1.12rem; letter-spacing: -0.01em; color: var(--mist); }
+.brand .mark em { color: var(--candle); font-style: italic; }
+.nav { display: flex; gap: 22px; font-size: 0.92rem; }
+.nav a { color: var(--muted); transition: color .15s ease; }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--candle); }
+@media (max-width: 620px) { .nav { gap: 14px; font-size: 0.82rem; } }
+
+/* ---------- breadcrumb ---------- */
+.crumb { font-size: 0.78rem; color: var(--faint); padding-top: 22px; font-family: var(--mono); letter-spacing: 0.04em; }
+.crumb a { color: var(--muted); }
+.crumb a:hover { color: var(--candle); }
+
+/* ---------- hero ---------- */
+.hero { position: relative; padding: clamp(2.6rem, 8vw, 5.5rem) 0 clamp(2rem, 5vw, 3.5rem); }
+.hero::before { content: ""; position: absolute; inset: 0; background: var(--glow); pointer-events: none; }
+.eyebrow {
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--candle); margin: 0 0 16px; display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--candle); opacity: .7; }
+.title {
+  font-family: var(--display); font-weight: 600; font-size: clamp(2.4rem, 8vw, 4.6rem);
+  line-height: 1.02; letter-spacing: -0.02em; margin: 0; max-width: 16ch;
+}
+.title em { font-style: italic; color: var(--candle); }
+.lede { color: var(--muted); font-size: clamp(1rem, 2.4vw, 1.16rem); max-width: 54ch; margin: 20px 0 28px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+.btn { display: inline-flex; align-items: center; gap: 9px; font-weight: 600; font-size: 0.95rem; padding: 12px 20px; border-radius: 11px; border: 1px solid var(--line); transition: transform .14s ease, border-color .14s ease; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { border: none; color: #20160a; background: linear-gradient(180deg, #f7d889, var(--candle)); font-weight: 700; }
+.btn-ghost { color: var(--mist); background: var(--surface); }
+.btn-ghost:hover { border-color: var(--candle); }
+.btn .arr { font-family: var(--mono); }
+
+/* countdown */
+.countdown { margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; align-items: stretch; }
+.cd-cell { border: 1px solid var(--line); border-radius: 12px; background: linear-gradient(var(--surface), var(--ink-2)); padding: 14px 18px; min-width: 76px; text-align: center; }
+.cd-cell .n { font-family: var(--display); font-weight: 600; font-size: 1.9rem; color: var(--candle); line-height: 1; }
+.cd-cell .u { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); margin-top: 6px; }
+.cd-note { align-self: center; color: var(--muted); font-size: 0.9rem; }
+
+/* ---------- section ---------- */
+.sec { padding: clamp(2.4rem, 6vw, 3.8rem) 0; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.sec-head h2 { font-family: var(--display); font-weight: 600; font-size: clamp(1.5rem, 4vw, 2.1rem); letter-spacing: -0.01em; margin: 0; }
+.sec-head .note { font-family: var(--mono); font-size: 0.72rem; color: var(--faint); letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ---------- entry grid (router cards = almanac entries) ---------- */
+.entries { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+@media (max-width: 860px) { .entries { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .entries { grid-template-columns: 1fr; } }
+.entry { position: relative; display: flex; flex-direction: column; gap: 7px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 20px 18px; min-height: 132px; transition: transform .15s ease, border-color .15s ease; }
+.entry:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); }
+.entry .ent { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--faint); text-transform: uppercase; }
+.entry h3 { font-family: var(--display); font-weight: 600; font-size: 1.2rem; margin: 2px 0 0; }
+.entry p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+.entry .go { margin-top: auto; font-family: var(--mono); font-size: 0.76rem; color: var(--candle); }
+.entry.soon { opacity: 0.62; }
+.entry.soon .go { color: var(--faint); }
+.tag { position: absolute; top: 16px; right: 16px; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 7px; border-radius: 999px; }
+.tag.live { color: var(--candle); border: 1px solid var(--candle-dim); }
+.tag.soon { color: var(--faint); border: 1px solid var(--line); }
+
+/* ---------- content pages ---------- */
+.page { padding: clamp(0.5rem, 3vw, 1.5rem) 0 4rem; }
+.page h1 { font-family: var(--display); font-weight: 600; font-size: clamp(2rem, 6vw, 3rem); letter-spacing: -0.02em; line-height: 1.06; margin: 12px 0 0; }
+.page h1 em { font-style: italic; color: var(--candle); }
+.page .intro { color: var(--muted); max-width: 62ch; margin: 16px 0 0; }
+.page h2 { font-family: var(--display); font-weight: 600; font-size: 1.5rem; margin: 42px 0 12px; }
+.page h3 { font-family: var(--display); font-weight: 600; font-size: 1.1rem; margin: 24px 0 8px; }
+.page p { color: #ded3e6; }
+.page ul { color: #ded3e6; padding-left: 1.1rem; }
+.page li { margin: 6px 0; }
+.page strong { color: var(--mist); }
+
+/* fact table */
+.facts { width: 100%; border-collapse: collapse; margin: 8px 0; }
+.facts th, .facts td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.facts th { color: var(--muted); font-weight: 600; width: 38%; font-size: 0.9rem; }
+.facts td { color: var(--mist); }
+
+/* steps */
+ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 8px 0 0; }
+ol.steps li { counter-increment: s; position: relative; padding: 0 0 0 44px; margin: 0 0 14px; color: #ded3e6; }
+ol.steps li::before { content: counter(s); position: absolute; left: 0; top: -1px; font-family: var(--mono); font-size: 0.8rem; color: var(--candle); border: 1px solid var(--line); border-radius: 8px; width: 30px; height: 30px; display: grid; place-items: center; }
+
+/* callout */
+.callout { border-left: 2px solid var(--candle); background: var(--ink-2); padding: 12px 16px; border-radius: 0 10px 10px 0; color: var(--muted); font-size: 0.92rem; margin: 18px 0; }
+.callout.wip { border-left-color: var(--wine); }
+
+/* chips */
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
+.chip { font-size: 0.86rem; color: var(--mist); background: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+
+/* faq */
+.faq details { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 2px 16px; margin: 10px 0; }
+.faq summary { cursor: pointer; font-weight: 600; padding: 13px 0; list-style: none; color: var(--mist); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; float: right; color: var(--candle); font-family: var(--mono); }
+.faq details[open] summary::after { content: "\2013"; }
+.faq p { color: var(--muted); margin: 0 0 14px; }
+
+/* mono code (cheats) */
+.cmd { font-family: var(--mono); color: var(--candle); background: var(--ink); border: 1px solid var(--line); border-radius: 7px; padding: 2px 8px; font-size: 0.9rem; }
+
+/* footer */
+.site-footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 30px 0 50px; color: var(--faint); font-size: 0.82rem; }
+.site-footer .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+.site-footer .links { display: flex; gap: 16px; flex-wrap: wrap; }
+.site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--candle); }
+.site-footer .disclaimer { max-width: 64ch; margin-top: 14px; line-height: 1.5; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+:focus-visible { outline: 2px solid var(--candle); outline-offset: 2px; border-radius: 4px; }
+</style></head><body>
+<header class="site-header"><div class="wrap bar">
+  <a class="brand" href="#"><span class="moon"></span><span class="mark">Moonlit <em>Almanac</em></span></a>
+  <nav class="nav"><a href="#">Release</a><a href="#">Guide</a><a href="#">Nokturna</a><a href="#">Romance</a></nav>
+</div></header>
+<main>
+<section class="hero"><div class="wrap">
+  <p class="eyebrow">A vampire farmer's field almanac</p>
+  <h1 class="title"><em>Moonlight Peaks</em> opens its gates soon.</h1>
+  <p class="lede">The cozy-gothic guide to the vampire life sim by Little Chicken Game Company. We're live before launch so you can start day one knowing the town — release info now, then tips, Nokturna, romance, and cheats the moment Moonlight Peaks arrives.</p>
+  <div class="actions">
+    <a class="btn btn-primary" href="#">Release &amp; demo <span class="arr">&rarr;</span></a>
+    <a class="btn btn-ghost" href="#">What we know</a>
+  </div>
+  <div class="countdown" id="cd" data-release="2026-07-07T00:00:00">
+    <div class="cd-cell"><div class="n" data-d>15</div><div class="u">days</div></div>
+    <div class="cd-cell"><div class="n" data-h>0</div><div class="u">hours</div></div>
+    <div class="cd-cell"><div class="n" data-m>0</div><div class="u">min</div></div>
+    <span class="cd-note">until July 7, 2026 · Free demo live now on Steam and the Nintendo eShop</span>
+  </div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <div class="sec-head"><h2>Almanac entries</h2><span class="note">what players look up first</span></div>
+  <div class="entries">
+    <a class="entry" href="#"><span class="tag live">Open</span><span class="ent">Entry · Release</span><h3>Release date &amp; platforms</h3><p>When, where, price, and the free demo — everything to play day one.</p><span class="go">read entry &rarr;</span></a>
+    <a class="entry" href="#"><span class="tag live">Open</span><span class="ent">Entry · Guide</span><h3>Beginner guide</h3><p>Everything known so far, shaping into your day-one head start.</p><span class="go">read entry &rarr;</span></a>
+    <a class="entry" href="#"><span class="tag live">Open</span><span class="ent">Entry · Cards</span><h3>Nokturna card game</h3><p>The town's favorite game — how it works, cards, and how to win.</p><span class="go">read entry &rarr;</span></a>
+    <a class="entry" href="#"><span class="tag live">Open</span><span class="ent">Entry · Hearts</span><h3>Romance &amp; families</h3><p>The seven families, who you can romance, and gift favorites.</p><span class="go">read entry &rarr;</span></a>
+    <a class="entry" href="#"><span class="tag live">Open</span><span class="ent">Entry · Cheats</span><h3>Cheats &amp; console</h3><p>Console commands and money cheats — published at launch.</p><span class="go">read entry &rarr;</span></a>
+    <a class="entry soon" href="#"><span class="tag soon">Soon</span><span class="ent">Entry · Farm</span><h3>Crops &amp; seasons</h3><p>Mystical crops, magical livestock, and the night-farming loop.</p><span class="go">at launch</span></a>
+  </div>
+</div></section>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div class="row"><span>Moonlit Almanac</span><span class="links"><a href="#">About</a><a href="#">Privacy</a><span>Updated June 22, 2026</span></span></div>
+  <p class="disclaimer">Moonlit Almanac is an independent, fan-made guide. It is not affiliated with, endorsed by, or connected to Little Chicken Game Company or XSEED Games. &ldquo;Moonlight Peaks&rdquo; and all related names and assets are trademarks of their respective owners.</p>
+</div></footer>
+<script>
+const root=document.getElementById('cd');if(root){const t=new Date(root.getAttribute('data-release')).getTime();const d=root.querySelector('[data-d]'),h=root.querySelector('[data-h]'),m=root.querySelector('[data-m]');const tick=()=>{const diff=t-Date.now();if(diff<=0)return;d.textContent=Math.floor(diff/86400000);h.textContent=Math.floor(diff%86400000/3600000);m.textContent=Math.floor(diff%3600000/60000);};tick();setInterval(tick,30000);}
+</script>
+</body></html>
