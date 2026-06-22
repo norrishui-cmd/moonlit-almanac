@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+
+const faq = [
+  { q: 'Is the Moonlight Peaks demo free?', a: 'Yes. The demo is completely free on both Steam and the Nintendo eShop — no purchase required to try it.' },
+  { q: 'Does demo progress carry over to the full game?', a: 'Demos of this kind generally start you fresh in the full release, so treat the demo as a taster rather than a head start. We will confirm save behavior at launch on July 7, 2026.' },
+  { q: 'How long is the Moonlight Peaks demo?', a: 'There is no hard time limit — it is a slice of the cozy daily loop (character creation plus a few activities), so you can spend as little or as much time as you like exploring it.' },
+  { q: 'Can I play the demo on Switch 2?', a: 'Yes. The Nintendo Switch demo is playable on Switch 2 as well as the original Switch.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Demo', item: new URL('/demo', SITE.url).href },
+  ] },
+];
+---
+<Base
+  title="Moonlight Peaks Demo — How to Download & What's Inside | Moonlit Almanac"
+  description="How to play the free Moonlight Peaks demo on Steam and Nintendo Switch, what activities it includes, and whether your progress carries into the full game."
+  path="/demo"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Demo' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Demo</p>
+      <h1>Moonlight Peaks <em>demo</em> — how to play</h1>
+      <p class="intro">
+        The free demo is the best way to try {GAME.title} before the {GAME.releaseLabel} launch.
+        Here's how to download it on each platform and exactly what's inside. Updated {SITE.updated}.
+      </p>
+
+      <h2>How to download the demo</h2>
+      <h3>On Steam (PC)</h3>
+      <ol class="steps">
+        <li>Open the Moonlight Peaks page on the Steam store.</li>
+        <li>Scroll to the demo section and click <strong>Download Demo</strong>.</li>
+        <li>It installs to your Steam library like any game — free, no purchase needed.</li>
+      </ol>
+      <h3>On Nintendo Switch / Switch 2</h3>
+      <ol class="steps">
+        <li>Open the Nintendo eShop and search “Moonlight Peaks”.</li>
+        <li>Select the free demo and download it.</li>
+        <li>The Switch demo also runs on Switch 2.</li>
+      </ol>
+
+      <h2>What's in the demo</h2>
+      <p>
+        The demo is a genuine slice of the cozy daily loop rather than a trailer. Based on the
+        build shown at Wholesome Direct, you can expect to:
+      </p>
+      <ul>
+        <li><strong>Create your vampire</strong> — try the character creator and make your persona.</li>
+        <li><strong>Go fishing</strong> — one of the core gathering activities.</li>
+        <li><strong>Arrange flowers</strong> — a relaxing hobby activity.</li>
+        <li><strong>Embroider</strong> — another slow, cozy craft shown in the demo.</li>
+        <li><strong>Meet the townsfolk</strong> — early encounters with some of the creatures of the night.</li>
+      </ul>
+
+      <h2>Demo tips</h2>
+      <p>
+        Use the demo to test whether the pace and controls suit you, and to plan your first day:
+        try the character creator thoroughly (it's one of the deepest parts shown), and sample each
+        hobby so you know what you enjoy before the full game opens up farming, potion-making, and
+        the <a href="/nokturna">Nokturna card game</a>.
+      </p>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="callout">
+        Next: see every <a href="/platforms">platform and the price</a>, check the
+        <a href="/release-date">release date</a>, or read the <a href="/beginner-guide">beginner guide</a>.
+      </div>
+    </div>
+  </article>
+</Base>
