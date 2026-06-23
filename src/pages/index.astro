@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
 import News from '../components/News.astro';
+import { previews } from '../data/previews';
 
 const entries = [
   { ent: 'Entry · Release', title: 'Release date & platforms', desc: 'When, where, price, and the free demo — everything to play day one.', href: '/release-date', live: true, img: '/card-release.webp' },
@@ -84,6 +85,28 @@ const jsonLd = [
   <section class="sec">
     <div class="wrap">
       <div class="sec-head">
+        <h2>Demo impressions</h2>
+        <span class="note">what players & press say</span>
+      </div>
+      <ul class="prev-list">
+        {previews.map((p) => (
+          <li>
+            <a href={`/previews/${p.slug}`}>
+              <span class="pl-tag">{p.tag}</span>
+              <span class="pl-title">{p.title}</span>
+              <span class="pl-dek">{p.dek}</span>
+              <span class="pl-meta">{p.readTime} · {p.date}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="prev-all"><a href="/previews">See all demo previews →</a></p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
         <h2>Latest news</h2>
         <span class="note">updates & announcements</span>
       </div>
@@ -101,9 +124,18 @@ const jsonLd = [
       border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
       background: var(--ink-2);
     }
-    /* keep the Open pill readable when it sits over the image */
     .entry .tag.live { background: rgba(20, 16, 29, 0.6); }
     .entry .tag.soon { background: rgba(20, 16, 29, 0.6); }
+
+    .prev-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .prev-list a { display: block; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 14px 16px; transition: border-color .15s ease, transform .15s ease; }
+    .prev-list a:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); transform: translateY(-2px); }
+    .pl-tag { display: block; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+    .pl-title { display: block; font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--mist); margin: 3px 0 2px; }
+    .pl-dek { display: block; color: var(--muted); font-size: 0.88rem; }
+    .pl-meta { display: block; font-family: var(--mono); font-size: 0.68rem; color: var(--faint); margin-top: 6px; }
+    .prev-all { margin: 14px 0 0; font-family: var(--mono); font-size: 0.8rem; }
+    .prev-all a { color: var(--candle); }
   </style>
 
   <script>
