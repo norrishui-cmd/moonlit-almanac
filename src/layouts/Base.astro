@@ -1,7 +1,6 @@
 ---
 import { SITE } from '../consts';
 import '../styles/global.css';
-
 interface Crumb { label: string; href?: string; }
 interface Props {
   title: string;
@@ -51,7 +50,7 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
       <div class="wrap bar">
         <a class="brand" href="/" aria-label={`${SITE.brand} home`}>
           <span class="moon" aria-hidden="true"></span>
-          <span class="mark">Moonlit <em>Almanac</em></span>
+          <span class="mark">Moonlight Peaks <em>Wiki &amp; Guide</em></span>
         </a>
         <nav class="nav" aria-label="Primary">
           {nav.map((n) => (
@@ -60,7 +59,6 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
         </nav>
       </div>
     </header>
-
     {crumbs.length > 0 && (
       <div class="wrap">
         <nav class="crumb" aria-label="Breadcrumb">
@@ -71,11 +69,9 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
         </nav>
       </div>
     )}
-
     <main>
       <slot />
     </main>
-
     <footer class="site-footer">
       <div class="wrap">
         <div class="row">
@@ -87,9 +83,9 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
           </span>
         </div>
         <p class="disclaimer">
-          Moonlit Almanac is an independent, fan-made guide. It is not affiliated with, endorsed
-          by, or connected to Little Chicken Game Company or XSEED Games. “Moonlight Peaks” and all
-          related names and assets are trademarks of their respective owners.
+          Moonlight Peaks Wiki &amp; Guide is an independent, fan-made guide. It is not affiliated
+          with, endorsed by, or connected to Little Chicken Game Company or XSEED Games. “Moonlight
+          Peaks” and all related names and assets are trademarks of their respective owners.
         </p>
       </div>
     </footer>
