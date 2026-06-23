@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
+import News from '../components/News.astro';
 
 const entries = [
   { ent: 'Entry · Release', title: 'Release date & platforms', desc: 'When, where, price, and the free demo — everything to play day one.', href: '/release-date', live: true },
@@ -8,7 +9,7 @@ const entries = [
   { ent: 'Entry · Cards', title: 'Nokturna card game', desc: "The town's favorite game — how it works, cards, and how to win.", href: '/nokturna', live: true },
   { ent: 'Entry · Hearts', title: 'Romance & families', desc: 'The seven families, who you can romance, and gift favorites.', href: '/romance', live: true },
   { ent: 'Entry · Cheats', title: 'Cheats & console', desc: 'Console commands and money cheats — published at launch.', href: '/cheats', live: true },
-  { ent: 'Entry · Farm', title: 'Crops & seasons', desc: 'Mystical crops, magical livestock, and the night-farming loop.', href: '#', live: false },
+  { ent: 'Entry · Farm', title: 'Crops & seasons', desc: 'Mystical crops, magical livestock, and the night-farming loop.', href: '/farming', live: true },
 ];
 
 const jsonLd = [
@@ -31,7 +32,7 @@ const jsonLd = [
 ];
 ---
 <Base
-  title="Moonlight Peaks Guide & Wiki — Release, Tips, Nokturna & Cheats | Moonlit Almanac"
+  title="Moonlight Peaks Guide & Wiki — Release, Tips, Nokturna & Cheats | Moonlight Peaks Wiki & Guide"
   description="Your fan guide to Moonlight Peaks, the cozy vampire life sim. Release date, beginner tips, the Nokturna card game, romance and families, and launch-day cheats."
   path="/"
   jsonLd={jsonLd}
@@ -54,7 +55,7 @@ const jsonLd = [
         <div class="cd-cell"><div class="n" data-d>—</div><div class="u">days</div></div>
         <div class="cd-cell"><div class="n" data-h>—</div><div class="u">hours</div></div>
         <div class="cd-cell"><div class="n" data-m>—</div><div class="u">min</div></div>
-        <span class="cd-note">until {GAME.releaseLabel} · {GAME.demo}</span>
+        <span class="cd-note" id="cd-note">until {GAME.releaseLabel} · {GAME.demo}</span>
       </div>
     </div>
   </section>
@@ -79,6 +80,16 @@ const jsonLd = [
     </div>
   </section>
 
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Latest news</h2>
+        <span class="note">updates & announcements</span>
+      </div>
+      <News />
+    </div>
+  </section>
+
   <script>
     const root = document.getElementById('cd');
     if (root) {
@@ -86,10 +97,17 @@ const jsonLd = [
       const d = root.querySelector('[data-d]');
       const h = root.querySelector('[data-h]');
       const m = root.querySelector('[data-m]');
+      const note = document.getElementById('cd-note');
       const tick = () => {
-        const diff = target - Date.now();
         if (isNaN(target)) return;
-        if (diff <= 0) { if (d) d.textContent = '0'; if (h) h.textContent = '0'; if (m) m.textContent = '0'; return; }
+        const diff = target - Date.now();
+        if (diff <= 0) {
+          if (d) d.textContent = '0';
+          if (h) h.textContent = '0';
+          if (m) m.textContent = '0';
+          if (note) note.textContent = 'Out now! Moonlight Peaks has launched.';
+          return;
+        }
         const days = Math.floor(diff / 86400000);
         const hours = Math.floor((diff % 86400000) / 3600000);
         const mins = Math.floor((diff % 3600000) / 60000);
@@ -98,7 +116,7 @@ const jsonLd = [
         if (m) m.textContent = String(mins);
       };
       tick();
-      setInterval(tick, 30000);
+      setInterval(tick, 1000);
     }
   </script>
 </Base>
