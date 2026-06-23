@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE, GAME } from '../../consts';
+import { previews } from '../../data/previews';
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Demo previews', item: new URL('/previews', SITE.url).href },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: previews.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.title, url: new URL(`/previews/${p.slug}`, SITE.url).href })) },
+];
+---
+<Base
+  title="Moonlight Peaks Demo Impressions & Previews | Moonlight Peaks Wiki & Guide"
+  description="Roundups of Moonlight Peaks demo feedback from players and press: overall impressions, common complaints, the two demo versions, and whether the demo is worth playing."
+  path="/previews"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Demo previews' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Previews</p>
+      <h1>Moonlight Peaks <em>demo</em> impressions</h1>
+      <p class="intro">
+        Roundups of what players and press are saying about the free {GAME.title} demo ahead of the
+        {GAME.releaseLabel} launch. Written in our own words from public feedback — these are not
+        first-hand reviews. Updated {SITE.updated}.
+      </p>
+
+      <ul class="prev-list">
+        {previews.map((p) => (
+          <li>
+            <a href={`/previews/${p.slug}`}>
+              <span class="pl-tag">{p.tag}</span>
+              <span class="pl-title">{p.title}</span>
+              <span class="pl-dek">{p.dek}</span>
+              <span class="pl-meta">{p.readTime} · {p.date}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="callout">
+        Related: <a href="/release-date">release & demo</a>, <a href="/beginner-guide">beginner guide</a>,
+        <a href="/characters">characters</a>.
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .prev-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .prev-list a { display: block; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 14px 16px; transition: border-color .15s ease, transform .15s ease; }
+    .prev-list a:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); transform: translateY(-2px); }
+    .pl-tag { display: block; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+    .pl-title { display: block; font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--mist); margin: 3px 0 2px; }
+    .pl-dek { display: block; color: var(--muted); font-size: 0.88rem; }
+    .pl-meta { display: block; font-family: var(--mono); font-size: 0.68rem; color: var(--faint); margin-top: 6px; }
+  </style>
+</Base>
