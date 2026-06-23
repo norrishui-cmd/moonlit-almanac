@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+
+const faq = [
+  { q: 'What can you do besides farming in Moonlight Peaks?', a: 'Plenty — fishing, foraging, flower arranging, gothic embroidery, the Nokturna card game, town festivals, and exploring areas like the mines.' },
+  { q: 'Is there combat in Moonlight Peaks?', a: 'No. Previews report there is no combat, even in the mines area, so it stays a cozy experience.' },
+  { q: 'Are there festivals in Moonlight Peaks?', a: 'Yes. The town hosts festivals and seasonal events; specifics will be documented here at launch.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Activities', item: new URL('/activities', SITE.url).href },
+  ] },
+];
+---
+<Base
+  title="Moonlight Peaks Activities — Fishing, Foraging, Festivals & Hobbies | Moonlit Almanac"
+  description="The cozy side of Moonlight Peaks beyond farming: fishing, foraging, flower arranging, gothic embroidery, the Nokturna card game, town festivals, and the mines."
+  path="/activities"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Activities' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Activities</p>
+      <h1>Moonlight Peaks <em>activities</em> & hobbies</h1>
+      <p class="intro">
+        There's plenty to do beyond the farm. Here are the cozy side activities, hobbies, and
+        events in {GAME.title}. Updated {SITE.updated}.
+      </p>
+
+      <h2>Fishing</h2>
+      <p>Cast a line around town. Fishing is one of the core gathering activities and is playable in the demo. Exact fishing spots, fish, and seasons will be marked on our <a href="/map">interactive map</a> at launch.</p>
+
+      <h2>Foraging</h2>
+      <p>Gather wild resources as you explore — and your <a href="/magic">witchcraft</a> helps while gathering. Foraging areas will be added to the map at launch.</p>
+
+      <h2>Flower arranging</h2>
+      <p>A relaxing hobby shown in the demo: compose flower arrangements at your own pace.</p>
+
+      <h2>Gothic embroidery</h2>
+      <p>Another slow, cozy craft from the demo — stitch gothic embroidery designs.</p>
+
+      <h2>Nokturna card game</h2>
+      <p>Collect cards and challenge residents to the town's favourite game. We have a dedicated, searchable <a href="/nokturna">Nokturna card database and guide</a>.</p>
+
+      <h2>Festivals & town events</h2>
+      <p>The town holds festivals throughout the year. Names, dates, and rewards will be documented at launch.</p>
+
+      <h2>Exploring & the mines</h2>
+      <p>There's a mines area to explore, and you can unlock a shapeshift ability to cross town faster and reach hidden areas. Notably, there's no combat — exploration stays cozy.</p>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="callout">
+        Related: <a href="/nokturna">Nokturna</a>, <a href="/map">interactive map</a>,
+        <a href="/farming">farming</a>, <a href="/magic">magic</a>.
+      </div>
+    </div>
+  </article>
+</Base>
