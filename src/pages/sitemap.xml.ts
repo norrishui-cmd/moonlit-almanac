@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { SITE } from '../consts';
 
-const paths = ['/', '/release-date', '/demo', '/platforms', '/beginner-guide', '/farming', '/magic', '/activities', '/moonlight-peaks-vs-stardew-valley', '/nokturna', '/map', '/romance', '/cheats', '/about', '/privacy'];
+const paths = ['/', '/release-date', '/demo', '/platforms', '/beginner-guide', '/farming', '/magic', '/activities', '/characters', '/moonlight-peaks-vs-stardew-valley', '/nokturna', '/map', '/romance', '/cheats', '/about', '/privacy'];
 
 export const GET: APIRoute = () => {
   const body = `<?xml version="1.0" encoding="UTF-8"?>
