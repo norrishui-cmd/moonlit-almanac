@@ -1,6 +1,6 @@
 ---
-// Usage in any .astro page:  <YouTube id="VIDEO_ID" title="What this video is" />
-// Get VIDEO_ID from the YouTube URL: youtu.be/VIDEO_ID  or  watch?v=VIDEO_ID
+// One responsive 16:9 YouTube player. Click the cover to play in place.
+// <YouTube id="VIDEO_ID" title="..." />   (id = the part after watch?v= or youtu.be/)
 interface Props { id: string; title?: string; }
 const { id, title = 'YouTube video' } = Astro.props;
 ---
@@ -18,31 +18,36 @@ const { id, title = 'YouTube video' } = Astro.props;
 </div>
 
 <style>
-  .yt-lite { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #000; cursor: pointer; margin: 18px 0; }
-  .yt-thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity .15s ease; }
+  .yt-lite { position: relative; display: block; width: 100%; max-width: 640px; margin: 0 auto; aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #000; cursor: pointer; }
+  .yt-thumb { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity .15s ease; }
   .yt-lite:hover .yt-thumb { opacity: 1; }
-  .yt-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 68px; height: 48px; border-radius: 12px; background: rgba(192,67,106,0.92); transition: background .15s ease; }
-  .yt-lite:hover .yt-play { background: rgba(192,67,106,1); }
-  .yt-play::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-40%, -50%); border-style: solid; border-width: 11px 0 11px 19px; border-color: transparent transparent transparent #fff; }
-  .yt-cap { position: absolute; left: 0; bottom: 0; right: 0; padding: 10px 12px; font-size: 0.82rem; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,0.7)); font-family: var(--body); pointer-events: none; }
-  .yt-lite iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .yt-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 64px; height: 46px; border-radius: 12px; background: rgba(192,67,106,0.92); }
+  .yt-play::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-40%, -50%); border-style: solid; border-width: 10px 0 10px 18px; border-color: transparent transparent transparent #fff; }
+  .yt-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 9px 11px; font-size: 0.8rem; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,0.72)); font-family: var(--body); pointer-events: none; }
   .yt-lite:focus-visible { outline: 2px solid var(--candle); outline-offset: 2px; }
 </style>
 
 <script>
   document.querySelectorAll('.yt-lite').forEach((box) => {
-    const load = () => {
+    const play = () => {
       const id = box.getAttribute('data-id');
       if (!id || box.querySelector('iframe')) return;
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
-      iframe.allow = 'accelerated-sensors; autoplay; encrypted-media; gyroscope; picture-in-picture';
-      iframe.allowFullscreen = true;
-      iframe.title = box.getAttribute('aria-label') || 'YouTube video';
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+      f.title = box.getAttribute('aria-label') || 'YouTube video';
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.setAttribute('allowfullscreen', '');
+      // Inline styles so the iframe fills the box even though it's created at runtime:
+      f.style.position = 'absolute';
+      f.style.top = '0';
+      f.style.left = '0';
+      f.style.width = '100%';
+      f.style.height = '100%';
+      f.style.border = '0';
       box.innerHTML = '';
-      box.appendChild(iframe);
+      box.appendChild(f);
     };
-    box.addEventListener('click', load);
-    box.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); load(); } });
+    box.addEventListener('click', play);
+    box.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); } });
   });
 </script>
