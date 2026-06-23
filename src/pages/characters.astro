@@ -15,7 +15,7 @@ const jsonLd = [
 ---
 <Base
   title="Moonlight Peaks Characters — The Residents, Families & Who You Can Romance | Moonlight Peaks Wiki & Guide"
-  description="Every Moonlight Peaks character we know so far: their family, type, whether you can romance them, and standout traits. Confirmed and reported residents, updated at launch."
+  description="Every Moonlight Peaks character we know so far: their family, type, whether you can romance them, and standout traits. Confirmed, reported, and unconfirmed residents — verified at launch."
   path="/characters"
   jsonLd={jsonLd}
   crumbs={[{ label: 'Characters' }]}
@@ -25,9 +25,10 @@ const jsonLd = [
       <p class="eyebrow">Entry · Residents</p>
       <h1>Moonlight Peaks <em>characters</em></h1>
       <p class="intro">
-        The residents of {GAME.title} — their family, type, whether you can romance them, and a few
-        standout traits. Each is marked <strong>confirmed</strong> or <strong>reported</strong>;
-        the full cast is verified and expanded at launch. Updated {SITE.updated}.
+        The residents of {GAME.title} — their family, type, and whether you can romance them. Each is
+        tagged <strong>confirmed</strong>, <strong>reported</strong>, or <strong>unconfirmed</strong>
+        (portrait shown but name not yet sourced). The full cast is verified and fleshed out at launch.
+        Updated {SITE.updated}.
       </p>
 
       <div class="cfilters" id="cfilters">
@@ -52,7 +53,7 @@ const jsonLd = [
             <div class="cbody">
               <h2 class="cname">
                 {c.name}
-                <span class={`cbadge ${c.status === 'confirmed' ? 'is-conf' : 'is-rep'}`}>{c.status}</span>
+                <span class={`cbadge ${c.status === 'confirmed' ? 'is-conf' : c.status === 'reported' ? 'is-rep' : 'is-unc'}`}>{c.status}</span>
               </h2>
               <div class="ctags">
                 <span class="ctag fam">{typeLabels[c.type]}</span>
@@ -62,11 +63,13 @@ const jsonLd = [
                 {c.romanceable === null && <span class="ctag">Romance: TBC</span>}
               </div>
               <p class="cdesc">{c.desc}</p>
-              <div class="ctraits">
-                {c.traits.map((t) => (
-                  <div class="ctrait"><span class="ctrait-l">{t[0]}</span><span class="cbar"><i style={`width:${t[1]}%`}></i></span></div>
-                ))}
-              </div>
+              {c.traits.length > 0 && (
+                <div class="ctraits">
+                  {c.traits.map((t) => (
+                    <div class="ctrait"><span class="ctrait-l">{t[0]}</span><span class="cbar"><i style={`width:${t[1]}%`}></i></span></div>
+                  ))}
+                </div>
+              )}
             </div>
           </article>
         ))}
@@ -74,8 +77,8 @@ const jsonLd = [
 
       <p class="cnote">
         Trait bars are illustrative (personality-style, not combat stats) — Moonlight Peaks is a cozy
-        life sim with no combat. Names, families, and traits are verified and updated when the game
-        launches on {GAME.releaseLabel}.
+        life sim with no combat. "Unconfirmed" entries show art only; names and details are verified
+        and updated when the game launches on {GAME.releaseLabel}.
       </p>
 
       <div class="callout">
@@ -101,6 +104,7 @@ const jsonLd = [
     .cbadge { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 5px; padding: 2px 6px; }
     .cbadge.is-conf { color: #9be6b4; border: 1px solid #2f6a45; }
     .cbadge.is-rep { color: var(--faint); border: 1px solid var(--line); }
+    .cbadge.is-unc { color: #7c6e90; border: 1px dashed var(--line); }
     .ctags { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
     .ctag { font-family: var(--mono); font-size: 0.66rem; color: var(--candle); border: 1px solid var(--candle-dim); border-radius: 6px; padding: 2px 7px; }
     .ctag.fam { color: #cbb4f0; border-color: #5a4a7a; }
