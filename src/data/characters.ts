@@ -55,7 +55,7 @@ export const characters: Character[] = [
   },
   {
     id: 'orlock', name: 'Orlock', family: 'Vampire', type: 'vampire',
-    status: 'reported', romanceable: true, img: '', c1: '#6a2f3f', c2: '#c0436a',
+    status: 'reported', romanceable: true, img: '/orlock.webp', c1: '#6a2f3f', c2: '#c0436a',
     desc: 'Reported as a head of a vampire family — a figure of old-world influence in town.',
     traits: [['Influence', 82], ['Tradition', 78]], traitsPlaceholder: true,
   },
