@@ -1,8 +1,9 @@
 export const SITE = {
   name: 'Moonlight Peaks Wiki & Guide',
+  brand: 'Moonlight Peaks Wiki & Guide',
   url: 'https://moonlightpeax.wiki',
   updated: 'June 2026',
-  contact: 'norrishui@gmail.com',
+  contact: 'hello@moonlightpeax.wiki',
 };
 
 export const GAME = {
