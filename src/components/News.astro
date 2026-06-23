@@ -1,0 +1,25 @@
+---
+import { news } from '../data/news';
+const items = news.slice(0, 6);
+const fmt = (iso: string) => {
+  const d = new Date(iso + 'T00:00:00');
+  return isNaN(d.getTime()) ? iso : d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+};
+---
+<div class="news">
+  {items.map((n) => (
+    <article class="news-item">
+      <time class="news-date">{fmt(n.date)}</time>
+      <h3 class="news-title">{n.title}</h3>
+      <p class="news-body">{n.body}</p>
+    </article>
+  ))}
+</div>
+
+<style>
+  .news { display: grid; gap: 14px; }
+  .news-item { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 15px 17px; }
+  .news-date { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--candle); }
+  .news-title { font-family: var(--display); font-weight: 600; font-size: 1.12rem; margin: 5px 0 6px; }
+  .news-body { color: #ded3e6; font-size: 0.92rem; margin: 0; }
+</style>
