@@ -4,12 +4,12 @@ import { SITE, GAME } from '../consts';
 import News from '../components/News.astro';
 
 const entries = [
-  { ent: 'Entry · Release', title: 'Release date & platforms', desc: 'When, where, price, and the free demo — everything to play day one.', href: '/release-date', live: true },
-  { ent: 'Entry · Guide', title: 'Beginner guide', desc: 'Everything known so far, shaping into your day-one head start.', href: '/beginner-guide', live: true },
-  { ent: 'Entry · Cards', title: 'Nokturna card game', desc: "The town's favorite game — how it works, cards, and how to win.", href: '/nokturna', live: true },
-  { ent: 'Entry · Hearts', title: 'Romance & families', desc: 'The seven families, who you can romance, and gift favorites.', href: '/romance', live: true },
-  { ent: 'Entry · Cheats', title: 'Cheats & console', desc: 'Console commands and money cheats — published at launch.', href: '/cheats', live: true },
-  { ent: 'Entry · Farm', title: 'Crops & seasons', desc: 'Mystical crops, magical livestock, and the night-farming loop.', href: '/farming', live: true },
+  { ent: 'Entry · Release', title: 'Release date & platforms', desc: 'When, where, price, and the free demo — everything to play day one.', href: '/release-date', live: true, img: '/card-release.webp' },
+  { ent: 'Entry · Guide', title: 'Beginner guide', desc: 'Everything known so far, shaping into your day-one head start.', href: '/beginner-guide', live: true, img: '/card-guide.webp' },
+  { ent: 'Entry · Cards', title: 'Nokturna card game', desc: "The town's favorite game — how it works, cards, and how to win.", href: '/nokturna', live: true, img: '/card-nokturna.webp' },
+  { ent: 'Entry · Hearts', title: 'Romance & families', desc: 'The seven families, who you can romance, and gift favorites.', href: '/romance', live: true, img: '/card-romance.webp' },
+  { ent: 'Entry · Cheats', title: 'Cheats & console', desc: 'Console commands and money cheats — published at launch.', href: '/cheats', live: true, img: '/card-cheats.webp' },
+  { ent: 'Entry · Farm', title: 'Crops & seasons', desc: 'Mystical crops, magical livestock, and the night-farming loop.', href: '/farming', live: true, img: '/card-crops.webp' },
 ];
 
 const jsonLd = [
@@ -69,6 +69,7 @@ const jsonLd = [
       <div class="entries">
         {entries.map((e) => (
           <a class={`entry${e.live ? '' : ' soon'}`} href={e.href}>
+            {e.img && <img class="entry-img" src={e.img} alt={e.title} width="800" height="450" loading="lazy" />}
             <span class={`tag ${e.live ? 'live' : 'soon'}`}>{e.live ? 'Open' : 'Soon'}</span>
             <span class="ent">{e.ent}</span>
             <h3>{e.title}</h3>
@@ -89,6 +90,21 @@ const jsonLd = [
       <News />
     </div>
   </section>
+
+  <style>
+    .entry-img {
+      display: block;
+      width: calc(100% + 36px);
+      margin: -20px -18px 8px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+      background: var(--ink-2);
+    }
+    /* keep the Open pill readable when it sits over the image */
+    .entry .tag.live { background: rgba(20, 16, 29, 0.6); }
+    .entry .tag.soon { background: rgba(20, 16, 29, 0.6); }
+  </style>
 
   <script>
     const root = document.getElementById('cd');
