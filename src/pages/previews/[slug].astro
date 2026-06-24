@@ -8,6 +8,7 @@ export function getStaticPaths() {
 }
 const { article } = Astro.props;
 const url = new URL(`/previews/${article.slug}`, SITE.url).href;
+const imgUrl = new URL(article.image, SITE.url).href;
 
 const jsonLd = [
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
@@ -15,7 +16,7 @@ const jsonLd = [
     { '@type': 'ListItem', position: 2, name: 'Demo previews', item: new URL('/previews', SITE.url).href },
     { '@type': 'ListItem', position: 3, name: article.title, item: url },
   ] },
-  { '@context': 'https://schema.org', '@type': 'Article', headline: article.title, description: article.dek, mainEntityOfPage: url, publisher: { '@type': 'Organization', name: SITE.brand } },
+  { '@context': 'https://schema.org', '@type': 'Article', headline: article.title, description: article.dek, image: imgUrl, mainEntityOfPage: url, publisher: { '@type': 'Organization', name: SITE.brand } },
 ];
 ---
 <Base
@@ -23,11 +24,13 @@ const jsonLd = [
   description={article.dek}
   path={`/previews/${article.slug}`}
   jsonLd={jsonLd}
+  ogImage={article.image}
   crumbs={[{ label: 'Demo previews', href: '/previews' }, { label: article.title }]}
 >
   <article class="page">
     <div class="wrap">
-      <p class="eyebrow">Preview · {article.tag}</p>
+      <img class="article-hero" src={article.image} alt={`${article.title} — Moonlight Peaks`} width="1200" height="630" />
+      <p class="eyebrow">{article.category === 'guide' ? 'Guide' : article.category === 'daily' ? 'Daily' : 'Preview'} · {article.tag}</p>
       <h1>{article.title}</h1>
       <p class="intro">{article.dek}</p>
       <p class="pl-meta-line">{article.readTime} · Updated {article.date}</p>
@@ -45,12 +48,13 @@ const jsonLd = [
       </ul>
 
       <div class="callout">
-        More: <a href="/previews">all demo previews</a> · <a href="/release-date">release & demo</a> · <a href="/beginner-guide">beginner guide</a>.
+        More: <a href="/previews">all articles</a> · <a href="/release-date">release & demo</a> · <a href="/beginner-guide">beginner guide</a>.
       </div>
     </div>
   </article>
 
   <style>
+    .article-hero { display: block; width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--line); margin: 0 0 18px; }
     .pl-meta-line { font-family: var(--mono); font-size: 0.72rem; color: var(--faint); margin: 8px 0 0; }
   </style>
 </Base>
