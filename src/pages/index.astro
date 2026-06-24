@@ -70,7 +70,7 @@ const jsonLd = [
       <div class="entries">
         {entries.map((e) => (
           <a class={`entry${e.live ? '' : ' soon'}`} href={e.href}>
-            {e.img && <img class="entry-img" src={e.img} alt={e.title} width="800" height="450" loading="lazy" />}
+            {e.img && <img class="entry-img" src={e.img} alt={e.title} loading="lazy" />}
             <span class={`tag ${e.live ? 'live' : 'soon'}`}>{e.live ? 'Open' : 'Soon'}</span>
             <span class="ent">{e.ent}</span>
             <h3>{e.title}</h3>
@@ -118,9 +118,8 @@ const jsonLd = [
     .entry-img {
       display: block;
       width: calc(100% + 36px);
-      margin: -20px -18px 8px;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
+      height: auto;
+      margin: -20px -18px 10px;
       border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
       background: var(--ink-2);
     }
