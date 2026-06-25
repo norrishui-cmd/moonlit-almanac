@@ -1,7 +1,9 @@
 // Moonlight Peaks character roster.
 // status: 'confirmed' = named by devs/official; 'reported' = from coverage/previews; 'unconfirmed' = name not yet sourced (verify at launch).
 // romanceable: true / false / null (unknown -> "TBC"). TRAITS are illustrative placeholders; [] = none shown.
+// knownInfo: real, sourced bullets shown on the character's profile page. Keep factual; leave empty for unconfirmed.
 // IMAGE: square images in /public -> URL is /<id>.webp. img:'' falls back to the SVG letter avatar.
+// Profile pages at /characters/<id> are generated ONLY for confirmed/reported characters (not unconfirmed).
 
 export type CharType = 'vampire' | 'werewolf' | 'witch' | 'other';
 
@@ -24,6 +26,7 @@ export type Character = {
   desc: string;
   traits: [string, number][];
   traitsPlaceholder?: boolean;
+  knownInfo?: string[];
 };
 
 const UNCONFIRMED_DESC = 'Portrait shown; not yet confirmed as a Moonlight Peaks character. Name, family, and details will be verified at launch.';
@@ -34,51 +37,88 @@ export const characters: Character[] = [
     status: 'confirmed', romanceable: false, img: '/count-dracula.webp', c1: '#7a2f3f', c2: '#c0436a',
     desc: 'Your father and the town legend whose shadow you set out to step out of. Story-central — not a romance option.',
     traits: [['Presence', 95], ['Tradition', 90], ['Warmth', 25]], traitsPlaceholder: true,
+    knownInfo: [
+      'He is your father; the story frames your move to Moonlight Peaks as stepping out of his long shadow.',
+      'A central story figure rather than a romance option.',
+      'The setup has you proving that a kinder, gentler undead life is possible — something he is skeptical of.',
+    ],
   },
   {
     id: 'saga', name: 'Saga', family: 'Werewolf', type: 'werewolf',
     status: 'confirmed', romanceable: true, img: '/saga.webp', c1: '#5a4a2a', c2: '#caa24a',
     desc: 'A townsperson revealed by the developers; her energy shifts with the full moon.',
     traits: [['Energy', 85], ['Loyalty', 80], ['Calm', 40]], traitsPlaceholder: true,
+    knownInfo: [
+      'A werewolf townsperson revealed by the developers.',
+      'Her energy is described as shifting with the full moon.',
+      'A Steam Next Fest write-up singled her out among the cast.',
+    ],
   },
   {
     id: 'mina', name: 'Mina', family: '—', type: 'other',
     status: 'confirmed', romanceable: null, img: '/mina.webp', c1: '#3a4a6a', c2: '#7aa2d0',
     desc: 'A townsperson revealed by the developers. Family role and romance status to be verified at launch.',
     traits: [['Mystery', 70], ['Charm', 65]], traitsPlaceholder: true,
+    knownInfo: [
+      'A townsperson revealed by the developers.',
+      'Family affiliation and romance status have not been detailed yet — to be verified at launch.',
+    ],
   },
   {
     id: 'luna', name: 'Luna', family: 'Witch', type: 'witch',
     status: 'reported', romanceable: true, img: '/luna.webp', c1: '#4a2f6a', c2: '#a06ad0',
     desc: 'Reported as a farming witch — likely a source of early spells and gardening know-how.',
     traits: [['Magic', 88], ['Nurture', 75], ['Mischief', 45]], traitsPlaceholder: true,
+    knownInfo: [
+      'Reported as a farming witch in hands-on previews.',
+      'Likely an early source of spells and gardening know-how.',
+      'Details to be confirmed against the live game at launch.',
+    ],
   },
   {
     id: 'orlock', name: 'Orlock', family: 'Vampire', type: 'vampire',
     status: 'reported', romanceable: true, img: '/orlock.webp', c1: '#6a2f3f', c2: '#c0436a',
     desc: 'Reported as a head of a vampire family — a figure of old-world influence in town.',
     traits: [['Influence', 82], ['Tradition', 78]], traitsPlaceholder: true,
+    knownInfo: [
+      'Reported as the head of a vampire family.',
+      'Written as a comedic figure in hands-on previews.',
+      'An old-world presence among the town\u2019s vampires.',
+    ],
   },
   {
     id: 'logan', name: 'Logan', family: 'Werewolf', type: 'werewolf',
     status: 'reported', romanceable: true, img: '/logan.webp', c1: '#4a3a2a', c2: '#b08a4a',
     desc: 'Reported werewolf resident with a distinctive house design.',
     traits: [['Strength', 80], ['Sociability', 60]], traitsPlaceholder: true,
+    knownInfo: [
+      'A werewolf resident seen in gameplay footage.',
+      'In dialogue he references an old church down the road on the edge of town.',
+    ],
   },
   {
     id: 'pumpkin-head', name: 'Pumpkin Head', family: '—', type: 'other',
     status: 'reported', romanceable: false, img: '/pumpkin-head.webp', c1: '#6a3f1a', c2: '#e08a3a',
     desc: 'Reported theatrical event host who livens up the town\u2019s gatherings.',
     traits: [['Showmanship', 90], ['Whimsy', 85]], traitsPlaceholder: true,
+    knownInfo: [
+      'Reported as a theatrical event host who appears at town gatherings.',
+      'Role and details to be confirmed at launch.',
+    ],
   },
   {
     id: 'the-warlock', name: 'The Warlock', family: 'Witch', type: 'witch',
     status: 'reported', romanceable: null, img: '/the-warlock.webp', c1: '#3a2f6a', c2: '#9a7ad0',
     desc: 'Seen in a hands-on preview: a self-obsessed warlock about town. Real name to be confirmed.',
     traits: [['Magic', 70], ['Ego', 88]], traitsPlaceholder: true,
+    knownInfo: [
+      'A self-obsessed warlock seen in a hands-on preview.',
+      'In that preview he flirts with the player through constant interruptions.',
+      'His real in-game name has not been confirmed.',
+    ],
   },
 
-  // --- Portraits added; names NOT yet found in any source. Verify & flesh out at launch. ---
+  // --- Portraits added; names NOT yet found in any source. No profile pages until verified at launch. ---
   { id: 'kai',     name: 'Kai',     family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/kai.webp',     c1: '#3a4a6a', c2: '#7aa2d0', desc: UNCONFIRMED_DESC, traits: [] },
   { id: 'celine',  name: 'Celine',  family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/celine.webp',  c1: '#5a3a5a', c2: '#c08ac0', desc: UNCONFIRMED_DESC, traits: [] },
   { id: 'ridge',   name: 'Ridge',   family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/ridge.webp',   c1: '#4a3a2a', c2: '#b08a4a', desc: UNCONFIRMED_DESC, traits: [] },
