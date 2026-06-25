@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://moonlightpeax.wiki/sitemap.xml
+Sitemap: https://moonlightpeakswiki.com/sitemap.xml
