@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { SITE } from '../consts';
 import { previews } from '../data/previews';
+import { characters } from '../data/characters';
 
 type Entry = { path: string; images?: string[] };
 
@@ -9,9 +10,14 @@ const homeImages = ['/card-release.webp', '/card-guide.webp', '/card-nokturna.we
 const staticPaths = ['/release-date', '/demo', '/platforms', '/beginner-guide', '/farming', '/magic', '/activities', '/characters', '/moonlight-peaks-vs-stardew-valley', '/nokturna', '/map', '/romance', '/cheats', '/about', '/privacy', '/previews'];
 
 export const GET: APIRoute = () => {
+  const charEntries: Entry[] = characters
+    .filter((c) => c.status !== 'unconfirmed')
+    .map((c) => ({ path: `/characters/${c.id}`, images: c.img ? [c.img] : [] }));
+
   const entries: Entry[] = [
     { path: '/', images: homeImages },
     ...staticPaths.map((p) => ({ path: p })),
+    ...charEntries,
     ...previews.map((p) => ({ path: `/previews/${p.slug}`, images: [p.image] })),
   ];
 
