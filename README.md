@@ -1,4 +1,4 @@
-# Moonlit Almanac — Moonlight Peaks fan guide
+# Moonlight Peaks Wiki — Moonlight Peaks fan guide
 
 Fast, SEO-first Astro site (static HTML). No Tailwind, no terminal needed — Vercel builds it.
 
