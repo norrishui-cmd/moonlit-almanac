@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE, GAME } from '../../consts';
+import { faqs, faqCatLabels } from '../../data/faq';
+
+export function getStaticPaths() {
+  return faqs.map((f, i) => ({
+    params: { slug: f.slug },
+    props: { f, prev: faqs[(i - 1 + faqs.length) % faqs.length], next: faqs[(i + 1) % faqs.length] },
+  }));
+}
+
+const { f, prev, next } = Astro.props;
+const url = new URL(`/faq/${f.slug}`, SITE.url).href;
+const plain = [f.a, ...(f.more || [])].join(' ');
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'FAQ', item: new URL('/faq', SITE.url).href },
+    { '@type': 'ListItem', position: 3, name: f.q, item: url },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'QAPage', mainEntity: {
+    '@type': 'Question', name: f.q, text: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: plain },
+  } },
+];
+---
+<Base
+  title={`${f.q} | Moonlight Peaks Wiki & Guide`}
+  description={plain.length > 155 ? plain.slice(0, 152) + '…' : plain}
+  path={`/faq/${f.slug}`}
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'FAQ', href: '/faq' }, { label: f.q }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">FAQ · {faqCatLabels[f.cat]}</p>
+      <h1>{f.q}</h1>
+      <p class="intro">{f.a}</p>
+      {f.more && f.more.map((m) => (<p>{m}</p>))}
+
+      {f.related && f.related.length > 0 && (
+        <div class="callout">
+          <strong>Related:</strong>{' '}
+          {f.related.map((r, i) => (<>{i > 0 ? ' · ' : ''}<a href={r.href}>{r.label}</a></>))}
+        </div>
+      )}
+
+      <p class="cnote">We answer only what is confirmed or reported about {GAME.title}; anything not yet known is marked and updated at launch on {GAME.releaseLabel}.</p>
+
+      <nav class="prevnext" aria-label="FAQ navigation">
+        <a href={`/faq/${prev.slug}`}>← Previous</a>
+        <a href="/faq">All FAQs</a>
+        <a href={`/faq/${next.slug}`}>Next →</a>
+      </nav>
+    </div>
+  </article>
+
+  <style>
+    .cnote { font-size: 0.74rem; color: var(--faint); margin: 14px 0 0; }
+    .prevnext { display: flex; justify-content: space-between; gap: 10px; margin: 18px 0 0; font-family: var(--mono); font-size: 0.8rem; }
+    .prevnext a { color: var(--candle); }
+  </style>
+</Base>
