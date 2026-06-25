@@ -1,0 +1,158 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE, GAME } from '../../consts';
+import { characters, typeLabels } from '../../data/characters';
+
+const profiled = characters.filter((c) => c.status !== 'unconfirmed');
+
+export function getStaticPaths() {
+  const list = characters.filter((c) => c.status !== 'unconfirmed');
+  return list.map((c, i) => ({
+    params: { slug: c.id },
+    props: { c, prev: list[(i - 1 + list.length) % list.length], next: list[(i + 1) % list.length] },
+  }));
+}
+
+const { c, prev, next } = Astro.props;
+
+const sameType = profiled.filter((x) => x.id !== c.id && x.type === c.type);
+const fill = profiled.filter((x) => x.id !== c.id && x.type !== c.type);
+const related = [...sameType, ...fill].slice(0, 3);
+
+const url = new URL(`/characters/${c.id}`, SITE.url).href;
+const imgAbs = c.img ? new URL(c.img, SITE.url).href : undefined;
+const statusLabel = c.status === 'confirmed' ? 'Developer-confirmed' : 'Reported (verify at launch)';
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Characters', item: new URL('/characters', SITE.url).href },
+    { '@type': 'ListItem', position: 3, name: c.name, item: url },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'Person', name: c.name, description: c.desc, ...(imgAbs ? { image: imgAbs } : {}) },
+];
+---
+<Base
+  title={`${c.name} — Moonlight Peaks Character Guide | Moonlight Peaks Wiki & Guide`}
+  description={`${c.name} in Moonlight Peaks: ${c.desc} Family, romance status, and what we know so far.`}
+  path={`/characters/${c.id}`}
+  jsonLd={jsonLd}
+  ogImage={c.img}
+  crumbs={[{ label: 'Characters', href: '/characters' }, { label: c.name }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Character · {typeLabels[c.type]}</p>
+
+      <div class="chead">
+        <div class="cavatar">
+          {c.img ? (
+            <img src={c.img} alt={`${c.name} — Moonlight Peaks character portrait`} width="160" height="160" />
+          ) : (
+            <svg viewBox="0 0 160 160" width="160" height="160" aria-hidden="true">
+              <defs><linearGradient id={`g-${c.id}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color={c.c1} /><stop offset="1" stop-color={c.c2} /></linearGradient></defs>
+              <rect width="160" height="160" fill={`url(#g-${c.id})`} />
+              <text x="80" y="104" text-anchor="middle" font-family="Fraunces, serif" font-size="68" fill="rgba(255,255,255,0.9)">{c.name.charAt(0)}</text>
+            </svg>
+          )}
+        </div>
+        <div class="cmeta">
+          <h1>{c.name}</h1>
+          <div class="ctags">
+            <span class={`cbadge ${c.status === 'confirmed' ? 'is-conf' : 'is-rep'}`}>{c.status}</span>
+            <span class="ctag fam">{typeLabels[c.type]}</span>
+            {c.family !== '—' && c.family !== typeLabels[c.type] && <span class="ctag fam">{c.family}</span>}
+            {c.romanceable === true && <span class="ctag heart">♥ Romanceable</span>}
+            {c.romanceable === false && <span class="ctag">Not romanceable</span>}
+            {c.romanceable === null && <span class="ctag">Romance: TBC</span>}
+          </div>
+          <p class="cdesc">{c.desc}</p>
+        </div>
+      </div>
+
+      <h2>What we know</h2>
+      {c.knownInfo && c.knownInfo.length > 0 ? (
+        <ul>{c.knownInfo.map((k) => (<li>{k}</li>))}</ul>
+      ) : (
+        <p>Details are still limited before launch. We will expand this profile as the developers confirm more.</p>
+      )}
+
+      <h2>Romance</h2>
+      <p>
+        {c.romanceable === true && `${c.name} is reported to be romanceable. Gift preferences and heart events will be added once they are confirmed in the live game.`}
+        {c.romanceable === false && `${c.name} is not a romance option.`}
+        {c.romanceable === null && `Whether ${c.name} can be romanced has not been confirmed yet — we will update this at launch.`}
+      </p>
+
+      {c.traits.length > 0 && (
+        <>
+          <h2>Personality read</h2>
+          <p class="cnote">Illustrative personality traits (not in-game combat stats) — Moonlight Peaks has no combat. Replaced with confirmed detail at launch.</p>
+          <div class="ctraits">
+            {c.traits.map((t) => (
+              <div class="ctrait"><span class="ctrait-l">{t[0]}</span><span class="cbar"><i style={`width:${t[1]}%`}></i></span></div>
+            ))}
+          </div>
+        </>
+      )}
+
+      <div class="callout">
+        <strong>Accuracy:</strong> {statusLabel}. We mark what is developer-confirmed vs reported from previews, and never invent gift tables or stats. Full details arrive at launch on {GAME.releaseLabel}.
+      </div>
+
+      <h2>Related residents</h2>
+      <ul class="rel-list">
+        {related.map((r) => (
+          <li>
+            <a href={`/characters/${r.id}`}>
+              {r.img && <img src={r.img} alt={`${r.name} — Moonlight Peaks`} width="48" height="48" loading="lazy" />}
+              <span class="rel-body"><span class="rel-name">{r.name}</span><span class="rel-tag">{typeLabels[r.type]}</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <nav class="prevnext" aria-label="Character navigation">
+        <a href={`/characters/${prev.id}`}>← {prev.name}</a>
+        <a href="/characters">All characters</a>
+        <a href={`/characters/${next.id}`}>{next.name} →</a>
+      </nav>
+
+      <div class="callout">
+        More: <a href="/romance">romance & the seven families</a> · <a href="/characters">all characters</a> ·
+        <a href="/beginner-guide">beginner guide</a> · <a href="/previews/families-and-residents">families explained</a>.
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .chead { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; margin: 4px 0 8px; }
+    .cavatar { flex: 0 0 auto; width: 160px; height: 160px; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); }
+    .cavatar img, .cavatar svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cmeta { flex: 1; min-width: 240px; }
+    .cmeta h1 { margin: 0 0 8px; }
+    .ctags { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 10px; }
+    .cbadge { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 5px; padding: 2px 6px; }
+    .cbadge.is-conf { color: #9be6b4; border: 1px solid #2f6a45; }
+    .cbadge.is-rep { color: var(--faint); border: 1px solid var(--line); }
+    .ctag { font-family: var(--mono); font-size: 0.66rem; color: var(--candle); border: 1px solid var(--candle-dim); border-radius: 6px; padding: 2px 7px; }
+    .ctag.fam { color: #cbb4f0; border-color: #5a4a7a; }
+    .ctag.heart { color: var(--wine); border-color: #7a2f45; }
+    .cdesc { color: #ded3e6; margin: 0; }
+    .cnote { font-size: 0.74rem; color: var(--faint); margin: 0 0 8px; }
+    .ctraits { display: grid; gap: 6px; max-width: 420px; }
+    .ctrait { display: grid; grid-template-columns: 90px 1fr; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--muted); }
+    .cbar { height: 7px; border-radius: 99px; background: var(--ink-2); overflow: hidden; }
+    .cbar > i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--wine), var(--candle)); }
+    .rel-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    @media (min-width: 560px) { .rel-list { grid-template-columns: 1fr 1fr 1fr; } }
+    .rel-list a { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 8px 10px; }
+    .rel-list a:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); }
+    .rel-list img { border-radius: 8px; }
+    .rel-body { display: flex; flex-direction: column; }
+    .rel-name { font-family: var(--display); font-weight: 600; color: var(--mist); font-size: 0.95rem; }
+    .rel-tag { font-family: var(--mono); font-size: 0.62rem; color: var(--faint); text-transform: uppercase; }
+    .prevnext { display: flex; justify-content: space-between; gap: 10px; margin: 18px 0 0; font-family: var(--mono); font-size: 0.8rem; }
+    .prevnext a { color: var(--candle); }
+  </style>
+</Base>
