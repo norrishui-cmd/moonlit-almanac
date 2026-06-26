@@ -1,0 +1,99 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE, GAME } from '../../consts';
+import { compareSection, comparisons } from '../../data/compare';
+
+export function getStaticPaths() {
+  return comparisons.map((cmp, i) => ({
+    params: { slug: cmp.slug },
+    props: { cmp, prev: comparisons[(i - 1 + comparisons.length) % comparisons.length], next: comparisons[(i + 1) % comparisons.length] },
+  }));
+}
+
+const { cmp, prev, next } = Astro.props;
+const url = new URL(`${compareSection.base}/${cmp.slug}`, SITE.url).href;
+
+const jsonLd: object[] = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: compareSection.label, item: new URL(compareSection.base, SITE.url).href },
+    { '@type': 'ListItem', position: 3, name: `Moonlight Peaks vs ${cmp.other}`, item: url },
+  ] },
+];
+if (cmp.faq && cmp.faq.length > 0) {
+  jsonLd.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: cmp.faq.map((f) => ({
+    '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })) });
+}
+---
+<Base
+  title={`Moonlight Peaks vs ${cmp.other} — Which Cozy Sim Should You Play? | Moonlight Peaks Wiki & Guide`}
+  description={`Moonlight Peaks vs ${cmp.other}: ${cmp.dek} A side-by-side on setting, magic, romance, combat, multiplayer and platforms.`}
+  path={`${compareSection.base}/${cmp.slug}`}
+  jsonLd={jsonLd}
+  crumbs={[{ label: compareSection.label, href: compareSection.base }, { label: `vs ${cmp.other}` }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Comparison</p>
+      <h1>Moonlight Peaks <em>vs</em> {cmp.other}</h1>
+      <p class="intro">{cmp.dek}</p>
+      <p class="cnote">{cmp.otherStatus} Moonlight Peaks launches {GAME.releaseLabel}.</p>
+
+      <div class="cmp-table-wrap">
+        <table class="cmp-table">
+          <thead>
+            <tr><th>Aspect</th><th>Moonlight Peaks</th><th>{cmp.other}</th></tr>
+          </thead>
+          <tbody>
+            {cmp.rows.map((r) => (
+              <tr><th scope="row">{r.dim}</th><td>{r.mp}</td><td>{r.other}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Which should you play?</h2>
+      {cmp.verdict.map((p) => (<p>{p}</p>))}
+
+      {cmp.faq && cmp.faq.length > 0 && (
+        <>
+          <h2>FAQ</h2>
+          {cmp.faq.map((f) => (<div class="tp-faq"><p class="tp-q">{f.q}</p><p class="tp-a">{f.a}</p></div>))}
+        </>
+      )}
+
+      <div class="callout">
+        <strong>Note:</strong> Comparisons use publicly confirmed details about both games; anything unconfirmed for Moonlight Peaks is updated at launch on {GAME.releaseLabel}.
+      </div>
+
+      {cmp.related && cmp.related.length > 0 && (
+        <div class="callout">
+          <strong>Related:</strong>{' '}
+          {cmp.related.map((r, i) => (<>{i > 0 ? ' · ' : ''}<a href={r.href}>{r.label}</a></>))}
+        </div>
+      )}
+
+      <nav class="prevnext" aria-label="Comparison navigation">
+        <a href={`${compareSection.base}/${prev.slug}`}>← vs {prev.other}</a>
+        <a href={compareSection.base}>All comparisons</a>
+        <a href={`${compareSection.base}/${next.slug}`}>vs {next.other} →</a>
+      </nav>
+    </div>
+  </article>
+
+  <style>
+    .cnote { font-size: 0.78rem; color: var(--faint); margin: 0 0 14px; }
+    .cmp-table-wrap { overflow-x: auto; }
+    .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .cmp-table th, .cmp-table td { border: 1px solid var(--line); padding: 9px 11px; text-align: left; vertical-align: top; }
+    .cmp-table thead th { background: var(--surface); font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--candle); }
+    .cmp-table tbody th { background: color-mix(in srgb, var(--surface) 70%, transparent); color: var(--mist); font-weight: 600; width: 28%; }
+    .cmp-table td { color: #ded3e6; }
+    .tp-faq { border-left: 2px solid var(--candle-dim); padding: 2px 0 2px 14px; margin: 0 0 12px; }
+    .tp-q { font-family: var(--display); font-weight: 600; color: var(--mist); margin: 0 0 4px; }
+    .tp-a { color: #ded3e6; margin: 0; }
+    .prevnext { display: flex; justify-content: space-between; gap: 10px; margin: 18px 0 0; font-family: var(--mono); font-size: 0.8rem; }
+    .prevnext a { color: var(--candle); }
+  </style>
+</Base>
