@@ -1,87 +1,80 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
+import { platforms } from '../data/platforms';
 
-const faq = [
-  { q: 'Is Moonlight Peaks multiplayer?', a: 'No. Moonlight Peaks is a single-player cozy life sim — the official store page lists it as singleplayer, and there is no announced co-op or online mode.' },
-  { q: 'Is Moonlight Peaks on Steam Deck?', a: 'Yes. The developers have confirmed Steam Deck as a supported platform alongside PC. It also recommends playing with a gamepad, though keyboard and mouse are supported.' },
-  { q: 'How much does Moonlight Peaks cost?', a: 'It is $34.99 on Steam (PC/Mac), Nintendo Switch, and Android, and $39.99 on Nintendo Switch 2. There is a 15% discount across all platforms for the first 7 days after launch (and a 15% pre-order discount).' },
-  { q: 'Can I upgrade from Switch to Switch 2?', a: 'Yes. If you buy the Nintendo Switch version, you can upgrade to the Switch 2 version with a $5 upgrade pack.' },
-  { q: 'Is Moonlight Peaks on mobile?', a: 'Yes — it launches on Android via Google Play, alongside PC, Steam Deck, and the Switch family.' },
+const facts = [
+  ['Release date', GAME.releaseLabel],
+  ['Price', `${GAME.price} (Nintendo Switch 2 edition $39.99)`],
+  ['Platforms', GAME.platforms.join(', ')],
+  ['Free demo', GAME.demo],
+  ['PS5 / Xbox / iOS', 'Not announced'],
 ];
 
 const jsonLd = [
-  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
     { '@type': 'ListItem', position: 2, name: 'Platforms', item: new URL('/platforms', SITE.url).href },
   ] },
+  { '@context': 'https://schema.org', '@type': 'VideoGame', name: GAME.title, gamePlatform: GAME.platforms,
+    publisher: { '@type': 'Organization', name: GAME.publisher }, datePublished: '2026-07-07' },
 ];
 ---
 <Base
-  title={`Moonlight Peaks Platforms & Price — Switch 2, Steam Deck, Mac & Mobile | ${SITE.brand}`}
-  description="Every platform Moonlight Peaks launches on (Steam, Mac, Steam Deck, Switch, Switch 2, Android), full pricing including the Switch 2 edition, multiplayer, and controller support."
+  title="Moonlight Peaks Platforms & Price — Steam, Switch 2, Steam Deck & Android | Moonlight Peaks Wiki & Guide"
+  description="Where to play Moonlight Peaks: Steam (PC & Mac), Steam Deck, Nintendo Switch, Switch 2, and Android via Google Play — with price, the free demo, and PS5/Xbox/iOS status."
   path="/platforms"
   jsonLd={jsonLd}
   crumbs={[{ label: 'Platforms' }]}
 >
   <article class="page">
     <div class="wrap">
-      <p class="eyebrow">Entry · Platforms</p>
-      <h1>Moonlight Peaks <em>platforms</em> & price</h1>
+      <p class="eyebrow">Hub · Platforms</p>
+      <h1>Moonlight Peaks <em>platforms</em> &amp; price</h1>
       <p class="intro">
-        Where you can play {GAME.title}, what each version costs, whether it's multiplayer, and
-        controller support — all confirmed details, updated {SITE.updated}.
+        Moonlight Peaks launches on {GAME.releaseLabel}. Here is where you can play it, what it costs,
+        and how the free demo works — plus deeper guides for specific platforms.
       </p>
 
-      <h2>Every platform</h2>
+      <h2>At a glance</h2>
       <table class="facts">
-        <tr><th>Steam (PC & Mac)</th><td>Yes — Windows and Mac.</td></tr>
-        <tr><th>Steam Deck</th><td>Yes — confirmed by the developers.</td></tr>
-        <tr><th>Nintendo Switch</th><td>Yes — at launch.</td></tr>
-        <tr><th>Nintendo Switch 2</th><td>Yes — a separate edition; the Switch demo also runs on Switch 2.</td></tr>
-        <tr><th>Android</th><td>Yes — via Google Play.</td></tr>
-        <tr><th>PlayStation / Xbox</th><td>Not announced at this time.</td></tr>
+        {facts.map((f) => (<tr><th>{f[0]}</th><td>{f[1]}</td></tr>))}
       </table>
 
-      <h2>Price</h2>
-      <ul>
-        <li><strong>$34.99</strong> — Steam (PC/Mac), Nintendo Switch, and Android.</li>
-        <li><strong>$39.99</strong> — Nintendo Switch 2 edition.</li>
-        <li><strong>$5 upgrade</strong> — buy on Switch, upgrade to the Switch 2 version for $5.</li>
-        <li><strong>15% off</strong> across all platforms for the first 7 days after launch (plus a 15% pre-order discount).</li>
-      </ul>
-
-      <h2>Is it multiplayer?</h2>
-      <p>
-        <strong>No — it's single-player.</strong> The official Steam page lists Moonlight Peaks as a
-        singleplayer experience, with no announced co-op. It's built around your own vampire, your
-        farm, and your relationships with the town's roughly two dozen romanceable residents.
-      </p>
-
-      <h2>Controller support</h2>
-      <p>
-        The game recommends playing with a <strong>gamepad</strong> for the best experience, though
-        keyboard and mouse are fully supported.
-      </p>
-
-      <h2>Cross-save & cross-platform</h2>
-      <p>No cross-save or cross-platform play has been announced. We'll note any change here if the developers confirm it.</p>
-
-      <h2>FAQ</h2>
-      <div class="faq">
-        {faq.map((f) => (
-          <details>
-            <summary>{f.q}</summary>
-            <p>{f.a}</p>
-          </details>
+      <h2>Platform guides</h2>
+      <div class="pf-grid">
+        {platforms.map((p) => (
+          <a class="pf-card" href={`/platforms/${p.slug}`}>
+            <span class="pf-tag">{p.tag}{p.status && p.status !== 'confirmed' ? ` · ${p.status}` : ''}</span>
+            <span class="pf-title">{p.title.replace('Moonlight Peaks on ', '')}</span>
+            <span class="pf-dek">{p.dek}</span>
+            <span class="pf-go">Open →</span>
+          </a>
         ))}
       </div>
 
+      <h2>Is Moonlight Peaks on PlayStation, Xbox or iOS?</h2>
+      <p>
+        No PlayStation, Xbox or iOS version has been announced. The confirmed platforms are Steam
+        (PC &amp; Mac), Steam Deck, Nintendo Switch, Nintendo Switch 2, and Android via Google Play.
+        If that changes, we will update this page.
+      </p>
+
       <div class="callout">
-        Related: try the <a href="/demo">free demo</a>, check the <a href="/release-date">release date</a>,
-        or see how it <a href="/moonlight-peaks-vs-stardew-valley">compares to Stardew Valley</a>.
+        Related: <a href="/release-date">release date</a> · <a href="/demo">the demo</a> ·
+        <a href="/compare">compare with other sims</a> · <a href="/faq">FAQ</a>.
       </div>
     </div>
   </article>
+
+  <style>
+    .pf-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 600px) { .pf-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .pf-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 14px 16px; transition: border-color .15s ease, transform .15s ease; }
+    .pf-card:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); transform: translateY(-2px); }
+    .pf-tag { font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--candle); }
+    .pf-title { font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--mist); margin: 4px 0 4px; }
+    .pf-dek { color: #ded3e6; font-size: 0.85rem; margin: 0 0 10px; }
+    .pf-go { font-family: var(--mono); font-size: 0.72rem; color: var(--candle); margin-top: auto; }
+  </style>
 </Base>
