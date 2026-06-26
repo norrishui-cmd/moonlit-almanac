@@ -13,6 +13,15 @@ const entries = [
   { ent: 'Entry · Farm', title: 'Crops & seasons', desc: 'Mystical crops, magical livestock, and the night-farming loop.', href: '/farming', live: true, img: '/card-crops.webp' },
 ];
 
+const explore = [
+  { k: 'Characters', d: 'Residents, families & who you can romance', href: '/characters' },
+  { k: 'Locations', d: 'The town, your farm, the forest, the lake & more', href: '/locations' },
+  { k: 'Families', d: 'The seven supernatural families of the town', href: '/families' },
+  { k: 'Activities', d: 'Fishing, magic, crafts & cozy diversions', href: '/activities' },
+  { k: 'FAQ', d: 'Quick answers to the most common questions', href: '/faq' },
+  { k: 'Previews & guides', d: 'Demo impressions, press hands-on & how-tos', href: '/previews' },
+];
+
 const demoPosts = previews.filter((p) => p.category === 'preview').slice(0, 5);
 const guidePosts = previews.filter((p) => p.category === 'guide').slice(0, 5);
 const dailyPosts = previews.filter((p) => p.category === 'daily').slice(0, 6);
@@ -80,6 +89,24 @@ const jsonLd = [
             <h3>{e.title}</h3>
             <p>{e.desc}</p>
             <span class="go">{e.live ? 'read entry →' : 'at launch'}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Explore the world</h2>
+        <span class="note">hubs &amp; guides</span>
+      </div>
+      <div class="explore">
+        {explore.map((x) => (
+          <a class="ex-card" href={x.href}>
+            <span class="ex-k">{x.k}</span>
+            <span class="ex-d">{x.d}</span>
+            <span class="ex-go">Open →</span>
           </a>
         ))}
       </div>
@@ -182,6 +209,15 @@ const jsonLd = [
     }
     .entry .tag.live { background: rgba(20, 16, 29, 0.6); }
     .entry .tag.soon { background: rgba(20, 16, 29, 0.6); }
+
+    .explore { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 560px) { .explore { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 880px) { .explore { grid-template-columns: 1fr 1fr 1fr; } }
+    .ex-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 16px; transition: border-color .15s ease, transform .15s ease; }
+    .ex-card:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); transform: translateY(-2px); }
+    .ex-k { font-family: var(--display); font-weight: 600; font-size: 1.12rem; color: var(--mist); }
+    .ex-d { color: var(--muted); font-size: 0.86rem; margin: 4px 0 12px; }
+    .ex-go { font-family: var(--mono); font-size: 0.72rem; color: var(--candle); margin-top: auto; }
 
     .prev-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
     .prev-list a { display: flex; gap: 14px; align-items: stretch; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 12px; transition: border-color .15s ease, transform .15s ease; }
