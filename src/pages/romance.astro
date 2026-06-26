@@ -3,14 +3,20 @@ import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
 
 const named = [
-  { name: 'Count Dracula', family: 'Vampire', note: 'Your father. Story character — not romanceable.', status: 'confirmed' },
-  { name: 'Saga', family: 'Werewolf', note: 'Townsperson revealed by the developers; her energy shifts with the full moon.', status: 'reported' },
-  { name: 'Mina', family: '—', note: 'Townsperson revealed by the developers; romance status to verify.', status: 'reported' },
-  { name: 'Orlock', family: 'Vampire', note: 'A vampire family head.', status: 'reported' },
-  { name: 'Luna', family: 'Witch', note: 'A farming witch.', status: 'reported' },
-  { name: 'Pumpkin Head', family: '—', note: 'Theatrical event host around town.', status: 'reported' },
-  { name: 'Logan', family: 'Werewolf', note: 'Has a distinctive werewolf house.', status: 'reported' },
+  { name: 'Count Dracula', slug: 'count-dracula', family: 'Vampire', note: 'Your father. Story character — not romanceable.', status: 'confirmed' },
+  { name: 'Saga', slug: 'saga', family: 'Werewolf', note: 'Townsperson revealed by the developers; her energy shifts with the full moon.', status: 'reported' },
+  { name: 'Mina', slug: 'mina', family: '—', note: 'Townsperson revealed by the developers; romance status to verify.', status: 'reported' },
+  { name: 'Orlock', slug: 'orlock', family: 'Vampire', note: 'A vampire family head.', status: 'reported' },
+  { name: 'Luna', slug: 'luna', family: 'Witch', note: 'A farming witch.', status: 'reported' },
+  { name: 'Pumpkin Head', slug: 'pumpkin-head', family: '—', note: 'Theatrical event host around town.', status: 'reported' },
+  { name: 'Logan', slug: 'logan', family: 'Werewolf', note: 'Has a distinctive werewolf house.', status: 'reported' },
 ];
+
+const famHref = (family: string) =>
+  family === 'Vampire' ? '/families/vampires'
+  : family === 'Werewolf' ? '/families/werewolves'
+  : family === 'Witch' ? '/families/witches'
+  : '/families';
 
 const faq = [
   { q: 'How many romanceable characters are in Moonlight Peaks?', a: 'Around two dozen (roughly 24). Earlier coverage cited 15, so the cast grew during development, and the developers have said they hope to keep adding to it.' },
@@ -39,27 +45,17 @@ const jsonLd = [
       <p class="eyebrow">Entry · Hearts</p>
       <h1>Moonlight Peaks <em>romance</em> & the seven families</h1>
       <p class="intro">
-        Who you can date and marry in {GAME.title}, how relationships work, and the supernatural
-        families that shape the town. We mark each character as <strong>confirmed</strong> or
-        <strong>reported</strong> and verify names against the live build. Updated {SITE.updated}.
+        Romance is a headline feature of {GAME.title}: a whole town of supernatural singles, gender-neutral
+        dating, and marriage (though no children). Here is what is confirmed so far, kept separate from
+        what we will only verify once the game is live.
       </p>
 
-      <h2>How romance works</h2>
-      <ul>
-        <li><strong>Around two dozen (~24) romanceable residents</strong> — the roster grew from an earlier 15 and may keep expanding.</li>
-        <li><strong>Gender-neutral dating</strong> — romance anyone eligible; the game never forces an identity on you.</li>
-        <li><strong>Marriage, but no children</strong> — you can settle down with a partner; there are no kids.</li>
-        <li><strong>Befriend or romance</strong> — relationships are a core pillar, woven through the seven families.</li>
-        <li><strong>Vampire vs werewolf tension</strong> — the two groups bicker, so dating across that line adds drama.</li>
-      </ul>
-
-      <h2>The seven families</h2>
+      <h2>The basics</h2>
       <p>
-        Seven founding supernatural families are said to hold the town's history and secrets between
-        them. The confirmed make-up spans <strong>vampires, werewolves, witches, mermaids, ghosts</strong>
-        and stranger folk besides (there are even ordinary "normies"). Not every family has been named
-        yet — the full roster is expected to be confirmed around the {GAME.releaseLabel} launch. Your
-        standing with a family is expected to shape festivals, gifts, and which doors open to you.
+        Around two dozen residents are dateable, spread across the town's seven families — vampires,
+        werewolves, witches, mermaids and more. You can befriend or romance them, build a relationship,
+        and ultimately marry. Standing with a family is expected to shape festivals, gifts, and which
+        doors open to you.
       </p>
 
       <h2>Named characters so far</h2>
@@ -68,8 +64,8 @@ const jsonLd = [
         <tr><th>Character</th><th>Family / status</th></tr>
         {named.map((c) => (
           <tr>
-            <td><strong>{c.name}</strong> {c.status === 'reported' && <span style="color:var(--faint);font-family:var(--mono);font-size:0.7rem">reported</span>}<br /><span style="color:var(--muted);font-size:0.85rem">{c.note}</span></td>
-            <td>{c.family}</td>
+            <td><strong><a href={`/characters/${c.slug}`}>{c.name}</a></strong> {c.status === 'reported' && <span style="color:var(--faint);font-family:var(--mono);font-size:0.7rem">reported</span>}<br /><span style="color:var(--muted);font-size:0.85rem">{c.note}</span></td>
+            <td>{c.family === '—' ? '—' : <a href={famHref(c.family)}>{c.family}</a>}</td>
           </tr>
         ))}
       </table>
@@ -93,8 +89,8 @@ const jsonLd = [
 
       <div class="callout wip">
         Pre-launch entry. At launch this becomes the full named cast + a gift tracker. Related:
-        <a href="/beginner-guide">beginner guide</a>, <a href="/platforms">platforms</a>,
-        <a href="/release-date">release date</a>.
+        <a href="/characters">all characters</a>, <a href="/families">the seven families</a>,
+        <a href="/activities/character-creator">character creator</a>, <a href="/beginner-guide">beginner guide</a>.
       </div>
     </div>
   </article>
