@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import type { TopicSection, TopicItem } from '../data/topic';
+
+interface Props { section: TopicSection; item: TopicItem; prev: TopicItem; next: TopicItem; }
+const { section, item, prev, next } = Astro.props;
+
+const url = new URL(`${section.base}/${item.slug}`, SITE.url).href;
+const statusLabel =
+  item.status === 'confirmed' ? 'Developer-confirmed'
+  : item.status === 'expected' ? 'Expected — not yet confirmed'
+  : 'Reported — verify at launch';
+
+const ld: object[] = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: section.label, item: new URL(section.base, SITE.url).href },
+    { '@type': 'ListItem', position: 3, name: item.title, item: url },
+  ] },
+  { '@context': 'https://schema.org', '@type': section.schemaType, name: item.title, description: item.dek,
+    ...(item.image ? { image: new URL(item.image, SITE.url).href } : {}) },
+];
+if (item.faq && item.faq.length > 0) {
+  ld.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: item.faq.map((f) => ({
+    '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })) });
+}
+---
+<Base
+  title={`${item.title} — Moonlight Peaks ${section.label} | Moonlight Peaks Wiki & Guide`}
+  description={item.dek}
+  path={`${section.base}/${item.slug}`}
+  jsonLd={ld}
+  ogImage={item.image}
+  crumbs={[{ label: section.label, href: section.base }, { label: item.title }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">{section.eyebrow} · {item.tag}</p>
+      {item.image && <img class="tp-hero" src={item.image} alt={`${item.title} — Moonlight Peaks`} width="1200" height="630" />}
+      <h1>{item.title}</h1>
+      <p class="intro">{item.dek}</p>
+
+      <h2>What we know</h2>
+      {item.body.map((p) => (<p>{p}</p>))}
+
+      <div class="callout">
+        <strong>Status:</strong> {statusLabel}. We keep developer-confirmed facts separate from reported or expected details and never invent data — full details are added at launch on {GAME.releaseLabel}.
+      </div>
+
+      {item.faq && item.faq.length > 0 && (
+        <>
+          <h2>FAQ</h2>
+          {item.faq.map((f) => (<div class="tp-faq"><p class="tp-q">{f.q}</p><p class="tp-a">{f.a}</p></div>))}
+        </>
+      )}
+
+      {item.related && item.related.length > 0 && (
+        <div class="callout">
+          <strong>Related:</strong>{' '}
+          {item.related.map((r, i) => (<>{i > 0 ? ' · ' : ''}<a href={r.href}>{r.label}</a></>))}
+        </div>
+      )}
+
+      <nav class="prevnext" aria-label={`${section.label} navigation`}>
+        <a href={`${section.base}/${prev.slug}`}>← {prev.title}</a>
+        <a href={section.base}>All {section.label.toLowerCase()}</a>
+        <a href={`${section.base}/${next.slug}`}>{next.title} →</a>
+      </nav>
+    </div>
+  </article>
+
+  <style>
+    .tp-hero { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 14px; margin: 4px 0 14px; }
+    .tp-faq { border-left: 2px solid var(--candle-dim); padding: 2px 0 2px 14px; margin: 0 0 12px; }
+    .tp-q { font-family: var(--display); font-weight: 600; color: var(--mist); margin: 0 0 4px; }
+    .tp-a { color: #ded3e6; margin: 0; }
+    .prevnext { display: flex; justify-content: space-between; gap: 10px; margin: 18px 0 0; font-family: var(--mono); font-size: 0.8rem; }
+    .prevnext a { color: var(--candle); }
+  </style>
+</Base>
