@@ -1,0 +1,13 @@
+---
+import TopicPage from '../../components/TopicPage.astro';
+import { platformsSection, platforms } from '../../data/platforms';
+
+export function getStaticPaths() {
+  return platforms.map((it, i) => ({
+    params: { slug: it.slug },
+    props: { item: it, prev: platforms[(i - 1 + platforms.length) % platforms.length], next: platforms[(i + 1) % platforms.length] },
+  }));
+}
+const { item, prev, next } = Astro.props;
+---
+<TopicPage section={platformsSection} item={item} prev={prev} next={next} />
