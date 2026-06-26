@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../consts';
+import type { TopicSection, TopicItem } from '../data/topic';
+
+interface Props { section: TopicSection; items: TopicItem[]; }
+const { section, items } = Astro.props;
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: section.label, item: new URL(section.base, SITE.url).href },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: items.map((it, i) => ({
+    '@type': 'ListItem', position: i + 1, name: it.title, url: new URL(`${section.base}/${it.slug}`, SITE.url).href,
+  })) },
+];
+---
+<Base
+  title={section.title}
+  description={section.description}
+  path={section.base}
+  jsonLd={jsonLd}
+  crumbs={[{ label: section.label }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Hub · {section.eyebrow}</p>
+      <h1 set:html={section.heading}></h1>
+      <p class="intro">{section.intro}</p>
+
+      <div class="thub-grid">
+        {items.map((it) => (
+          <a class="thub-card" href={`${section.base}/${it.slug}`}>
+            {it.image && <img class="thub-img" src={it.image} alt={`${it.title} — Moonlight Peaks`} width="1200" height="630" loading="lazy" />}
+            <div class="thub-body">
+              <span class="thub-tag">{it.tag}{it.status && it.status !== 'confirmed' ? ` · ${it.status}` : ''}</span>
+              <h2 class="thub-title">{it.title}</h2>
+              <p class="thub-dek">{it.dek}</p>
+              <span class="thub-more">Explore →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .thub-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 640px) { .thub-grid { grid-template-columns: 1fr 1fr; } }
+    .thub-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--surface); color: inherit; text-decoration: none; transition: border-color .15s ease, transform .15s ease; }
+    .thub-card:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); transform: translateY(-2px); }
+    .thub-img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--line); }
+    .thub-body { padding: 14px 16px 16px; }
+    .thub-tag { font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--candle); }
+    .thub-title { font-family: var(--display); font-weight: 600; font-size: 1.22rem; margin: 6px 0 4px; }
+    .thub-dek { color: #ded3e6; font-size: 0.92rem; margin: 0 0 10px; }
+    .thub-more { font-family: var(--mono); font-size: 0.74rem; color: var(--candle); }
+  </style>
+</Base>
