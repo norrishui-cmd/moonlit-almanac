@@ -19,6 +19,8 @@ const nav = [
   { href: '/characters', label: 'Characters' },
   { href: '/nokturna', label: 'Nokturna' },
   { href: '/romance', label: 'Romance' },
+  { href: '/faq', label: 'FAQ' },
+  { href: '/about', label: 'About' },
 ];
 const here = Astro.url.pathname.replace(/\/$/, '') || '/';
 const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
@@ -82,6 +84,11 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
         <div class="row">
           <span>{SITE.brand}</span>
           <span class="links">
+            <a href="/characters">Characters</a>
+            <a href="/locations">Locations</a>
+            <a href="/families">Families</a>
+            <a href="/activities">Activities</a>
+            <a href="/faq">FAQ</a>
             <a href="/about">About</a>
             <a href="/privacy">Privacy</a>
             <span>Updated {SITE.updated}</span>
