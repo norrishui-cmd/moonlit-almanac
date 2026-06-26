@@ -1,0 +1,13 @@
+---
+import TopicPage from '../../components/TopicPage.astro';
+import { familiesSection, families } from '../../data/families';
+
+export function getStaticPaths() {
+  return families.map((it, i) => ({
+    params: { slug: it.slug },
+    props: { item: it, prev: families[(i - 1 + families.length) % families.length], next: families[(i + 1) % families.length] },
+  }));
+}
+const { item, prev, next } = Astro.props;
+---
+<TopicPage section={familiesSection} item={item} prev={prev} next={next} />
