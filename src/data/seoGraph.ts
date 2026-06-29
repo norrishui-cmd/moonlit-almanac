@@ -91,6 +91,7 @@ const knownPaths = new Set<string>([
   '/faq',
   '/families',
   '/farming',
+  '/guides',
   '/locations',
   '/magic',
   '/map',
