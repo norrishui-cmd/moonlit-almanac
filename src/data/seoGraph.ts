@@ -497,9 +497,35 @@ const generated = hubs.flatMap((hub) => {
   ];
 });
 
+const SEO_PAGE_LIMIT = 300;
+
+const priorityHubs = new Map<string, number>([
+  ['platforms', 0],
+  ['guides', 1],
+  ['demo', 2],
+  ['romance', 3],
+  ['characters', 4],
+  ['buying', 5],
+  ['faq', 6],
+  ['quests', 7],
+  ['crafting', 8],
+  ['collectibles', 9],
+]);
+
+const priorityTerms = ['release-date', 'guide', 'faq', 'gifts', 'schedule', 'best-gifts', 'steam', 'switch', 'demo', 'price'];
+
+const scorePage = (page: SeoPage): number => {
+  const parts = page.path.split('/').filter(Boolean);
+  const hubScore = priorityHubs.get(parts[0] || '') ?? 50;
+  const depthScore = parts.length * 5;
+  const termScore = priorityTerms.some((term) => page.path.includes(term)) ? -3 : 0;
+  return hubScore * 100 + depthScore + termScore;
+};
+
 export const seoPages: SeoPage[] = unique(generated, (page) => page.path)
   .filter((page) => !knownPaths.has(page.path))
-  .sort((a, b) => a.path.localeCompare(b.path));
+  .sort((a, b) => scorePage(a) - scorePage(b) || a.path.localeCompare(b.path))
+  .slice(0, SEO_PAGE_LIMIT);
 
 export const seoPageByPath = new Map(seoPages.map((page) => [page.path, page]));
 
