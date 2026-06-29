@@ -2,7 +2,9 @@
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
 import YouTube from '../components/YouTube.astro';
+import PriorityLinks from '../components/PriorityLinks.astro';
 import { previews } from '../data/previews';
+import { releasePriorityLinks } from '../data/priorityLinks';
 
 const faq = [
   { q: 'When does Moonlight Peaks release?', a: `Moonlight Peaks launches on ${GAME.releaseLabel} on Steam, Nintendo Switch, Nintendo Switch 2, and Android via Google Play.` },
@@ -48,6 +50,12 @@ const jsonLd = [
         <tr><th>Publisher</th><td>{GAME.publisher} (Americas) · Marvelous Europe (Europe)</td></tr>
         <tr><th>Players</th><td>Single-player cozy life sim</td></tr>
       </table>
+
+      <PriorityLinks
+        title="Release searches to check next"
+        note="platform intent"
+        links={releasePriorityLinks}
+      />
 
       <h2>What is Moonlight Peaks?</h2>
       <p>
