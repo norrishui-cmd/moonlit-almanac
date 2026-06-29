@@ -1,7 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
+import PriorityLinks from '../components/PriorityLinks.astro';
 import { characters, typeLabels } from '../data/characters';
+import { characterPriorityLinks } from '../data/priorityLinks';
 
 const types = [...new Set(characters.map((c) => c.type))];
 const hasProfile = (c) => c.status !== 'unconfirmed';
@@ -83,6 +85,12 @@ const jsonLd = [
         is a cozy life sim with no combat. "Unconfirmed" entries show art only; names and details are
         verified and updated when the game launches on {GAME.releaseLabel}.
       </p>
+
+      <PriorityLinks
+        title="Character pages to open next"
+        note="gifts and schedules"
+        links={characterPriorityLinks}
+      />
 
      <div class="callout">
         Related: <a href="/families">the seven families</a>, <a href="/locations">locations</a>,
