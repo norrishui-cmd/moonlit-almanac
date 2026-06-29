@@ -1,5 +1,120 @@
 ---
-import TopicHub from '../components/TopicHub.astro';
-import { demoSection, demo } from '../data/demo';
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import PriorityLinks from '../components/PriorityLinks.astro';
+import { demo } from '../data/demo';
+import { demoPriorityLinks } from '../data/priorityLinks';
+
+const facts = [
+  ['Price', 'Free'],
+  ['Where to play', 'Steam and Nintendo eShop, including Switch 2 compatibility'],
+  ['Progress carryover', 'No confirmed carryover; treat the demo as a separate taster'],
+  ['Featured activities', 'Character creation, fishing, flower arranging, embroidery, and early town interactions'],
+  ['Full game launch', GAME.releaseLabel],
+];
+
+const faq = [
+  { q: 'Is the Moonlight Peaks demo free?', a: 'Yes. The demo is free on Steam and the Nintendo eShop.' },
+  { q: 'Does Moonlight Peaks demo progress carry over?', a: 'No confirmed carryover has been announced, so start the full game fresh unless official launch notes say otherwise.' },
+  { q: 'What can you do in the demo?', a: 'The demo shows the character creator, a slice of cozy activities such as fishing, flower arranging, and embroidery, plus early resident interactions.' },
+  { q: 'Is the demo on Switch 2?', a: 'The Nintendo eShop demo is playable on Switch and Switch 2.' },
+  { q: 'Should I play the demo before buying?', a: 'Yes if you want to test the tone, controls, and early loop before the July 7, 2026 launch.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Demo', item: new URL('/demo', SITE.url).href },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })) },
+  { '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: demo.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.title,
+    url: new URL(`/demo/${item.slug}`, SITE.url).href,
+  })) },
+];
 ---
-<TopicHub section={demoSection} items={demo} />
+<Base
+  title="Moonlight Peaks Demo Guide: Download, Features, Save Carryover & FAQ | Moonlight Peaks Wiki"
+  description="Moonlight Peaks demo guide covering where to download it, what is included, whether progress carries over, Switch and Steam access, tips, and known limitations."
+  path="/demo"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Demo' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Hub / Demo</p>
+      <h1>Moonlight Peaks <em>demo</em> guide</h1>
+      <p class="intro">
+        The free Moonlight Peaks demo is the safest way to test the cozy vampire life sim before the
+        full launch on {GAME.releaseLabel}. This hub explains where to download it, what is inside,
+        what does not carry over, and which demo pages to check next.
+      </p>
+
+      <h2>Quick facts</h2>
+      <table class="facts">
+        {facts.map((row) => (<tr><th>{row[0]}</th><td>{row[1]}</td></tr>))}
+      </table>
+
+      <PriorityLinks
+        title="Demo questions players search"
+        note="download and carryover"
+        links={demoPriorityLinks}
+      />
+
+      <h2>What the demo is best for</h2>
+      <p>
+        Use the demo to decide whether the tone, controls, camera, and slower cozy activities work
+        for you. It is not meant to reveal every system. Exact crop values, full gift tables, late
+        quests, and complete collection lists belong to the full release.
+      </p>
+      <ul>
+        <li><strong>Test the vibe:</strong> the demo is strongest as a mood and control check.</li>
+        <li><strong>Try early activities:</strong> fishing, flower arranging, embroidery, and resident introductions give a useful sample.</li>
+        <li><strong>Do not over-optimize:</strong> since progress carryover is not confirmed, treat the demo as practice.</li>
+        <li><strong>Compare platforms:</strong> Steam, Switch, and Switch 2 players should note controls and performance separately.</li>
+      </ul>
+
+      <h2>Demo guide pages</h2>
+      <div class="demo-grid">
+        {demo.map((item) => (
+          <a class="demo-card" href={`/demo/${item.slug}`}>
+            <span>{item.tag}</span>
+            <strong>{item.title}</strong>
+            <small>{item.dek}</small>
+          </a>
+        ))}
+      </div>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="callout">
+        Related: <a href="/release-date">release date</a>, <a href="/platforms">platforms</a>,
+        <a href="/beginner-guide">beginner guide</a>, <a href="/faq/is-there-a-moonlight-peaks-demo">demo FAQ</a>.
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .demo-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 10px 0 0; }
+    @media (min-width: 680px) { .demo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .demo-card { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 14px 15px; display: flex; flex-direction: column; gap: 4px; transition: border-color .15s ease, transform .15s ease; }
+    .demo-card:hover { border-color: color-mix(in srgb, var(--candle) 55%, var(--line)); transform: translateY(-2px); }
+    .demo-card span { color: var(--candle); font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .demo-card strong { color: var(--mist); font-family: var(--display); font-size: 1.08rem; line-height: 1.2; }
+    .demo-card small { color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
+  </style>
+</Base>
