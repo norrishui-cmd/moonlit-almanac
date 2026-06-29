@@ -2,7 +2,9 @@
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
 import News from '../components/News.astro';
+import PriorityLinks from '../components/PriorityLinks.astro';
 import { previews } from '../data/previews';
+import { homepagePriorityLinks } from '../data/priorityLinks';
 
 const entries = [
   { ent: 'Entry · Release', title: 'Release date & platforms', desc: 'When, where, price, and the free demo — everything to play day one.', href: '/release-date', live: true, img: '/card-release.webp' },
@@ -110,6 +112,11 @@ const jsonLd = [
           </a>
         ))}
       </div>
+      <PriorityLinks
+        title="Most-searched Moonlight Peaks pages"
+        note="SEO entry points"
+        links={homepagePriorityLinks}
+      />
     </div>
   </section>
 
