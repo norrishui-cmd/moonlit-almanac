@@ -19,7 +19,7 @@ type Entry = { path: string; images?: string[] };
 
 const homeImages = ['/card-release.webp', '/card-guide.webp', '/card-nokturna.webp', '/card-romance.webp', '/card-cheats.webp', '/card-crops.webp'];
 
-const staticPaths = ['/release-date', '/demo', '/platforms', '/beginner-guide', '/farming', '/magic', '/activities', '/characters', '/moonlight-peaks-vs-stardew-valley', '/nokturna', '/map', '/romance', '/cheats', '/about', '/privacy', '/previews', '/faq', '/locations', '/families', '/compare'];
+const staticPaths = ['/release-date', '/demo', '/platforms', '/beginner-guide', '/guides', '/farming', '/magic', '/activities', '/characters', '/moonlight-peaks-vs-stardew-valley', '/nokturna', '/map', '/romance', '/cheats', '/about', '/privacy', '/previews', '/faq', '/locations', '/families', '/compare'];
 
 const topic = (base: string, items: { slug: string; image?: string }[]): Entry[] =>
   items.map((it) => ({ path: `${base}/${it.slug}`, images: it.image ? [it.image] : [] }));
