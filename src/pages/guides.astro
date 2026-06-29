@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import PriorityLinks from '../components/PriorityLinks.astro';
+import { guideHubPriorityLinks, beginnerPriorityLinks } from '../data/priorityLinks';
+
+const guideRows = [
+  ['Start here', 'Beginner guide, demo guide, release date, and platform guide'],
+  ['Core systems', 'Farming, fishing, magic, cooking, crafting, decorating, and Nokturna'],
+  ['Relationship play', 'Characters, romance, gifts, heart events, marriage, and schedules'],
+  ['Collection play', 'Fish, bugs, crops, flowers, minerals, gems, artifacts, and recipes'],
+  ['Buying intent', 'Best platform, before you buy, review, pros and cons, and comparison pages'],
+];
+
+const faq = [
+  { q: 'What Moonlight Peaks guide should I read first?', a: 'Start with the beginner guide, then check release date, demo, platforms, characters, and romance depending on what you plan to do first.' },
+  { q: 'Are all guide details final before launch?', a: 'No. Confirmed facts are separated from launch placeholders. Exact values such as prices, gifts, schedules, and item locations are updated after reliable sources confirm them.' },
+  { q: 'Where will crop, fish, and gift tables live?', a: 'Farming, fishing, collectibles, characters, and romance pages will hold the detailed tables once the full game confirms the data.' },
+  { q: 'Why are there many guide URLs?', a: 'The site is organized as topic clusters so players and search engines can find specific answers such as Steam release date, Saga gifts, or Switch performance.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Guides', item: new URL('/guides', SITE.url).href },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })) },
+  { '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: guideHubPriorityLinks.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    url: new URL(item.href, SITE.url).href,
+  })) },
+];
+---
+<Base
+  title="Moonlight Peaks Guides Hub: Beginner, Farming, Fishing, Romance & More | Moonlight Peaks Wiki"
+  description="Moonlight Peaks guides hub for beginners, farming, fishing, romance, money, decorating, platform questions, collectibles, and launch-week updates."
+  path="/guides"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Guides' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Hub / Guides</p>
+      <h1>Moonlight Peaks <em>guides</em></h1>
+      <p class="intro">
+        A practical guide hub for {GAME.title}: where to start, which systems matter, and where each
+        detailed table will live once the full game launches on {GAME.releaseLabel}.
+      </p>
+
+      <h2>Guide map</h2>
+      <table class="facts">
+        {guideRows.map((row) => (<tr><th>{row[0]}</th><td>{row[1]}</td></tr>))}
+      </table>
+
+      <PriorityLinks
+        title="Main Moonlight Peaks guides"
+        note="core guides"
+        links={guideHubPriorityLinks}
+      />
+
+      <h2>Recommended reading order</h2>
+      <ol class="steps">
+        <li><strong>Check release and demo details.</strong> Confirm your platform, price, demo access, and whether your preferred device is covered.</li>
+        <li><strong>Read the beginner guide.</strong> Learn the night-farming loop, vampire powers, magic, townsfolk, and what is still unknown before launch.</li>
+        <li><strong>Pick your first goal.</strong> Farming, fishing, decorating, romance, and Nokturna each lead to different topic clusters.</li>
+        <li><strong>Use specific long-tail pages.</strong> When you need one answer, use pages like Saga gifts, Steam release date, or Switch performance.</li>
+      </ol>
+
+      <PriorityLinks
+        title="Start-here pages"
+        note="first session"
+        links={beginnerPriorityLinks}
+      />
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="callout">
+        Related: <a href="/beginner-guide">beginner guide</a>, <a href="/demo">demo guide</a>,
+        <a href="/platforms">platforms</a>, <a href="/characters">characters</a>, <a href="/romance">romance</a>.
+      </div>
+    </div>
+  </article>
+</Base>
