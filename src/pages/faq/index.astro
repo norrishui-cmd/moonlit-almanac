@@ -1,7 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { SITE, GAME } from '../../consts';
+import PriorityLinks from '../../components/PriorityLinks.astro';
 import { faqs, faqCatLabels } from '../../data/faq';
+import { faqPriorityLinks } from '../../data/priorityLinks';
 
 const cats = ['platforms', 'romance', 'characters', 'world', 'general'] as const;
 const plain = (f) => [f.a, ...(f.more || [])].join(' ');
@@ -31,6 +33,19 @@ const jsonLd = [
         Quick, sourced answers to the questions players ask most about {GAME.title} ahead of the
         {GAME.releaseLabel} launch. Each question has its own page. We answer only what is confirmed
         or reported, and mark anything still unknown rather than guessing. Updated {SITE.updated}.
+      </p>
+
+      <PriorityLinks
+        title="Most-searched FAQ answers"
+        note="quick answers"
+        links={faqPriorityLinks}
+      />
+
+      <h2>How to use this FAQ</h2>
+      <p>
+        Use this page when you need a direct answer, then open the linked guide when you need detail.
+        Platform and demo questions usually lead to release-date pages, while romance and character
+        questions lead to gift, schedule, heart-event, and family pages.
       </p>
 
       {cats.map((cat) => {
