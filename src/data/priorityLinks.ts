@@ -51,3 +51,50 @@ export const romancePriorityLinks: PriorityLink[] = [
   { label: 'Luna gifts', href: '/romance/luna/gifts', note: 'A high-intent page for witch romance searches.' },
   { label: 'Best partner', href: '/romance/romance-best-partner', note: 'Comparison page for searchers choosing romance options.' },
 ];
+
+export const demoPriorityLinks: PriorityLink[] = [
+  { label: 'Demo download', href: '/demo/download', note: 'Where to get the free demo on Steam and Nintendo Switch.' },
+  { label: 'Demo guide', href: '/demo/guide', note: 'What to do first and what the demo is meant to show.' },
+  { label: 'Demo FAQ', href: '/demo/faq', note: 'Carryover, length, platform access, and known limits.' },
+  { label: 'Demo save carryover', href: '/demo/save', note: 'Whether demo progress transfers into the full release.' },
+  { label: 'Demo length', href: '/demo/length', note: 'How much time to expect before you have seen the core loop.' },
+  { label: 'Demo known issues', href: '/demo/known-issues', note: 'Bugs and rough edges to verify as patches arrive.' },
+];
+
+export const faqPriorityLinks: PriorityLink[] = [
+  { label: 'Release date FAQ', href: '/faq/when-does-moonlight-peaks-release', note: 'The date and launch platforms in one answer.' },
+  { label: 'Platform FAQ', href: '/faq/what-platforms-is-moonlight-peaks-on', note: 'Confirmed platforms and unannounced console status.' },
+  { label: 'Demo FAQ', href: '/faq/is-there-a-moonlight-peaks-demo', note: 'Where the free demo is available.' },
+  { label: 'Marriage FAQ', href: '/faq/can-you-get-married-in-moonlight-peaks', note: 'Romance, marriage, and children status.' },
+  { label: 'Combat FAQ', href: '/faq/is-there-combat-in-moonlight-peaks', note: 'Why the mines still remain cozy.' },
+  { label: 'Multiplayer FAQ', href: '/faq/is-moonlight-peaks-multiplayer', note: 'Current single-player status.' },
+];
+
+export const beginnerPriorityLinks: PriorityLink[] = [
+  { label: 'Release date', href: '/release-date', note: 'Start with date, price, demo, and platforms.' },
+  { label: 'Demo guide', href: '/demo/guide', note: 'Try the character creator and early activities first.' },
+  { label: 'Night farming basics', href: '/previews/night-farming-basics', note: 'Understand the core vampire farming loop.' },
+  { label: 'Fishing guide', href: '/guides/fishing-guide', note: 'Fishing searches can split into guide and collectible pages.' },
+  { label: 'Relationship guide', href: '/guides/relationship-guide', note: 'Friendship, romance, gifts, and marriage links.' },
+  { label: 'Nokturna guide', href: '/nokturna', note: 'The in-game card game and future card list hub.' },
+];
+
+export const guideHubPriorityLinks: PriorityLink[] = [
+  { label: 'Beginner guide', href: '/beginner-guide', note: 'Best first page for new players.' },
+  { label: 'Advanced guide', href: '/guides/advanced-guide', note: 'Progression, unlocks, and launch-week routing.' },
+  { label: 'Money guide', href: '/guides/money-guide', note: 'Profit routes to fill once live data confirms values.' },
+  { label: 'Farming guide', href: '/farming', note: 'Night farming, crops, livestock, and magic.' },
+  { label: 'Fishing guide', href: '/guides/fishing-guide', note: 'Fish locations, seasons, and weather pages.' },
+  { label: 'Relationship guide', href: '/guides/relationship-guide', note: 'Gifts, friendship, marriage, and character pages.' },
+  { label: 'Decorating guide', href: '/guides/decorating-guide', note: 'House, furniture, garden, wallpaper, and flooring.' },
+  { label: 'Endgame guide', href: '/guides/endgame-guide', note: 'Post-launch page for late-game goals and completion.' },
+];
+
+export const comparisonPriorityLinks: PriorityLink[] = [
+  { label: 'Moonlight Peaks vs Stardew romance', href: '/compare/stardew-valley/romance', note: 'Romance systems and marriage expectations.' },
+  { label: 'Moonlight Peaks vs Stardew farming', href: '/compare/stardew-valley/farming', note: 'Night farming, crops, tools, and magic.' },
+  { label: 'Moonlight Peaks vs Stardew combat', href: '/compare/stardew-valley/combat', note: 'Combat-free cozy design versus mine combat.' },
+  { label: 'Moonlight Peaks vs Fae Farm', href: '/compare/fae-farm', note: 'Cozy-sim comparison for platform and genre searches.' },
+  { label: 'Moonlight Peaks vs Coral Island', href: '/compare/coral-island', note: 'Romance, farming, story, and island-life comparison.' },
+  { label: 'Cozy game guide', href: '/buying/cozy-game-guide', note: 'Buying-intent page for players comparing options.' },
+];
