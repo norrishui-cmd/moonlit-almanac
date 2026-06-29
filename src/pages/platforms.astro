@@ -1,7 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
+import PriorityLinks from '../components/PriorityLinks.astro';
 import { platforms } from '../data/platforms';
+import { platformPriorityLinks } from '../data/priorityLinks';
 
 const facts = [
   ['Release date', GAME.releaseLabel],
@@ -52,6 +54,12 @@ const jsonLd = [
           </a>
         ))}
       </div>
+
+      <PriorityLinks
+        title="Platform questions players search"
+        note="long-tail pages"
+        links={platformPriorityLinks}
+      />
 
       <h2>Is Moonlight Peaks on PlayStation, Xbox or iOS?</h2>
       <p>
