@@ -9,9 +9,9 @@ import { activities } from '../data/activities';
 import { comparisons } from '../data/compare';
 import { platforms } from '../data/platforms';
 import { demo } from '../data/demo';
-import { seoPages } from '../data/seoGraph';
-import { localizedStaticPages } from '../data/localizedStaticPages';
-import { localizedLocales, withLocale } from '../data/i18n';
+import { seoPages } from '../data/seoGraph.ts';
+import { localizedStaticPages } from '../data/localizedStaticPages.ts';
+import { localizedLocales, withLocale } from '../data/i18n.ts';
 
 // Bump LASTMOD only when you push a meaningful content update (not every deploy / not daily),
 // otherwise search engines learn to ignore it.
