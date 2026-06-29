@@ -82,11 +82,6 @@ const jsonLd = [breadcrumbLd, faqLd, articleLd, howToLd, itemListLd].filter(Bool
       <h1>{page.h1}</h1>
       <p class="intro">{page.intro}</p>
 
-      <div class="seo-note">
-        This page is generated from the Moonlight Peaks topic graph. Confirmed facts are separated
-        from launch placeholders so the page can expand without changing its URL.
-      </div>
-
       {page.sections.map((section) => (
         <section class="seo-section">
           <h2>{section.title}</h2>
@@ -126,15 +121,6 @@ const jsonLd = [breadcrumbLd, faqLd, articleLd, howToLd, itemListLd].filter(Bool
 
   <style>
     .seo-page h2 { margin-top: 24px; }
-    .seo-note {
-      border: 1px solid var(--line);
-      background: color-mix(in srgb, var(--surface) 86%, var(--candle) 14%);
-      border-radius: 8px;
-      color: #ded3e6;
-      font-size: 0.92rem;
-      margin: 16px 0 22px;
-      padding: 14px 16px;
-    }
     .seo-section { margin: 0 0 18px; }
     .seo-links {
       display: grid;
