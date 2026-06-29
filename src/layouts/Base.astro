@@ -1,39 +1,50 @@
 ---
 import { SITE } from '../consts';
+import { locales, localeByCode, t, withLocale, type LocaleCode } from '../data/i18n';
 import '../styles/global.css';
 interface Crumb { label: string; href?: string; }
 interface Props {
   title: string;
   description: string;
   path?: string;
+  sourcePath?: string;
+  locale?: LocaleCode;
   jsonLd?: object | object[];
   crumbs?: Crumb[];
   ogImage?: string;
 }
-const { title, description, path = '/', jsonLd, crumbs = [], ogImage } = Astro.props;
+const { title, description, path = '/', sourcePath = path, locale = 'en', jsonLd, crumbs = [], ogImage } = Astro.props;
 const canonical = new URL(path, SITE.url).href;
 const ogImageUrl = ogImage ? new URL(ogImage, SITE.url).href : undefined;
+const tx = t(locale);
+const localeInfo = localeByCode(locale);
 const nav = [
-  { href: '/release-date', label: 'Release' },
-  { href: '/demo', label: 'Demo' },
-  { href: '/platforms', label: 'Platforms' },
-  { href: '/beginner-guide', label: 'Guide' },
-  { href: '/characters', label: 'Characters' },
-  { href: '/romance', label: 'Romance' },
-  { href: '/guides', label: 'Guides' },
-  { href: '/faq', label: 'FAQ' },
+  { href: '/release-date', label: tx.nav.release },
+  { href: '/demo', label: tx.nav.demo },
+  { href: '/platforms', label: tx.nav.platforms },
+  { href: '/beginner-guide', label: tx.nav.guide },
+  { href: '/characters', label: tx.nav.characters },
+  { href: '/romance', label: tx.nav.romance },
+  { href: '/guides', label: tx.nav.guides },
+  { href: '/faq', label: tx.nav.faq },
 ];
 const here = Astro.url.pathname.replace(/\/$/, '') || '/';
 const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+const alternatePaths = locales.map((item) => ({
+  ...item,
+  href: new URL(withLocale(sourcePath, item.code), SITE.url).href,
+}));
 ---
 <!doctype html>
-<html lang="en">
+<html lang={localeInfo.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {alternatePaths.map((item) => <link rel="alternate" hreflang={item.htmlLang} href={item.href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(sourcePath, SITE.url).href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -62,17 +73,25 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
         </a>
         <nav class="nav" aria-label="Primary">
           {nav.map((n) => (
-            <a href={n.href} aria-current={here === n.href ? 'page' : undefined}>{n.label}</a>
+            <a href={withLocale(n.href, locale)} aria-current={here === withLocale(n.href, locale) ? 'page' : undefined}>{n.label}</a>
           ))}
         </nav>
+        <label class="lang-select">
+          <span>{tx.language}</span>
+          <select aria-label={tx.language} onchange="if (this.value) window.location.href = this.value">
+            {alternatePaths.map((item) => (
+              <option value={item.href} selected={item.code === locale}>{item.nativeLabel}</option>
+            ))}
+          </select>
+        </label>
       </div>
     </header>
     {crumbs.length > 0 && (
       <div class="wrap">
         <nav class="crumb" aria-label="Breadcrumb">
-          <a href="/">Home</a>
+          <a href={withLocale('/', locale)}>{tx.home}</a>
           {crumbs.map((c) => (
-            <span>{' / '}{c.href ? <a href={c.href}>{c.label}</a> : c.label}</span>
+            <span>{' / '}{c.href ? <a href={withLocale(c.href, locale)}>{c.label}</a> : c.label}</span>
           ))}
         </nav>
       </div>
@@ -85,27 +104,23 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
         <div class="row">
           <span>{SITE.brand}</span>
           <span class="links">
-            <a href="/characters">Characters</a>
-            <a href="/locations">Locations</a>
-            <a href="/families">Families</a>
-            <a href="/activities">Activities</a>
-            <a href="/faq">FAQ</a>
-            <a href="/guides">Guides</a>
-            <a href="/quests">Quests</a>
-            <a href="/crafting">Crafting</a>
-            <a href="/collectibles">Collectibles</a>
-            <a href="/events">Events</a>
-            <a href="/languages">Languages</a>
-            <a href="/about">About</a>
-            <a href="/privacy">Privacy</a>
-            <span>Updated {SITE.updated}</span>
+            <a href={withLocale('/characters', locale)}>{tx.nav.characters}</a>
+            <a href={withLocale('/locations', locale)}>Locations</a>
+            <a href={withLocale('/families', locale)}>Families</a>
+            <a href={withLocale('/activities', locale)}>Activities</a>
+            <a href={withLocale('/faq', locale)}>{tx.nav.faq}</a>
+            <a href={withLocale('/guides', locale)}>{tx.nav.guides}</a>
+            <a href={withLocale('/quests', locale)}>Quests</a>
+            <a href={withLocale('/crafting', locale)}>Crafting</a>
+            <a href={withLocale('/collectibles', locale)}>Collectibles</a>
+            <a href={withLocale('/events', locale)}>Events</a>
+            <a href={withLocale('/languages', locale)}>Languages</a>
+            <a href={withLocale('/about', locale)}>About</a>
+            <a href={withLocale('/privacy', locale)}>Privacy</a>
+            <span>{tx.updated} {SITE.updated}</span>
           </span>
         </div>
-        <p class="disclaimer">
-          Moonlight Peaks Wiki &amp; Guide is an independent, fan-made guide. It is not affiliated
-          with, endorsed by, or connected to Little Chicken Game Company or XSEED Games. “Moonlight
-          Peaks” and all related names and assets are trademarks of their respective owners.
-        </p>
+        <p class="disclaimer">{tx.footer}</p>
       </div>
     </footer>
   </body>
