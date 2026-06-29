@@ -9,9 +9,7 @@ import { activities } from '../data/activities';
 import { comparisons } from '../data/compare';
 import { platforms } from '../data/platforms';
 import { demo } from '../data/demo';
-import { seoPages } from '../data/seoGraph.ts';
-import { localizedStaticPages } from '../data/localizedStaticPages.ts';
-import { localizedLocales, withLocale } from '../data/i18n.ts';
+import { seoPages } from '../data/seoGraph';
 
 // Bump LASTMOD only when you push a meaningful content update (not every deploy / not daily),
 // otherwise search engines learn to ignore it.
@@ -26,21 +24,12 @@ const staticPaths = ['/release-date', '/demo', '/platforms', '/beginner-guide', 
 const topic = (base: string, items: { slug: string; image?: string }[]): Entry[] =>
   items.map((it) => ({ path: `${base}/${it.slug}`, images: it.image ? [it.image] : [] }));
 
-const uniqueEntries = (items: Entry[]): Entry[] => {
-  const seen = new Set<string>();
-  return items.filter((item) => {
-    if (seen.has(item.path)) return false;
-    seen.add(item.path);
-    return true;
-  });
-};
-
 export const GET: APIRoute = () => {
   const charEntries: Entry[] = characters
     .filter((c) => c.status !== 'unconfirmed')
     .map((c) => ({ path: `/characters/${c.id}`, images: c.img ? [c.img] : [] }));
 
-  const entries: Entry[] = uniqueEntries([
+  const entries: Entry[] = [
     { path: '/', images: homeImages },
     ...staticPaths.map((p) => ({ path: p })),
     ...charEntries,
@@ -53,11 +42,7 @@ export const GET: APIRoute = () => {
     ...previews.map((p) => ({ path: `/previews/${p.slug}`, images: [p.image] })),
     ...faqs.map((f) => ({ path: `/faq/${f.slug}` })),
     ...seoPages.map((p) => ({ path: p.path })),
-    ...localizedLocales.flatMap((locale) => [
-      ...localizedStaticPages.map((p) => ({ path: withLocale(p.path, locale.code) })),
-      ...seoPages.map((p) => ({ path: withLocale(p.path, locale.code) })),
-    ]),
-  ]);
+  ];
 
   const abs = (u: string) => new URL(u, SITE.url).href;
   const body = `<?xml version="1.0" encoding="UTF-8"?>
