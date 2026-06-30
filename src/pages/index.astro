@@ -53,8 +53,13 @@ const jsonLd = [
   path="/"
   jsonLd={jsonLd}
 >
-  <section class="hero">
+  <section class="hero hero-immersive">
+    <div class="hero-art" aria-hidden="true">
+      <img src="/hero-moonlit-peaks.png" alt="" fetchpriority="high" />
+    </div>
+    <div class="hero-mist" aria-hidden="true"></div>
     <div class="wrap">
+      <div class="hero-copy">
       <p class="eyebrow">A vampire farmer's field almanac</p>
       <h1 class="title"><em>Moonlight Peaks</em> opens its gates soon.</h1>
       <p class="lede">
@@ -72,6 +77,7 @@ const jsonLd = [
         <div class="cd-cell"><div class="n" data-h>—</div><div class="u">hours</div></div>
         <div class="cd-cell"><div class="n" data-m>—</div><div class="u">min</div></div>
         <span class="cd-note" id="cd-note">until {GAME.releaseLabel} · {GAME.demo}</span>
+      </div>
       </div>
     </div>
   </section>
@@ -206,6 +212,116 @@ const jsonLd = [
   </section>
 
   <style>
+    .hero-immersive {
+      min-height: min(760px, calc(100vh - 28px));
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+    }
+    .hero-immersive::before {
+      z-index: -1;
+      background:
+        linear-gradient(90deg, rgba(21,16,29,0.92) 0%, rgba(21,16,29,0.76) 36%, rgba(21,16,29,0.28) 70%, rgba(21,16,29,0.22) 100%),
+        linear-gradient(0deg, var(--ink) 0%, rgba(21,16,29,0.24) 34%, rgba(21,16,29,0.10) 74%);
+    }
+    .hero-art {
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      transform: scale(1.03);
+      animation: heroDrift 18s ease-in-out infinite alternate;
+    }
+    .hero-art img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: 58% 50%;
+      filter: saturate(1.04) contrast(1.03) brightness(0.78);
+    }
+    .hero-immersive::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 78% 16%, rgba(246,237,211,0.28), transparent 10%),
+        radial-gradient(680px 380px at 58% 72%, rgba(243,201,105,0.12), transparent 62%),
+        radial-gradient(760px 420px at 18% 22%, rgba(192,67,106,0.13), transparent 62%);
+      mix-blend-mode: screen;
+      animation: moonPulse 7s ease-in-out infinite;
+    }
+    .hero-mist {
+      position: absolute;
+      inset: auto -10% 0 -10%;
+      height: 44%;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, transparent, rgba(240,233,244,0.09), transparent),
+        radial-gradient(60% 70% at 52% 78%, rgba(180,166,196,0.18), transparent 70%);
+      filter: blur(18px);
+      opacity: 0.74;
+      animation: mistGlide 12s ease-in-out infinite alternate;
+    }
+    .hero-copy {
+      max-width: 620px;
+      padding: clamp(2rem, 6vw, 4.5rem) 0;
+      text-shadow: 0 2px 22px rgba(0,0,0,0.46);
+    }
+    .hero-immersive .lede {
+      color: color-mix(in srgb, var(--mist) 82%, var(--muted));
+    }
+    .hero-immersive .btn-ghost {
+      background: rgba(36, 27, 49, 0.78);
+      backdrop-filter: blur(8px);
+    }
+    .hero-immersive .cd-cell {
+      background: linear-gradient(180deg, rgba(36,27,49,0.82), rgba(21,16,29,0.78));
+      backdrop-filter: blur(8px);
+    }
+    @keyframes heroDrift {
+      from { transform: scale(1.03) translate3d(0, 0, 0); }
+      to { transform: scale(1.08) translate3d(-1.2%, -0.8%, 0); }
+    }
+    @keyframes moonPulse {
+      0%, 100% { opacity: 0.72; }
+      50% { opacity: 0.95; }
+    }
+    @keyframes mistGlide {
+      from { transform: translate3d(-2%, 0, 0); opacity: 0.56; }
+      to { transform: translate3d(4%, -5%, 0); opacity: 0.82; }
+    }
+    @media (max-width: 760px) {
+      .hero-immersive {
+        min-height: min(720px, calc(100vh - 22px));
+        align-items: flex-end;
+      }
+      .hero-immersive::before {
+        background:
+          linear-gradient(180deg, rgba(21,16,29,0.22) 0%, rgba(21,16,29,0.52) 44%, rgba(21,16,29,0.94) 100%),
+          linear-gradient(90deg, rgba(21,16,29,0.72), rgba(21,16,29,0.24));
+      }
+      .hero-art img {
+        object-position: 58% 42%;
+        filter: saturate(1.02) contrast(1.02) brightness(0.72);
+      }
+      .hero-copy {
+        max-width: 100%;
+        padding: 8rem 0 2rem;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-art,
+      .hero-immersive::after,
+      .hero-mist {
+        animation: none;
+      }
+    }
+
     .entry-img {
       display: block;
       width: calc(100% + 36px);
