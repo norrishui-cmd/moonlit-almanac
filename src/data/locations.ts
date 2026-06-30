@@ -6,7 +6,7 @@ export const locationsSection: TopicSection = {
   eyebrow: 'World',
   heading: 'Moonlight Peaks <em>locations</em>',
   schemaType: 'Place',
-  title: 'Moonlight Peaks Locations — Town, Farm, Forest, Lake, Mines & More | Moonlight Peaks Wiki & Guide',
+  title: 'Moonlight Peaks Locations — Town, Farm, Forest & More',
   description: 'A guide to the places in Moonlight Peaks: the magical mountain town, your farm and cottage, the forest, the lake, the mines and more — what is confirmed and what we expect at launch.',
   intro: 'The places that make up Moonlight Peaks — the magical mountain town, your homestead, and the wild spots around it. We mark what is developer-confirmed versus reported or expected, and fill in detail as the July 7, 2026 launch lands.',
 };
