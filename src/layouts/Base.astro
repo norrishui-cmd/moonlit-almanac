@@ -21,6 +21,7 @@ const nav = [
   { href: '/characters', label: 'Characters' },
   { href: '/romance', label: 'Romance' },
   { href: '/guides', label: 'Guides' },
+  { href: '/tools', label: 'Tools' },
   { href: '/faq', label: 'FAQ' },
 ];
 const here = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -92,6 +93,7 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
             <a href="/activities">Activities</a>
             <a href="/faq">FAQ</a>
             <a href="/guides">Guides</a>
+            <a href="/tools">Tools</a>
             <a href="/platforms">Platforms</a>
             <a href="/compare">Compare</a>
             <a href="/about">About</a>
