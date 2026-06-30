@@ -1,38 +1,377 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
+
+const coverage = [
+  {
+    title: 'Release, demo, and platform help',
+    text: `Clear launch information for ${GAME.title}, including the ${GAME.releaseLabel} release date, the free demo, Steam and Mac notes, Steam Deck checks, Nintendo Switch and Switch 2 details, Android availability, price notes, and launch discount context.`,
+    links: [
+      { href: '/release-date', label: 'Release date' },
+      { href: '/demo', label: 'Demo guide' },
+      { href: '/platforms', label: 'Platform guide' },
+      { href: '/tools/platform-picker', label: 'Platform picker' },
+    ],
+  },
+  {
+    title: 'Beginner guides and cozy life sim systems',
+    text: 'Step-by-step player guidance for farming, fishing, magic, activities, shapeshifting, character creation, locations, map planning, early-game choices, and the systems that cozy sim and Stardew Valley fans usually compare first.',
+    links: [
+      { href: '/beginner-guide', label: 'Beginner guide' },
+      { href: '/farming', label: 'Farming' },
+      { href: '/magic', label: 'Magic' },
+      { href: '/activities', label: 'Activities' },
+      { href: '/moonlight-peaks-vs-stardew-valley', label: 'Stardew Valley comparison' },
+    ],
+  },
+  {
+    title: 'Characters, romance, families, and gifts',
+    text: 'Relationship-focused pages for players searching for Moonlight Peaks romance candidates, dateable characters, seven families, gift planning, character profiles, and romance route preparation before and after launch.',
+    links: [
+      { href: '/characters', label: 'Characters' },
+      { href: '/romance', label: 'Romance' },
+      { href: '/families', label: 'Families' },
+      { href: '/tools/romance-gift-finder', label: 'Gift finder' },
+    ],
+  },
+  {
+    title: 'Tools, FAQ, Nokturna, cheats, and updates',
+    text: 'Practical reference pages for quick answers, Nokturna card game searches, cheats and safe console expectations, compare pages, FAQ answers, and ongoing news coverage as official launch information expands.',
+    links: [
+      { href: '/tools', label: 'Tools' },
+      { href: '/faq', label: 'FAQ' },
+      { href: '/nokturna', label: 'Nokturna' },
+      { href: '/cheats', label: 'Cheats' },
+      { href: '/compare', label: 'Compare' },
+    ],
+  },
+];
+
+const principles = [
+  'Separate confirmed facts from preview notes, demo observations, and launch-day placeholders.',
+  'Prefer useful player intent over keyword stuffing: a page should answer the query that brought a reader there.',
+  'Keep pages lightweight, readable, and fast on mobile, because most search visits start on a phone.',
+  'Link related guides together so players can move from release questions to platform choice, demo checks, romance planning, and beginner tips without hunting.',
+];
+
+const roadmap = [
+  'Launch-day guide checks for the full game on Steam, Mac, Steam Deck, Switch, Switch 2, and Android.',
+  'Expanded romance gift data, character schedules, family relationships, and relationship route notes when they can be verified.',
+  'More complete farming, crops, fishing, activities, magic, map, locations, and Nokturna card reference pages.',
+  'Fresh FAQ answers, comparison pages, news updates, and tool improvements based on what players search for after release.',
+];
+
+const faq = [
+  {
+    q: 'Is Moonlight Peaks Wiki & Guide official?',
+    a: `No. ${SITE.brand} is an independent fan-made wiki and guide. It is not affiliated with, endorsed by, or connected to ${GAME.developer} or ${GAME.publisher}.`,
+  },
+  {
+    q: 'What topics does this Moonlight Peaks guide cover?',
+    a: 'The site covers release date, demo, platforms, Steam, Steam Deck, Nintendo Switch, Switch 2, Android, beginner guides, romance, characters, families, gifts, farming, magic, activities, Nokturna, cheats, tools, FAQ, and comparison pages.',
+  },
+  {
+    q: 'How does the site handle unconfirmed Moonlight Peaks information?',
+    a: 'Pages are written to distinguish confirmed facts from preview notes, demo observations, and launch placeholders. When something is not confirmed, the page should say so clearly.',
+  },
+  {
+    q: 'Who is this site for?',
+    a: 'It is built for players searching for a fast Moonlight Peaks wiki, a beginner guide, platform advice, demo help, romance and gift planning, cozy life sim comparisons, and launch information.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: `About ${SITE.brand}`,
+    description: `About ${SITE.brand}, an independent fan-made ${GAME.title} wiki and guide for release date, demo, platforms, romance, characters, farming, magic, tools, FAQ, and launch coverage.`,
+    url: new URL('/about', SITE.url).href,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: SITE.brand,
+      url: SITE.url,
+    },
+    about: {
+      '@type': 'VideoGame',
+      name: GAME.title,
+      developer: {
+        '@type': 'Organization',
+        name: GAME.developer,
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: GAME.publisher,
+      },
+      datePublished: GAME.releaseISO,
+      gamePlatform: GAME.platforms,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+      { '@type': 'ListItem', position: 2, name: 'About', item: new URL('/about', SITE.url).href },
+    ],
+  },
+];
 ---
 <Base
-  title="About — A Fan Guide to Moonlight Peaks"
-  description="About Moonlight Peaks Wiki & Guide, an independent fan-made guide and wiki for the cozy vampire life sim Moonlight Peaks."
+  title={`About ${SITE.brand} - Moonlight Peaks Wiki, Guide & Tools`}
+  description={`About ${SITE.brand}, an independent fan-made ${GAME.title} wiki covering release date, demo, platforms, romance, characters, gifts, farming, magic, tools, FAQ, and launch updates.`}
   path="/about"
+  jsonLd={jsonLd}
   crumbs={[{ label: 'About' }]}
 >
-  <article class="page">
+  <article class="page about-page">
     <div class="wrap">
-      <h1>About the <em>Moonlight Peaks Wiki</em></h1>
+      <p class="eyebrow">Independent fan guide</p>
+      <h1>About the <em>Moonlight Peaks Wiki &amp; Guide</em></h1>
       <p class="intro">
-        Moonlight Peaks Wiki &amp; Guide is a clean, fast, fan-made guide to {GAME.title} — built so players can find
-        what they need without wading through clutter.
+        {SITE.brand} is a clean, fast, fan-made guide to {GAME.title}, built for players who want reliable
+        answers about the release date, demo, platforms, romance, characters, gifts, farming, magic, Nokturna,
+        cheats, tools, and beginner-friendly launch planning without digging through scattered posts.
       </p>
 
-      <h2>What we do</h2>
+      <section class="about-hero-grid" aria-label="Site overview">
+        <div>
+          <strong>{GAME.releaseLabel}</strong>
+          <span>Launch tracking</span>
+        </div>
+        <div>
+          <strong>{GAME.platforms.length} platforms</strong>
+          <span>Steam, Switch, Android, and more</span>
+        </div>
+        <div>
+          <strong>Fan-made</strong>
+          <span>Independent guide, wiki, and tools</span>
+        </div>
+      </section>
+
+      <h2>What this Moonlight Peaks wiki covers</h2>
       <p>
-        We track release info, beginner tips, the Nokturna card game, romance and the seven families,
-        cheats, crops, fishing, and more. We aim to be accurate and well-sourced: where something
-        isn't confirmed yet, we say so rather than guess.
+        This site is organized around the searches players actually make: "Moonlight Peaks release date",
+        "Moonlight Peaks demo", "Moonlight Peaks Steam Deck", "Moonlight Peaks Switch 2", "Moonlight Peaks
+        romance gifts", "Moonlight Peaks beginner guide", "Moonlight Peaks characters", "Moonlight Peaks
+        farming", "Moonlight Peaks magic", and "Moonlight Peaks vs Stardew Valley". Each page is designed
+        to answer one practical question first, then point to the next useful guide.
       </p>
+
+      <div class="coverage-grid">
+        {coverage.map((item) => (
+          <section class="coverage-card">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+            <div class="link-row">
+              {item.links.map((link) => <a href={link.href}>{link.label}</a>)}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <h2>Who this guide is for</h2>
+      <p>
+        We write for players who want quick, practical help before choosing a platform, downloading the demo,
+        planning a cozy vampire farm, checking romance candidates, comparing {GAME.title} with other cozy life
+        sims, or preparing for launch day. If you are coming from Stardew Valley, Story of Seasons, Fae Farm,
+        Sun Haven, or another farming sim, the goal is to make the differences easy to scan.
+      </p>
+      <p>
+        The site also helps searchers who only need one answer: whether {GAME.title} is on Steam Deck, whether
+        the demo is worth trying, what platforms are confirmed, how romance and families are framed, what tools
+        can help with platform choice, and which guide to read after the first hour of play.
+      </p>
+
+      <h2>How we handle pre-launch information</h2>
+      <p>
+        {GAME.title} is still moving toward launch, so some pages will naturally grow as official details and
+        player discoveries become available. We keep confirmed facts, preview impressions, demo observations,
+        and launch placeholders separate. When something is not yet verified, the page should make that clear
+        instead of presenting speculation as fact.
+      </p>
+
+      <div class="principle-list">
+        {principles.map((item) => <p>{item}</p>)}
+      </div>
+
+      <h2>Update roadmap after launch</h2>
+      <p>
+        After the full release, the highest-priority updates will be the pages players revisit many times:
+        platform performance notes, beginner routing, character and family profiles, romance gifts, crops,
+        fishing, map locations, activities, magic, Nokturna cards, cheats, FAQ answers, and comparison pages.
+      </p>
+      <ul class="roadmap-list">
+        {roadmap.map((item) => <li>{item}</li>)}
+      </ul>
 
       <h2>Not official</h2>
       <p>
-        Moonlight Peaks Wiki &amp; Guide is independent and not affiliated with, endorsed by, or connected to
-        {GAME.developer} or {GAME.publisher}. “{GAME.title}” and all related names and assets are
-        trademarks of their respective owners. If you represent the game and have a concern, contact
-        us and we'll respond promptly.
+        {SITE.brand} is independent and not affiliated with, endorsed by, or connected to {GAME.developer} or
+        {GAME.publisher}. "{GAME.title}" and all related names and assets are trademarks of their respective
+        owners. If you represent the game and have a concern, contact us and we will respond promptly.
       </p>
 
-      <h2>Contact</h2>
-      <p>Corrections, tips, or new guide requests: {SITE.contact}.</p>
+      <h2>Contact, corrections, and guide requests</h2>
+      <p>
+        Corrections, tips, source suggestions, missing guide requests, or launch-day updates can be sent to
+        <a href={`mailto:${SITE.contact}`}>{SITE.contact}</a>. Helpful submissions include the page URL, the
+        correction, and where the information can be verified.
+      </p>
+
+      <section class="about-faq" aria-label="About page FAQ">
+        <h2>Quick FAQ</h2>
+        {faq.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </section>
     </div>
   </article>
 </Base>
+
+<style>
+  .about-hero-grid,
+  .coverage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .about-hero-grid > div,
+  .coverage-card,
+  .principle-list p,
+  .about-faq details {
+    border: 1px solid rgba(218, 202, 255, 0.18);
+    background: rgba(255, 255, 255, 0.055);
+    border-radius: 8px;
+  }
+
+  .about-hero-grid > div {
+    padding: 1rem;
+  }
+
+  .about-hero-grid strong,
+  .about-hero-grid span {
+    display: block;
+  }
+
+  .about-hero-grid strong {
+    color: #fff;
+    font-size: 1.05rem;
+  }
+
+  .about-hero-grid span {
+    margin-top: 0.25rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .coverage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .coverage-card {
+    padding: 1.1rem;
+  }
+
+  .coverage-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .coverage-card p {
+    margin-bottom: 0.9rem;
+  }
+
+  .link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .link-row a {
+    border: 1px solid rgba(218, 202, 255, 0.22);
+    border-radius: 999px;
+    padding: 0.42rem 0.7rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .link-row a:hover,
+  .link-row a:focus-visible {
+    background: rgba(218, 202, 255, 0.1);
+  }
+
+  .principle-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin: 1rem 0 2rem;
+  }
+
+  .principle-list p {
+    margin: 0;
+    padding: 0.95rem;
+  }
+
+  .roadmap-list {
+    padding-left: 1.2rem;
+  }
+
+  .roadmap-list li + li {
+    margin-top: 0.55rem;
+  }
+
+  .about-faq {
+    margin-top: 2.5rem;
+  }
+
+  .about-faq details {
+    padding: 0.95rem 1rem;
+  }
+
+  .about-faq details + details {
+    margin-top: 0.7rem;
+  }
+
+  .about-faq summary {
+    cursor: pointer;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .about-faq p {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 760px) {
+    .about-hero-grid,
+    .coverage-grid,
+    .principle-list {
+      grid-template-columns: 1fr;
+    }
+
+    .link-row a {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+</style>
