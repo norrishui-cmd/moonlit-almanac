@@ -6,7 +6,7 @@ export const activitiesSection: TopicSection = {
   eyebrow: 'Gameplay',
   heading: 'Things to <em>do</em>',
   schemaType: 'Thing',
-  title: 'Moonlight Peaks Activities — Fishing, Foraging, Crafting, Decorating & More | Moonlight Peaks Wiki & Guide',
+  title: 'Moonlight Peaks Activities — Fishing, Foraging & More',
   description: 'Everything you can do in Moonlight Peaks beyond farming: fishing, foraging, potion-brewing, embroidery, flower arranging, decorating, the character creator, shapeshifting and seasonal events.',
   intro: 'Moonlight Peaks is a cozy life sim with no combat — the fun is in its everyday activities. Here is what you can do, from the crafts featured in the free demo to the magic that sets it apart, with links to the guides for each.',
 };
