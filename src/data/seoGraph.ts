@@ -522,10 +522,28 @@ const scorePage = (page: SeoPage): number => {
   return hubScore * 100 + depthScore + termScore;
 };
 
-export const seoPages: SeoPage[] = unique(generated, (page) => page.path)
+// ──────────────────────────────────────────────────────────────────────────
+// QUICK-LAUNCH SWITCH for the programmatic SEO layer.
+//   false → DORMANT: zero generated pages. Nothing is added to routes, the
+//           navigation, or the sitemap. This is the correct setting pre-launch.
+//   true  → LIVE: generates the pages defined above and feeds them to
+//           [...slug].astro and sitemap.xml.ts automatically — no other edits.
+//
+// ⚠️  DO NOT set this to true until the placeholder entity lists in this file
+//     (recipes, fish/collectibles, quests, schedules, gifts, performance, etc.)
+//     have been replaced with REAL, sourced game data after the July 7 2026
+//     launch. Turning it on with placeholder data ships fabricated, templated
+//     pages and risks a Google scaled-content-abuse penalty across the whole
+//     domain. The engine is kept intact so launch day is a one-line flip.
+// ──────────────────────────────────────────────────────────────────────────
+export const SEO_PROGRAM_ENABLED = false;
+
+const computedSeoPages: SeoPage[] = unique(generated, (page) => page.path)
   .filter((page) => !knownPaths.has(page.path))
   .sort((a, b) => scorePage(a) - scorePage(b) || a.path.localeCompare(b.path))
   .slice(0, SEO_PAGE_LIMIT);
+
+export const seoPages: SeoPage[] = SEO_PROGRAM_ENABLED ? computedSeoPages : [];
 
 export const seoPageByPath = new Map(seoPages.map((page) => [page.path, page]));
 
