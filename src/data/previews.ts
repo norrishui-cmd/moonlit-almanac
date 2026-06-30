@@ -6,7 +6,7 @@
 // To add a DAILY post: copy a block, set category:'daily', give it a unique slug + date, and it shows in the homepage "Daily updates" area.
 // image: hero lives in /public as /hero-<slug>.webp (original art, safe to use). alt is auto-built from the title.
 
-export type Block = { type: 'h2' | 'p' | 'ul' | 'callout'; text?: string; items?: string[] };
+export type Block = { type: 'h2' | 'p' | 'ul' | 'callout' | 'image'; text?: string; items?: string[]; src?: string; caption?: string };
 export type Source = { label: string; url: string };
 export type Category = 'preview' | 'guide' | 'daily';
 export type Preview = {
@@ -287,6 +287,90 @@ export const previews: Preview[] = [
     ],
     sources: [
       { label: 'Steam — store page', url: 'https://store.steampowered.com/app/2209900/' },
+      { label: 'Official site', url: 'https://www.moonlightpeaks.com/' },
+    ],
+  },
+
+  // ───────────────────────── GUIDES (confirmed-fact deep dives) ─────────────────────────
+  {
+    slug: 'romance-and-marriage-what-we-know', category: 'guide',
+    title: 'Romance & Marriage in Moonlight Peaks: What\u2019s Confirmed',
+    dek: 'Dating, marriage and the one big \u201Cno\u201D \u2014 what is actually confirmed about relationships before the July 7 launch, and what we are not guessing.',
+    date: 'June 2026', readTime: '5 min', tag: 'Romance', image: '/art-moonlit-date.webp',
+    body: [
+      { type: 'p', text: 'Romance is a core part of the cozy loop in Moonlight Peaks, and one of the most-searched topics ahead of launch. Here is what the developers and press previews have actually confirmed \u2014 kept separate from the parts we will not guess at until the full game is out.' },
+      { type: 'h2', text: 'You can marry \u2014 but you cannot have children' },
+      { type: 'p', text: 'Marriage is confirmed: you can date residents and eventually marry. Children, however, are confirmed to be out \u2014 there is no child-raising system, which sets it apart from sims like Stardew Valley, Coral Island and Sun Haven.' },
+      { type: 'h2', text: 'Around two dozen to romance, with no gender lock' },
+      { type: 'p', text: 'The romanceable roster has grown across development to roughly two dozen characters, and dating is gender-neutral \u2014 you are not restricted by your character\u2019s gender. Exactly who is on the final list has not been fully revealed.' },
+      { type: 'image', src: '/art-secluded-embrace.webp', caption: 'Illustrative art \u00b7 Moonlight Peaks Wiki' },
+      { type: 'h2', text: 'Saga is the standout confirmed option' },
+      { type: 'p', text: 'The clearest confirmed romance is Saga, a werewolf whose energy shifts with the full moon. Several other residents have been shown or named in previews, but treat anyone beyond the confirmed names as reported rather than final.' },
+      { type: 'h2', text: 'What we are not guessing' },
+      { type: 'ul', items: [
+        'Per-character gift preferences (loved and liked gifts) \u2014 not revealed; we will not invent gift tables.',
+        'Heart-event details and how many hearts are needed to marry.',
+        'The complete romanceable roster and each character\u2019s schedule.',
+      ] },
+      { type: 'callout', text: 'We label confirmed vs reported throughout, and will only add gift, heart-event and schedule data once the live game confirms it on July 7.' },
+    ],
+    sources: [
+      { label: 'PC Gamer — hands-on preview', url: 'https://www.pcgamer.com/games/life-sim/moonlight-peaks-preview-impressions/' },
+      { label: 'Official site', url: 'https://www.moonlightpeaks.com/' },
+      { label: 'Steam — store page', url: 'https://store.steampowered.com/app/2209900/' },
+    ],
+  },
+  {
+    slug: 'magic-potions-and-the-wand', category: 'guide',
+    title: 'Magic & Potions in Moonlight Peaks: The Wand, Runes & Brewing',
+    dek: 'Wand repair, spell runes, mana, potion-brewing and the Alter Ego Elixir \u2014 the confirmed magic systems, and the details we are leaving blank until launch.',
+    date: 'June 2026', readTime: '5 min', tag: 'Magic', image: '/art-midnight-brewery.webp',
+    body: [
+      { type: 'p', text: 'Magic is woven through everything in Moonlight Peaks \u2014 farming, exploring and daily chores. Here is how the confirmed systems work, based on the developers\u2019 own descriptions and press hands-on previews.' },
+      { type: 'h2', text: 'It is wand-based \u2014 runes and mana' },
+      { type: 'p', text: 'You repair and use a wand, drawing spell runes to cast, and you manage a mana pool that you refill by eating. Magic is a resource to plan around rather than something you spam freely.' },
+      { type: 'h2', text: 'Magic speeds up the farm' },
+      { type: 'p', text: 'A lot of it is quality-of-life: energy-saving spells, a watering minigame, and telekinetic watering cans that help you tend enchanted crops at night without burning all your energy.' },
+      { type: 'image', src: '/art-shared-creations.webp', caption: 'Illustrative art \u00b7 Moonlight Peaks Wiki' },
+      { type: 'h2', text: 'Potions \u2014 including the Alter Ego Elixir' },
+      { type: 'p', text: 'Potion-crafting is one of the game\u2019s named activities. One confirmed example is the Alter Ego Elixir, which changes your character\u2019s appearance. Shapeshifting is part of the fantasy too \u2014 a bat form has been shown, and demo players described dashing around as a cat.' },
+      { type: 'h2', text: 'What we are not listing yet' },
+      { type: 'ul', items: [
+        'A full spell list with rune inputs and mana costs.',
+        'Complete potion recipes and their ingredients.',
+        'Exact effects and durations \u2014 confirmed at launch, not guessed.',
+      ] },
+      { type: 'callout', text: 'The systems above are confirmed; the exact tables are not. We will fill spell and potion data once the July 7 build reveals it.' },
+    ],
+    sources: [
+      { label: 'PC Gamer — hands-on preview', url: 'https://www.pcgamer.com/games/life-sim/moonlight-peaks-preview-impressions/' },
+      { label: 'Official site', url: 'https://www.moonlightpeaks.com/' },
+    ],
+  },
+  {
+    slug: 'exploring-at-night-mines-and-map', category: 'guide',
+    title: 'Exploring Moonlight Peaks at Night: The Mines, Forest & Lake (No Combat)',
+    dek: 'Where you roam after dark \u2014 the town, forest, lake and a mine \u2014 and why even the mines stay cozy and combat-free. Plus what is still under wraps.',
+    date: 'June 2026', readTime: '5 min', tag: 'Exploring', image: '/art-confronting-the-unknown.webp',
+    body: [
+      { type: 'p', text: 'Moonlight Peaks flips the usual farm-sim clock: you live and work at night and head back to your coffin by sunrise. Here is what is confirmed about where you go \u2014 and the design choice that makes it stand out.' },
+      { type: 'h2', text: 'A world you explore by moonlight' },
+      { type: 'p', text: 'Beyond your farm and cottage, previews and the demo show a town to socialize in, plus surrounding areas like the forest and lake for foraging and fishing, and a mine to delve into. You move between them as part of the nightly routine.' },
+      { type: 'h2', text: 'Yes, there are mines \u2014 no, there is no combat' },
+      { type: 'p', text: 'This is the big one: Moonlight Peaks has no combat anywhere, and that explicitly includes the mines. Press who went hands-on confirmed the mines are about exploration and discovery, not fighting \u2014 a deliberate cozy, low-stakes design.' },
+      { type: 'image', src: '/art-ancient-mysteries.webp', caption: 'Illustrative art \u00b7 Moonlight Peaks Wiki' },
+      { type: 'h2', text: 'Confirmed vs reported' },
+      { type: 'p', text: 'The town, your farm and cottage, the forest, the lake and a mine have all been shown or described. A few specific spots are still only reported, and exactly how the map connects \u2014 and whether there is fast travel \u2014 has not been fully detailed.' },
+      { type: 'h2', text: 'What we are not mapping yet' },
+      { type: 'ul', items: [
+        'What is actually inside the mines (resources, depth, layout).',
+        'The full map and how areas link together.',
+        'Fast-travel options \u2014 confirmed at launch, not assumed.',
+      ] },
+      { type: 'callout', text: 'We will only add mine contents, resource tables and a full map once the live game confirms them on July 7.' },
+    ],
+    sources: [
+      { label: 'PC Gamer — hands-on preview', url: 'https://www.pcgamer.com/games/life-sim/moonlight-peaks-preview-impressions/' },
       { label: 'Official site', url: 'https://www.moonlightpeaks.com/' },
     ],
   },
