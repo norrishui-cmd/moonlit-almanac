@@ -9,7 +9,7 @@ const fmt = (iso: string) => {
 <div class="news">
   {items.map((n) => (
     <article class="news-item">
-      <time class="news-date">{fmt(n.date)}</time>
+      <p class="news-meta"><span class="news-badge">News</span><time class="news-date">{fmt(n.date)}</time></p>
       <h3 class="news-title">{n.title}</h3>
       <p class="news-body">{n.body}</p>
       {n.sourceUrl && n.sourceLabel && <p class="news-source"><a href={n.sourceUrl} target="_blank" rel="noopener noreferrer">Source: {n.sourceLabel}</a></p>}
@@ -20,6 +20,8 @@ const fmt = (iso: string) => {
 <style>
   .news { display: grid; gap: 14px; }
   .news-item { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 15px 17px; }
+  .news-meta { display: flex; align-items: center; gap: 8px; margin: 0; }
+  .news-badge { display: inline-flex; align-items: center; min-height: 22px; border: 1px solid var(--candle-dim); border-radius: 999px; padding: 2px 8px; font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--candle); background: rgba(21,16,29,0.42); }
   .news-date { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--candle); }
   .news-title { font-family: var(--display); font-weight: 600; font-size: 1.12rem; margin: 5px 0 6px; }
   .news-body { color: #ded3e6; font-size: 0.92rem; margin: 0; }
