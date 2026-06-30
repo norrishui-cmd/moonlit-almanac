@@ -193,6 +193,58 @@ export const faqs: Faq[] = [
     a: 'Count Dracula is your father and a story-central figure. He is not a romance option; the story has you stepping out of his shadow to prove a kinder undead life is possible.',
     related: [{ label: 'Count Dracula profile', href: '/characters/count-dracula' }, { label: 'All characters', href: '/characters' }],
   },
+
+  // ── Added angle: high-intent "is/does/how" questions ──
+  {
+    slug: 'is-moonlight-peaks-worth-it', cat: 'general',
+    q: 'Is Moonlight Peaks worth it?',
+    a: 'It is shaping up as one of 2026\u2019s most distinctive cozy sims — a 3D vampire life sim with night farming, wand magic and a large romance roster — but since it launches July 7, 2026, the honest answer is to try the free demo first.',
+    more: ['The demo lets you test the character creator and cozy activities at no cost, which is the best way to judge whether it suits you before buying.'],
+    related: [{ label: 'The demo', href: '/demo' }, { label: 'What is it about?', href: '/faq/what-is-moonlight-peaks-about' }],
+  },
+  {
+    slug: 'is-moonlight-peaks-free', cat: 'platforms',
+    q: 'Is Moonlight Peaks free?',
+    a: 'No — the full game is $34.99 ($39.99 on Switch 2). There is, however, a free demo on Steam and the Nintendo eShop.',
+    related: [{ label: 'Platforms & price', href: '/platforms' }, { label: 'The demo', href: '/demo' }],
+  },
+  {
+    slug: 'is-moonlight-peaks-open-world', cat: 'world',
+    q: 'Is Moonlight Peaks open world?',
+    a: 'It is not marketed as an open-world game. It is a cozy life sim in which you roam the town, your farm, and surrounding areas like the forest, lake and mines.',
+    more: ['The exact map layout and how freely you can explore are confirmed at launch.'],
+    related: [{ label: 'Locations', href: '/locations' }, { label: 'The town', href: '/locations/town' }],
+  },
+  {
+    slug: 'is-moonlight-peaks-cozy', cat: 'general',
+    q: 'Is Moonlight Peaks a cozy game?',
+    a: 'Yes. It is a cozy-gothic life sim with no combat anywhere, focused on farming, crafts, magic and relationships.',
+    related: [{ label: 'Activities', href: '/activities' }, { label: 'Is there combat?', href: '/faq/is-there-combat-in-moonlight-peaks' }],
+  },
+  {
+    slug: 'how-long-is-moonlight-peaks', cat: 'general',
+    q: 'How long is Moonlight Peaks?',
+    a: 'Like most life sims, it is open-ended rather than a fixed-length story, so playtime varies widely by player. A concrete estimate will only be possible once the full game is out on July 7, 2026.',
+    related: [{ label: 'What is it about?', href: '/faq/what-is-moonlight-peaks-about' }, { label: 'Beginner guide', href: '/beginner-guide' }],
+  },
+  {
+    slug: 'is-moonlight-peaks-on-game-pass', cat: 'platforms',
+    q: 'Is Moonlight Peaks on Game Pass?',
+    a: 'No Game Pass release has been announced, and since there is no confirmed Xbox version, Game Pass is not expected. The confirmed platforms are Steam, Steam Deck, Switch, Switch 2 and Android.',
+    related: [{ label: 'Platforms', href: '/platforms' }, { label: 'Is it on PS5 or Xbox?', href: '/faq/is-moonlight-peaks-on-ps5-or-xbox' }],
+  },
+  {
+    slug: 'can-you-play-moonlight-peaks-offline', cat: 'platforms',
+    q: 'Can you play Moonlight Peaks offline?',
+    a: 'Moonlight Peaks is a single-player game with no announced online requirement, so it is expected to be playable offline. Exact details will be confirmed at launch.',
+    related: [{ label: 'Is it multiplayer?', href: '/faq/is-moonlight-peaks-multiplayer' }, { label: 'Platforms', href: '/platforms' }],
+  },
+  {
+    slug: 'is-moonlight-peaks-coming-to-mobile', cat: 'platforms',
+    q: 'Is Moonlight Peaks coming to mobile?',
+    a: 'Yes — on Android, via Google Play, on launch day. No iOS or iPhone version has been announced.',
+    related: [{ label: 'On Android', href: '/platforms/android' }, { label: 'Platforms', href: '/platforms' }],
+  },
 ];
 
 // ───────────────────────── PENDING (no confirmed answer yet — fill at launch, then move up) ─────────────────────────
