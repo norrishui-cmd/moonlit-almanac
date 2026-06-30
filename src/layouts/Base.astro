@@ -17,12 +17,12 @@ const nav = [
   { href: '/release-date', label: 'Release' },
   { href: '/demo', label: 'Demo' },
   { href: '/platforms', label: 'Platforms' },
-  { href: '/beginner-guide', label: 'Guide' },
+  { href: '/guides', label: 'Guides' },
   { href: '/characters', label: 'Characters' },
   { href: '/romance', label: 'Romance' },
-  { href: '/guides', label: 'Guides' },
   { href: '/tools', label: 'Tools' },
   { href: '/faq', label: 'FAQ' },
+  { href: '/about', label: 'About' },
 ];
 const here = Astro.url.pathname.replace(/\/$/, '') || '/';
 const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
