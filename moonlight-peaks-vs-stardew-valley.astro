@@ -1,0 +1,110 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import PriorityLinks from '../components/PriorityLinks.astro';
+import { comparisonPriorityLinks } from '../data/priorityLinks';
+
+const faq = [
+  { q: 'Is Moonlight Peaks like Stardew Valley?', a: 'Yes, in spirit — both are cozy farming life sims where you plant, tend, befriend, and romance townsfolk. Moonlight Peaks adds a supernatural twist: you play a vampire, farm by night, and use magic.' },
+  { q: 'Is Moonlight Peaks multiplayer like Stardew Valley?', a: 'No. Stardew Valley has co-op for up to several players; Moonlight Peaks is single-player only.' },
+  { q: 'Which is cheaper, Moonlight Peaks or Stardew Valley?', a: 'Stardew Valley is cheaper (around $14.99 and frequently discounted). Moonlight Peaks launches at $34.99 ($39.99 on Switch 2).' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Moonlight Peaks vs Stardew Valley', item: new URL('/moonlight-peaks-vs-stardew-valley', SITE.url).href },
+  ] },
+];
+---
+<Base
+  title="Moonlight Peaks vs Stardew Valley — Cozy Sims Compared"
+  description="Moonlight Peaks vs Stardew Valley: what the two cozy farming sims share, what makes the vampire life sim different, multiplayer, price, and which to play."
+  path="/moonlight-peaks-vs-stardew-valley"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'vs Stardew Valley' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Compare</p>
+      <h1><em>Moonlight Peaks</em> vs Stardew Valley</h1>
+      <p class="intro">
+        Moonlight Peaks is often compared to Stardew Valley — here's how the two cozy farming sims
+        actually stack up, so you can decide which fits you. Updated {SITE.updated}.
+      </p>
+
+      <h2>Quick comparison</h2>
+      <table class="facts">
+        <tr><th>Premise</th><td>Moonlight Peaks is a vampire life sim in a supernatural town; Stardew Valley is a rural farm restoration sim.</td></tr>
+        <tr><th>Visual style</th><td>Moonlight Peaks uses modern 3D; Stardew Valley uses 2D pixel art.</td></tr>
+        <tr><th>Combat</th><td>Moonlight Peaks is combat-free; Stardew Valley includes combat in mines and related areas.</td></tr>
+        <tr><th>Multiplayer</th><td>Moonlight Peaks is single-player only; Stardew Valley supports co-op.</td></tr>
+        <tr><th>Romance angle</th><td>Moonlight Peaks leans into supernatural families and gender-neutral dating; Stardew Valley has a long-established town cast.</td></tr>
+        <tr><th>Best fit</th><td>Choose Moonlight Peaks for a fresh gothic cozy theme; choose Stardew Valley for a proven classic with years of content.</td></tr>
+      </table>
+
+      <PriorityLinks
+        title="More cozy-sim comparisons"
+        note="comparison cluster"
+        links={comparisonPriorityLinks}
+      />
+
+      <h2>What they share</h2>
+      <p>
+        Both are relaxing farming life sims built on the same comforting loop: plant and tend crops,
+        fish and forage, decorate your home, and slowly befriend — and romance or marry — the
+        townsfolk. If you love the rhythm of Stardew, Moonlight Peaks speaks the same language.
+      </p>
+
+      <h2>What makes Moonlight Peaks different</h2>
+      <ul>
+        <li><strong>You're a vampire.</strong> You're Count Dracula's child, restoring a family homestead in a supernatural town of werewolves, witches, and mermaids.</li>
+        <li><strong>You farm at night.</strong> Growing happens by moonlight — be back in your coffin by sunrise.</li>
+        <li><strong>Magic, not just tools.</strong> Learn spellcasting (including a watering minigame and energy-saving spells) and brew potions like the Alter Ego Elixir.</li>
+        <li><strong>Shapeshifting.</strong> Turn into a bat to cross town and reach hidden areas.</li>
+        <li><strong>Enchanted everything.</strong> Grow glowing crops like blood grapes and "cruelcumbers," and raise magical livestock such as Draculambs.</li>
+        <li><strong>Nokturna.</strong> A collectible in-game card game with its own cards to chase.</li>
+        <li><strong>No combat.</strong> Even the mines are combat-free — it's cozy through and through.</li>
+        <li><strong>Modern 3D.</strong> Third-person 3D visuals, versus Stardew's 2D pixel art.</li>
+      </ul>
+
+      <h2>Multiplayer</h2>
+      <p>
+        This is a key difference. Stardew Valley offers co-op so you can farm with friends. Moonlight
+        Peaks is <strong>single-player only</strong> — no announced co-op or online mode.
+      </p>
+
+      <h2>Price & platforms</h2>
+      <p>
+        Stardew Valley (2016, by solo developer ConcernedApe) is around $14.99, often discounted, and
+        available on virtually every platform. Moonlight Peaks launches {GAME.releaseLabel} at
+        <strong>$34.99</strong> ($39.99 on Switch 2) on Steam (PC/Mac), Steam Deck, Switch, Switch 2,
+        and Android.
+      </p>
+
+      <h2>Which should you play?</h2>
+      <p>
+        They're not either/or. If you want a proven, inexpensive, co-op-friendly classic with endless
+        content, Stardew Valley is hard to beat. If you want a fresh, romance-forward, gothic twist on
+        the formula — with magic, night farming, and a supernatural cast — Moonlight Peaks is built
+        for you. Many cozy fans will happily play both.
+      </p>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="callout">
+        More: <a href="/beginner-guide">beginner guide</a>, <a href="/platforms">platforms & price</a>,
+        <a href="/release-date">release date</a>.
+      </div>
+    </div>
+  </article>
+</Base>

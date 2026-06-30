@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import PriorityLinks from '../components/PriorityLinks.astro';
+import { beginnerPriorityLinks } from '../data/priorityLinks';
+
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Beginner guide', item: new URL('/beginner-guide', SITE.url).href },
+  ],
+};
+---
+<Base
+  title="Moonlight Peaks Beginner Guide — Tips Before Launch"
+  description="A pre-launch beginner guide to Moonlight Peaks: the night-farming loop, vampire powers, the seven families, romance, fishing, potions, and the Nokturna card game."
+  path="/beginner-guide"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Beginner guide' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Guide</p>
+      <h1>Moonlight Peaks <em>beginner guide</em></h1>
+      <p class="intro">
+        What we know so far, gathered from the demo and official trailers. On {GAME.releaseLabel}
+        this becomes a full day-one walkthrough with exact numbers. Updated {SITE.updated}.
+      </p>
+
+      <h2>Start here checklist</h2>
+      <ol class="steps">
+        <li><strong>Confirm your platform.</strong> Check Steam, Switch, Switch 2, Steam Deck, Mac, and Android support before planning your first save.</li>
+        <li><strong>Try the free demo.</strong> Use it to test controls, character creation, fishing, flower arranging, embroidery, and the early tone.</li>
+        <li><strong>Learn the night loop.</strong> Moonlight Peaks is a cozy life sim, but the vampire schedule changes how you think about farming.</li>
+        <li><strong>Pick a first focus.</strong> Farming, relationships, decorating, fishing, magic, and Nokturna all connect to separate guide clusters.</li>
+      </ol>
+
+      <PriorityLinks
+        title="Beginner pages to open next"
+        note="first-session path"
+        links={beginnerPriorityLinks}
+      />
+
+      <h2>The core loop</h2>
+      <p>
+        You inherit a run-down family homestead and rebuild it into a cozy-gothic farm. Days revolve
+        around tending <strong>mystical crops</strong>, raising <strong>magical livestock</strong>,
+        and using magic — controlled watering cans and spells — to work the land. Unusually for the
+        genre, farming leans into the night, which suits your vampire lifestyle.
+      </p>
+
+      <h2>What you'll be doing</h2>
+      <ul>
+        <li><strong>Farming & livestock</strong> — grow enchanted crops and raise creatures unique to the town.</li>
+        <li><strong>Spells & potions</strong> — study witchcraft to help on the farm and when gathering.</li>
+        <li><strong>Fishing & foraging</strong> — classic cozy gathering, with a supernatural twist.</li>
+        <li><strong>Cooking</strong> — turn your harvest into meals and brews.</li>
+        <li><strong>Embroidery & flower arranging</strong> — slower hobby activities, shown in the demo.</li>
+        <li><strong>Nokturna</strong> — collect cards and play the town's favorite game against residents.</li>
+        <li><strong>Home design</strong> — decorate a gothic cottage (pick the perfect coffin) and develop your property.</li>
+      </ul>
+
+      <h2>Being a vampire</h2>
+      <p>
+        Your lineage is a toolkit, not just a theme. You can <strong>shapeshift</strong> — turning
+        into a bat to cross town quickly and reach hidden areas — and unlock ancient abilities from
+        enhanced senses onward as you progress. There's a mines area to explore, but note there's
+        <strong>no combat anywhere</strong>, so it stays cozy. Many residents are supernatural too,
+        so you blend right in.
+      </p>
+
+      <h2>The town & its people</h2>
+      <p>
+        Moonlight Peaks is home to seven families across humans and creatures of the night —
+        werewolves, witches, mermaids, and more, with Death himself among the notable characters.
+        Befriending and romancing them is a central pillar; our
+        <a href="/romance">romance & families entry</a> will track every candidate and their gift
+        preferences at launch.
+      </p>
+
+      <h2>What not to worry about before launch</h2>
+      <p>
+        Do not chase exact min-max routes yet. Until the full build is available, crop profit,
+        gift values, fish spawns, recipe prices, quest rewards, and resident schedules should be
+        treated as launch data. The useful pre-launch work is learning the systems and saving the
+        right reference pages.
+      </p>
+
+      <h2>Best next pages by goal</h2>
+      <table class="facts">
+        <tr><th>If you want to play day one</th><td><a href="/release-date">Release date</a>, <a href="/demo">demo guide</a>, and <a href="/platforms">platform guide</a></td></tr>
+        <tr><th>If you want romance</th><td><a href="/romance">Romance guide</a>, <a href="/characters">characters</a>, and <a href="/characters/saga">Saga</a></td></tr>
+        <tr><th>If you want farming</th><td><a href="/farming">Farming guide</a>, <a href="/magic">magic</a>, and <a href="/activities">activities</a></td></tr>
+        <tr><th>If you want collecting</th><td><a href="/activities/fishing">fishing</a>, <a href="/activities/foraging">foraging</a>, <a href="/locations">locations</a>, and the <a href="/map">map</a></td></tr>
+      </table>
+
+      <div class="callout wip">
+        Pre-launch entry. Exact crop prices, fish lists, gift tables, and cheat commands aren't
+        knowable until the full game ships on {GAME.releaseLabel} — we'll fill them in fast. Spot
+        something to add? Email {SITE.contact}.
+      </div>
+    </div>
+  </article>
+</Base>

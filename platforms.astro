@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import PriorityLinks from '../components/PriorityLinks.astro';
+import { platforms } from '../data/platforms';
+import { platformPriorityLinks } from '../data/priorityLinks';
+
+const facts = [
+  ['Release date', GAME.releaseLabel],
+  ['Price', `${GAME.price} (Nintendo Switch 2 edition $39.99)`],
+  ['Platforms', GAME.platforms.join(', ')],
+  ['Free demo', GAME.demo],
+  ['PS5 / Xbox / iOS', 'Not announced'],
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Platforms', item: new URL('/platforms', SITE.url).href },
+  ] },
+  { '@context': 'https://schema.org', '@type': 'VideoGame', name: GAME.title, gamePlatform: GAME.platforms,
+    publisher: { '@type': 'Organization', name: GAME.publisher }, datePublished: '2026-07-07' },
+];
+---
+<Base
+  title="Moonlight Peaks Platforms — Switch, Switch 2, Steam & Price"
+  description="Where to play Moonlight Peaks: Nintendo Switch and Switch 2, Steam (PC & Mac), Steam Deck, and Android via Google Play — with price, the free demo, and PS5/Xbox/iOS status."
+  path="/platforms"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Platforms' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Hub · Platforms</p>
+      <h1>Moonlight Peaks <em>platforms</em> &amp; price</h1>
+      <p class="intro">
+        Moonlight Peaks launches on {GAME.releaseLabel}. Here is where you can play it, what it costs,
+        and how the free demo works — plus deeper guides for specific platforms.
+      </p>
+
+      <h2>At a glance</h2>
+      <table class="facts">
+        {facts.map((f) => (<tr><th>{f[0]}</th><td>{f[1]}</td></tr>))}
+      </table>
+
+      <h2>Platform guides</h2>
+      <div class="pf-grid">
+        {platforms.map((p) => (
+          <a class="pf-card" href={`/platforms/${p.slug}`}>
+            <span class="pf-tag">{p.tag}{p.status && p.status !== 'confirmed' ? ` · ${p.status}` : ''}</span>
+            <span class="pf-title">{p.title.replace('Moonlight Peaks on ', '')}</span>
+            <span class="pf-dek">{p.dek}</span>
+            <span class="pf-go">Open →</span>
+          </a>
+        ))}
+      </div>
+
+      <PriorityLinks
+        title="Platform questions players search"
+        note="long-tail pages"
+        links={platformPriorityLinks}
+      />
+
+      <h2>Is Moonlight Peaks on PlayStation, Xbox or iOS?</h2>
+      <p>
+        No PlayStation, Xbox or iOS version has been announced. The confirmed platforms are Steam
+        (PC &amp; Mac), Steam Deck, Nintendo Switch, Nintendo Switch 2, and Android via Google Play.
+        If that changes, we will update this page.
+      </p>
+
+      <div class="callout">
+        Related: <a href="/release-date">release date</a> · <a href="/demo">the demo</a> ·
+        <a href="/compare">compare with other sims</a> · <a href="/faq">FAQ</a>.
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .pf-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 600px) { .pf-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .pf-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 14px 16px; transition: border-color .15s ease, transform .15s ease; }
+    .pf-card:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); transform: translateY(-2px); }
+    .pf-tag { font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--candle); }
+    .pf-title { font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--mist); margin: 4px 0 4px; }
+    .pf-dek { color: #ded3e6; font-size: 0.85rem; margin: 0 0 10px; }
+    .pf-go { font-family: var(--mono); font-size: 0.72rem; color: var(--candle); margin-top: auto; }
+  </style>
+</Base>

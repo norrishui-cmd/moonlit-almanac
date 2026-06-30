@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+
+const faq = [
+  { q: 'How do you learn spells in Moonlight Peaks?', a: 'You learn spellcasting from the town witches. Spells help with everyday tasks — working the farm and gathering resources — and your repertoire grows as you study.' },
+  { q: 'What does the Alter Ego Elixir do?', a: 'The Alter Ego Elixir is a potion that changes your appearance. It is one example of the many brews you can make through potion-making.' },
+  { q: 'Is magic required to play?', a: 'Witchcraft is a core pillar of the game and makes farming and gathering easier, but Moonlight Peaks is a cozy life sim — you can play at your own pace. Full spell and potion lists will be added at launch.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Magic', item: new URL('/magic', SITE.url).href },
+  ] },
+];
+---
+<Base
+  title="Moonlight Peaks Magic — Spells, Potions & Elixirs"
+  description="How magic works in Moonlight Peaks: learning spells from the town witches, brewing potions like the Alter Ego Elixir, and how witchcraft helps with farming and foraging."
+  path="/magic"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Magic' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Magic</p>
+      <h1>Moonlight Peaks <em>magic</em> — spells & potions</h1>
+      <p class="intro">
+        Witchcraft is one of the core pillars of {GAME.title}. Here's how spellcasting and
+        potion-making work, and how they help your cozy vampire life. Updated {SITE.updated}.
+      </p>
+
+      <h2>Learning spells</h2>
+      <p>
+        You study spellcasting under the town's witches. Magic isn't just for show — there's a small
+        spellcasting minigame for watering plants, plus energy-saving spells you unlock to make
+        farmwork and gathering easier. As you learn, you expand your repertoire of spells.
+      </p>
+
+      <h2>Potions & the Alter Ego Elixir</h2>
+      <p>
+        Alongside spells, you brew potions to unlock all kinds of effects. The headline example is
+        the <strong>Alter Ego Elixir</strong>, which changes your appearance. Potion-making is
+        described as a key skill, so expect a range of brews with different uses across the game.
+      </p>
+
+      <h2>Witchcraft & your vampire powers</h2>
+      <p>
+        Magic sits alongside your vampire abilities — from enhanced senses to shapeshifting into a
+        bat to get around town after dark, with other forms hinted at. See the
+        <a href="/beginner-guide">beginner guide</a> for how the supernatural side fits together.
+      </p>
+
+      <h2>Coming at launch ({GAME.releaseLabel})</h2>
+      <ul>
+        <li>The full <strong>spell list</strong> with what each does and how to unlock it.</li>
+        <li>Every <strong>potion recipe</strong>, its ingredients, and its effect.</li>
+        <li>Which witches teach what, and the best early spells to prioritise.</li>
+      </ul>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="callout wip">
+        Pre-launch entry — spell and potion data lands at launch. Related:
+        <a href="/farming">farming & crops</a>, <a href="/beginner-guide">beginner guide</a>.
+      </div>
+    </div>
+  </article>
+</Base>

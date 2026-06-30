@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import YouTube from '../components/YouTube.astro';
+import PriorityLinks from '../components/PriorityLinks.astro';
+import { previews } from '../data/previews';
+import { releasePriorityLinks } from '../data/priorityLinks';
+
+const faq = [
+  { q: 'When does Moonlight Peaks release?', a: `Moonlight Peaks launches on ${GAME.releaseLabel} on Steam, Nintendo Switch, Nintendo Switch 2, and Android via Google Play.` },
+  { q: 'How much does Moonlight Peaks cost?', a: `It is ${GAME.price} on Steam (PC/Mac), Switch, and Android, and $39.99 on Switch 2, with ${GAME.launchDiscount}.` },
+  { q: 'Is there a Moonlight Peaks demo?', a: 'Yes. A free demo is available on Steam (PC/Mac) and the Nintendo Switch eShop (also playable on Switch 2). It includes character creation, fishing, flower arranging, and embroidery.' },
+  { q: 'Is Moonlight Peaks on console?', a: 'Yes — it launches on Nintendo Switch and Switch 2 alongside PC and Android. The Switch demo is playable on Switch 2.' },
+  { q: 'Is Moonlight Peaks multiplayer?', a: 'Moonlight Peaks is a single-player cozy life sim focused on farming, relationships, and town mysteries. There is no announced co-op mode.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Release date', item: new URL('/release-date', SITE.url).href },
+  ] },
+];
+---
+<Base
+  title="Moonlight Peaks Release Date — Switch & PC (July 7, 2026)"
+  description="Moonlight Peaks releases July 7, 2026 on Nintendo Switch, Switch 2, Steam, and Android. Price, the free demo, platforms, and what to expect at launch — all in one place."
+  path="/release-date"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Release date' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Release</p>
+      <h1>Moonlight Peaks <em>release date</em> — Switch, Switch 2 &amp; PC</h1>
+      <p class="intro">
+        Everything confirmed about the {GAME.title} launch — the date, where to play, the price,
+        and the free demo you can try right now. Last updated {SITE.updated}.
+      </p>
+
+      <YouTube id="VL_15TiRRAM" title="Moonlight Peaks release date trailer" />
+
+      <h2>The facts</h2>
+      <table class="facts">
+        <tr><th>Release date</th><td>{GAME.releaseLabel}</td></tr>
+        <tr><th>Platforms</th><td>{GAME.platforms.join(' · ')}</td></tr>
+        <tr><th>Price</th><td>{GAME.price} (Switch 2: $39.99) · {GAME.launchDiscount}</td></tr>
+        <tr><th>Demo</th><td>{GAME.demo}</td></tr>
+        <tr><th>Developer</th><td>{GAME.developer}</td></tr>
+        <tr><th>Publisher</th><td>{GAME.publisher} (Americas) · Marvelous Europe (Europe)</td></tr>
+        <tr><th>Players</th><td>Single-player cozy life sim</td></tr>
+      </table>
+
+      <PriorityLinks
+        title="Release searches to check next"
+        note="platform intent"
+        links={releasePriorityLinks}
+      />
+
+      <h2>What is Moonlight Peaks?</h2>
+      <p>
+        Moonlight Peaks is a cozy-gothic life sim where you play a vampire — Count Dracula's child —
+        settling into your family's abandoned homestead in a town full of werewolves, witches,
+        mermaids, and other creatures of the night. You grow mystical crops, raise magical livestock,
+        learn spell-casting and potion-making, and befriend — or romance — the locals, all while
+        proving to your skeptical father that a kinder, undead life is possible.
+      </p>
+
+      <h2>Try the demo before launch</h2>
+      <p>
+        The free demo is the best way to decide if {GAME.title} is for you. It lets you test
+        character creation and a handful of cozy activities — fishing, flower arranging, and
+        embroidery among them — plus early interactions with townsfolk. Demo progress does not
+        carry into the full game, but it is a faithful taste of the daily loop.
+      </p>
+
+      <h2>Demo impressions & player feedback</h2>
+      <p>
+        Want to know how the demo actually lands before you download it? We rounded up what players
+        and press are saying — the praise, the gripes, and whether it is worth your time.
+      </p>
+      <ul class="prev-list">
+        {previews.map((p) => (
+          <li>
+            <a href={`/previews/${p.slug}`}>
+              <span class="pl-tag">{p.tag}</span>
+              <span class="pl-title">{p.title}</span>
+              <span class="pl-dek">{p.dek}</span>
+              <span class="pl-meta">{p.readTime} · {p.date}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="callout">
+        Bookmark this page. The moment {GAME.title} goes live on {GAME.releaseLabel}, we publish the
+        day-one cheat list, crop and fishing data, and the full Nokturna card guide.
+      </div>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .prev-list { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 10px; }
+    .prev-list a { display: block; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 14px 16px; transition: border-color .15s ease, transform .15s ease; }
+    .prev-list a:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); transform: translateY(-2px); }
+    .pl-tag { display: block; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+    .pl-title { display: block; font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--mist); margin: 3px 0 2px; }
+    .pl-dek { display: block; color: var(--muted); font-size: 0.88rem; }
+    .pl-meta { display: block; font-family: var(--mono); font-size: 0.68rem; color: var(--faint); margin-top: 6px; }
+  </style>
+</Base>

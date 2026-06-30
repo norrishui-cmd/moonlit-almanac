@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+---
+<Base
+  title="About — A Fan Guide to Moonlight Peaks"
+  description="About Moonlight Peaks Wiki & Guide, an independent fan-made guide and wiki for the cozy vampire life sim Moonlight Peaks."
+  path="/about"
+  crumbs={[{ label: 'About' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <h1>About the <em>Moonlight Peaks Wiki</em></h1>
+      <p class="intro">
+        Moonlight Peaks Wiki &amp; Guide is a clean, fast, fan-made guide to {GAME.title} — built so players can find
+        what they need without wading through clutter.
+      </p>
+
+      <h2>What we do</h2>
+      <p>
+        We track release info, beginner tips, the Nokturna card game, romance and the seven families,
+        cheats, crops, fishing, and more. We aim to be accurate and well-sourced: where something
+        isn't confirmed yet, we say so rather than guess.
+      </p>
+
+      <h2>Not official</h2>
+      <p>
+        Moonlight Peaks Wiki &amp; Guide is independent and not affiliated with, endorsed by, or connected to
+        {GAME.developer} or {GAME.publisher}. “{GAME.title}” and all related names and assets are
+        trademarks of their respective owners. If you represent the game and have a concern, contact
+        us and we'll respond promptly.
+      </p>
+
+      <h2>Contact</h2>
+      <p>Corrections, tips, or new guide requests: {SITE.contact}.</p>
+    </div>
+  </article>
+</Base>

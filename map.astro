@@ -1,0 +1,178 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import { markers, categories, markersConfirmed } from '../data/map-locations';
+
+const colorOf = Object.fromEntries(categories.map((c) => [c.id, c.color]));
+const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
+
+const faq = [
+  { q: 'Is there an interactive map for Moonlight Peaks?', a: `Yes — this is a fan-made interactive town map. It will be filled with verified fishing spots, foraging areas, shops, and resident homes once ${GAME.title} launches on ${GAME.releaseLabel}.` },
+  { q: 'Where can you fish in Moonlight Peaks?', a: 'Exact fishing spots will be marked on this map at launch, with the fish, season, and time for each. Until then the markers shown are placeholders.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Map', item: new URL('/map', SITE.url).href },
+  ] },
+];
+---
+<Base
+  title="Moonlight Peaks Map — Fishing, Foraging & Shops"
+  description="An interactive Moonlight Peaks town map: filter fishing spots, foraging areas, shops, and resident homes. Filled with verified locations at launch."
+  path="/map"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Map' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Map</p>
+      <h1>Moonlight Peaks <em>interactive map</em></h1>
+      <p class="intro">
+        Filter the town by what you're looking for, then tap a marker for details. Updated {SITE.updated}.
+      </p>
+
+      {!markersConfirmed && (
+        <div class="callout wip">
+          <strong>Placeholder layout.</strong> The markers below are examples so the tool is usable —
+          they are <em>not</em> real in-game locations yet. We add verified fishing spots, foraging
+          areas, shops, and homes when {GAME.title} launches on {GAME.releaseLabel}.
+        </div>
+      )}
+
+      <div class="maplegend" id="maplegend">
+        {categories.map((c) => (
+          <button class="lg" data-cat={c.id} style={`--mk:${c.color}`} type="button" aria-pressed="true">
+            <span class="lg-dot"></span>{c.label}
+          </button>
+        ))}
+      </div>
+
+      <div class="mapwrap">
+        <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stylized town map">
+          <rect width="800" height="500" rx="16" fill="#1b1526"/>
+          <path d="M0 170 Q220 120 380 210 T800 240 L800 130 Q500 70 250 110 T0 90 Z" fill="#20283f" opacity="0.5"/>
+          <path d="M120 470 Q260 360 480 380 T760 300" stroke="#3a567a" stroke-width="20" fill="none" opacity="0.7" stroke-linecap="round"/>
+          <ellipse cx="190" cy="330" rx="70" ry="42" fill="#2c4666" opacity="0.85"/>
+          <g fill="#33503e" opacity="0.9">
+            <polygon points="600,360 628,310 656,360"/><polygon points="636,372 664,322 692,372"/>
+            <polygon points="672,360 700,310 728,360"/><polygon points="300,410 324,368 348,410"/>
+            <polygon points="336,420 360,378 384,420"/>
+          </g>
+          <g fill="#3a2f50" opacity="0.9">
+            <rect x="150" y="120" width="60" height="44" rx="3"/><rect x="220" y="130" width="44" height="34" rx="3"/>
+          </g>
+          <g fill="#2f2440" stroke="#4a3a63" stroke-width="2">
+            <rect x="372" y="232" width="40" height="34" rx="3"/><rect x="420" y="240" width="34" height="30" rx="3"/>
+            <rect x="492" y="248" width="40" height="30" rx="3"/>
+          </g>
+          <text x="150" y="108" fill="#7c6e90" font-family="monospace" font-size="15">Your Farm</text>
+          <text x="150" y="392" fill="#7c6e90" font-family="monospace" font-size="15">Pond</text>
+          <text x="600" y="300" fill="#7c6e90" font-family="monospace" font-size="15">Woods</text>
+          <text x="430" y="226" fill="#7c6e90" font-family="monospace" font-size="15">Town Square</text>
+        </svg>
+        {markers.map((m) => (
+          <button
+            class={`mk mk-${m.category}`}
+            data-cat={m.category}
+            data-name={m.name}
+            data-note={m.note || ''}
+            data-label={labelOf[m.category]}
+            style={`left:${m.x}%;top:${m.y}%;--mk:${colorOf[m.category]}`}
+            aria-label={m.name}
+            type="button"
+          ></button>
+        ))}
+      </div>
+
+      <div class="mapinfo" id="mapinfo">
+        <p class="mapinfo-empty">Tap any marker to see what's there.</p>
+      </div>
+
+      <h2>Coming at launch ({GAME.releaseLabel})</h2>
+      <ul>
+        <li>Every <strong>fishing spot</strong> with its fish, season, and time.</li>
+        <li><strong>Foraging</strong> areas and what spawns there.</li>
+        <li><strong>Shops</strong> and what each sells.</li>
+        <li><strong>Resident homes</strong> linked to the romance & gift pages.</li>
+      </ul>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="callout">
+        Related: <a href="/nokturna">Nokturna card game</a>, <a href="/romance">romance & families</a>,
+        <a href="/beginner-guide">beginner guide</a>.
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .maplegend { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 14px; }
+    .lg { display: inline-flex; align-items: center; gap: 7px; font-size: 0.84rem; color: var(--mist); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px; cursor: pointer; }
+    .lg-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--mk); }
+    .lg[aria-pressed="false"] { opacity: 0.4; text-decoration: line-through; }
+    .mapwrap { position: relative; width: 100%; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #15101d; }
+    .mapwrap svg { display: block; width: 100%; height: auto; }
+    .mk { position: absolute; transform: translate(-50%, -50%); width: 22px; height: 22px; border-radius: 50%; background: var(--mk); border: 2px solid #15101d; box-shadow: 0 0 0 2px var(--mk), 0 2px 6px rgba(0,0,0,0.4); cursor: pointer; padding: 0; transition: transform .12s ease; }
+    .mk:hover, .mk.is-sel { transform: translate(-50%, -50%) scale(1.35); z-index: 3; }
+    .mk.is-sel { box-shadow: 0 0 0 3px #fff, 0 2px 8px rgba(0,0,0,0.5); }
+    .mk.hide { display: none; }
+    @media (max-width: 520px) { .mk { width: 26px; height: 26px; } }
+    .mapinfo { margin-top: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 14px 16px; min-height: 64px; }
+    .mapinfo-empty { color: var(--faint); margin: 0; }
+    .mapinfo h3 { font-family: var(--display); font-weight: 600; font-size: 1.1rem; margin: 0 0 4px; }
+    .mapinfo .cat { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--candle); }
+    .mapinfo p.note { color: #ded3e6; margin: 6px 0 0; font-size: 0.92rem; }
+  </style>
+
+  <script>
+    const legend = document.getElementById('maplegend');
+    const info = document.getElementById('mapinfo');
+    const off = new Set();
+    const markerEls = Array.from(document.querySelectorAll('.mk'));
+
+    const refresh = () => {
+      markerEls.forEach((m) => {
+        const cat = m.getAttribute('data-cat') || '';
+        m.classList.toggle('hide', off.has(cat));
+      });
+    };
+
+    if (legend) {
+      legend.addEventListener('click', (e) => {
+        const btn = e.target.closest('.lg');
+        if (!btn) return;
+        const cat = btn.getAttribute('data-cat') || '';
+        if (off.has(cat)) { off.delete(cat); btn.setAttribute('aria-pressed', 'true'); }
+        else { off.add(cat); btn.setAttribute('aria-pressed', 'false'); }
+        refresh();
+      });
+    }
+
+    markerEls.forEach((m) => {
+      m.addEventListener('click', () => {
+        markerEls.forEach((x) => x.classList.remove('is-sel'));
+        m.classList.add('is-sel');
+        if (info) {
+          const name = m.getAttribute('data-name') || '';
+          const label = m.getAttribute('data-label') || '';
+          const note = m.getAttribute('data-note') || '';
+          info.innerHTML = '<span class="cat"></span><h3></h3>' + (note ? '<p class="note"></p>' : '');
+          info.querySelector('.cat').textContent = label;
+          info.querySelector('h3').textContent = name;
+          if (note) info.querySelector('p.note').textContent = note;
+        }
+      });
+    });
+  </script>
+</Base>

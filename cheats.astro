@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Cheats', item: new URL('/cheats', SITE.url).href },
+  ],
+};
+---
+<Base
+  title="Moonlight Peaks Cheats & Console Commands"
+  description="Moonlight Peaks cheats and console commands: how the cheat console works and the full money, skill, and item command list — published at launch on July 7, 2026."
+  path="/cheats"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Cheats' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Cheats</p>
+      <h1>Moonlight Peaks <em>cheats</em> & console</h1>
+      <p class="intro">
+        The complete command list goes live the day {GAME.title} launches ({GAME.releaseLabel}).
+        Here's what to expect and how cheat consoles in cozy life sims usually work. Updated {SITE.updated}.
+      </p>
+
+      <h2>Is there a cheat console?</h2>
+      <p>
+        It is not yet confirmed which player-facing cheats {GAME.title} will ship with — that's
+        only knowable once the full game is out. Cozy life sims in this space commonly include a
+        console you open with a key combo, then type a command such as a money grant or a skill
+        boost. The moment the game launches we will document the exact key, the verified commands,
+        and any caveats (for example, whether cheats disable achievements).
+      </p>
+
+      <h2>Published at launch</h2>
+      <ul>
+        <li><strong>How to open the console</strong> — the exact key combo, PC and Switch where applicable.</li>
+        <li><strong>Money commands</strong> — the verified codes to add currency.</li>
+        <li><strong>Skills, needs, items</strong> — the full categorized list, with one-tap copy.</li>
+        <li><strong>Warnings</strong> — save-stability and achievement notes.</li>
+      </ul>
+
+      <div class="callout wip">
+        We will not invent commands. Everything here is sourced from the live game or the developers
+        — if it's not verified, it won't be listed. Check back on {GAME.releaseLabel}.
+      </div>
+    </div>
+  </article>
+</Base>

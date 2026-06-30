@@ -1,0 +1,275 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import News from '../components/News.astro';
+import PriorityLinks from '../components/PriorityLinks.astro';
+import { previews } from '../data/previews';
+import { homepagePriorityLinks } from '../data/priorityLinks';
+
+const entries = [
+  { ent: 'Entry · Release', title: 'Release date & platforms', desc: 'When, where, price, and the free demo — everything to play day one.', href: '/release-date', live: true, img: '/card-release.webp' },
+  { ent: 'Entry · Guide', title: 'Beginner guide', desc: 'Everything known so far, shaping into your day-one head start.', href: '/beginner-guide', live: true, img: '/card-guide.webp' },
+  { ent: 'Entry · Cards', title: 'Nokturna card game', desc: "The town's favorite game — how it works, cards, and how to win.", href: '/nokturna', live: true, img: '/card-nokturna.webp' },
+  { ent: 'Entry · Hearts', title: 'Romance & families', desc: 'The seven families, who you can romance, and gift favorites.', href: '/romance', live: true, img: '/card-romance.webp' },
+  { ent: 'Entry · Cheats', title: 'Cheats & console', desc: 'Console commands and money cheats — published at launch.', href: '/cheats', live: true, img: '/card-cheats.webp' },
+  { ent: 'Entry · Farm', title: 'Crops & seasons', desc: 'Mystical crops, magical livestock, and the night-farming loop.', href: '/farming', live: true, img: '/card-crops.webp' },
+];
+
+const explore = [
+  { k: 'Characters', d: 'Residents, families & who you can romance', href: '/characters' },
+  { k: 'Locations', d: 'The town, your farm, the forest, the lake & more', href: '/locations' },
+  { k: 'Families', d: 'The seven supernatural families of the town', href: '/families' },
+  { k: 'Activities', d: 'Fishing, magic, crafts & cozy diversions', href: '/activities' },
+  { k: 'FAQ', d: 'Quick answers to the most common questions', href: '/faq' },
+  { k: 'Previews & guides', d: 'Demo impressions, press hands-on & how-tos', href: '/previews' },
+];
+
+const demoPosts = previews.filter((p) => p.category === 'preview').slice(0, 5);
+const guidePosts = previews.filter((p) => p.category === 'guide').slice(0, 5);
+const dailyPosts = previews.filter((p) => p.category === 'daily').slice(0, 6);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE.brand,
+    url: SITE.url,
+    description: 'Fan-made guide and wiki for Moonlight Peaks: release info, beginner guide, Nokturna, romance, and cheats.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'VideoGame',
+    name: GAME.title,
+    gamePlatform: GAME.platforms,
+    publisher: { '@type': 'Organization', name: GAME.publisher },
+    author: { '@type': 'Organization', name: GAME.developer },
+    datePublished: '2026-07-07',
+  },
+];
+---
+<Base
+  title="Moonlight Peaks Guide & Wiki — Release, Tips & Cheats"
+  description="Your fan guide to Moonlight Peaks, the cozy vampire life sim. Release date, beginner tips, the Nokturna card game, romance and families, and launch-day cheats."
+  path="/"
+  jsonLd={jsonLd}
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">A vampire farmer's field almanac</p>
+      <h1 class="title"><em>Moonlight Peaks</em> opens its gates soon.</h1>
+      <p class="lede">
+        The cozy-gothic guide to the vampire life sim by {GAME.developer}. We're live before launch
+        so you can start day one knowing the town — release info now, then tips, Nokturna, romance,
+        and cheats the moment {GAME.title} arrives.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/release-date">Release & demo <span class="arr">→</span></a>
+        <a class="btn btn-ghost" href="/beginner-guide">What we know</a>
+      </div>
+
+      <div class="countdown" id="cd" data-release={GAME.releaseISO} aria-label="Time until launch">
+        <div class="cd-cell"><div class="n" data-d>—</div><div class="u">days</div></div>
+        <div class="cd-cell"><div class="n" data-h>—</div><div class="u">hours</div></div>
+        <div class="cd-cell"><div class="n" data-m>—</div><div class="u">min</div></div>
+        <span class="cd-note" id="cd-note">until {GAME.releaseLabel} · {GAME.demo}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Almanac entries</h2>
+        <span class="note">what players look up first</span>
+      </div>
+      <div class="entries">
+        {entries.map((e) => (
+          <a class={`entry${e.live ? '' : ' soon'}`} href={e.href}>
+            {e.img && <img class="entry-img" src={e.img} alt={e.title} loading="lazy" />}
+            <span class={`tag ${e.live ? 'live' : 'soon'}`}>{e.live ? 'Open' : 'Soon'}</span>
+            <span class="ent">{e.ent}</span>
+            <h3>{e.title}</h3>
+            <p>{e.desc}</p>
+            <span class="go">{e.live ? 'read entry →' : 'at launch'}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Explore the world</h2>
+        <span class="note">hubs &amp; guides</span>
+      </div>
+      <div class="explore">
+        {explore.map((x) => (
+          <a class="ex-card" href={x.href}>
+            <span class="ex-k">{x.k}</span>
+            <span class="ex-d">{x.d}</span>
+            <span class="ex-go">Open →</span>
+          </a>
+        ))}
+      </div>
+      <PriorityLinks
+        title="Most-searched Moonlight Peaks pages"
+        note="SEO entry points"
+        links={homepagePriorityLinks}
+      />
+    </div>
+  </section>
+
+  {dailyPosts.length > 0 && (
+    <section class="sec">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>Daily updates</h2>
+          <span class="note">freshest first</span>
+        </div>
+        <ul class="prev-list">
+          {dailyPosts.map((p) => (
+            <li>
+              <a href={`/previews/${p.slug}`}>
+                <img class="pl-thumb" src={p.image} alt={`${p.title} — Moonlight Peaks`} width="160" height="84" loading="lazy" />
+                <span class="pl-body">
+                  <span class="pl-tag">{p.tag}</span>
+                  <span class="pl-title">{p.title}</span>
+                  <span class="pl-dek">{p.dek}</span>
+                  <span class="pl-meta">{p.readTime} · {p.date}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Demo impressions</h2>
+        <span class="note">what players & press say</span>
+      </div>
+      <ul class="prev-list">
+        {demoPosts.map((p) => (
+          <li>
+            <a href={`/previews/${p.slug}`}>
+              <img class="pl-thumb" src={p.image} alt={`${p.title} — Moonlight Peaks`} width="160" height="84" loading="lazy" />
+              <span class="pl-body">
+                <span class="pl-tag">{p.tag}</span>
+                <span class="pl-title">{p.title}</span>
+                <span class="pl-dek">{p.dek}</span>
+                <span class="pl-meta">{p.readTime} · {p.date}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="prev-all"><a href="/previews">See all articles →</a></p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Guides</h2>
+        <span class="note">tips & reference</span>
+      </div>
+      <ul class="prev-list">
+        {guidePosts.map((p) => (
+          <li>
+            <a href={`/previews/${p.slug}`}>
+              <img class="pl-thumb" src={p.image} alt={`${p.title} — Moonlight Peaks`} width="160" height="84" loading="lazy" />
+              <span class="pl-body">
+                <span class="pl-tag">{p.tag}</span>
+                <span class="pl-title">{p.title}</span>
+                <span class="pl-dek">{p.dek}</span>
+                <span class="pl-meta">{p.readTime} · {p.date}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Latest news</h2>
+        <span class="note">updates & announcements</span>
+      </div>
+      <News />
+    </div>
+  </section>
+
+  <style>
+    .entry-img {
+      display: block;
+      width: calc(100% + 36px);
+      height: auto;
+      margin: -20px -18px 10px;
+      border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+      background: var(--ink-2);
+    }
+    .entry .tag.live { background: rgba(20, 16, 29, 0.6); }
+    .entry .tag.soon { background: rgba(20, 16, 29, 0.6); }
+
+    .explore { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 560px) { .explore { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 880px) { .explore { grid-template-columns: 1fr 1fr 1fr; } }
+    .ex-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 16px; transition: border-color .15s ease, transform .15s ease; }
+    .ex-card:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); transform: translateY(-2px); }
+    .ex-k { font-family: var(--display); font-weight: 600; font-size: 1.12rem; color: var(--mist); }
+    .ex-d { color: var(--muted); font-size: 0.86rem; margin: 4px 0 12px; }
+    .ex-go { font-family: var(--mono); font-size: 0.72rem; color: var(--candle); margin-top: auto; }
+
+    .prev-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .prev-list a { display: flex; gap: 14px; align-items: stretch; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 12px; transition: border-color .15s ease, transform .15s ease; }
+    .prev-list a:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); transform: translateY(-2px); }
+    .pl-thumb { flex: 0 0 auto; width: 160px; height: 84px; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); }
+    .pl-body { min-width: 0; display: block; }
+    .pl-tag { display: block; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+    .pl-title { display: block; font-family: var(--display); font-weight: 600; font-size: 1.08rem; color: var(--mist); margin: 3px 0 2px; }
+    .pl-dek { display: block; color: var(--muted); font-size: 0.86rem; }
+    .pl-meta { display: block; font-family: var(--mono); font-size: 0.68rem; color: var(--faint); margin-top: 6px; }
+    .prev-all { margin: 14px 0 0; font-family: var(--mono); font-size: 0.8rem; }
+    .prev-all a { color: var(--candle); }
+    @media (max-width: 520px) {
+      .prev-list a { flex-direction: column; }
+      .pl-thumb { width: 100%; height: auto; aspect-ratio: 1200 / 630; }
+    }
+  </style>
+
+  <script>
+    const root = document.getElementById('cd');
+    if (root) {
+      const target = new Date(root.getAttribute('data-release') || '').getTime();
+      const d = root.querySelector('[data-d]');
+      const h = root.querySelector('[data-h]');
+      const m = root.querySelector('[data-m]');
+      const note = document.getElementById('cd-note');
+      const tick = () => {
+        if (isNaN(target)) return;
+        const diff = target - Date.now();
+        if (diff <= 0) {
+          if (d) d.textContent = '0';
+          if (h) h.textContent = '0';
+          if (m) m.textContent = '0';
+          if (note) note.textContent = 'Out now! Moonlight Peaks has launched.';
+          return;
+        }
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        if (d) d.textContent = String(days);
+        if (h) h.textContent = String(hours);
+        if (m) m.textContent = String(mins);
+      };
+      tick();
+      setInterval(tick, 1000);
+    }
+  </script>
+</Base>
