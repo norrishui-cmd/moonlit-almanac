@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+
+const links = [
+  ['Home', '/'],
+  ['Release date', '/release-date'],
+  ['The demo', '/demo'],
+  ['Platforms', '/platforms'],
+  ['Characters', '/characters'],
+  ['Compare', '/compare'],
+  ['FAQ', '/faq'],
+  ['Articles', '/previews'],
+];
+---
+<Base
+  title="Page not found · Moonlight Peaks Wiki & Guide"
+  description="That page wandered off into the night. Find your way back to the Moonlight Peaks guide."
+  path="/404"
+  crumbs={[{ label: 'Not found' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Error 404</p>
+      <h1>This page wandered off into the night</h1>
+      <p class="intro">We couldn&rsquo;t find that page. Here are some good places to land instead:</p>
+      <div class="nf-grid">
+        {links.map(([label, href]) => (<a href={href}>{label}</a>))}
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .nf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    @media (min-width: 600px) { .nf-grid { grid-template-columns: repeat(4, 1fr); } }
+    .nf-grid a { display: block; text-align: center; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 12px; color: var(--candle); font-family: var(--mono); font-size: 0.8rem; transition: border-color .15s ease; }
+    .nf-grid a:hover { border-color: color-mix(in srgb, var(--candle) 50%, var(--line)); }
+  </style>
+</Base>
