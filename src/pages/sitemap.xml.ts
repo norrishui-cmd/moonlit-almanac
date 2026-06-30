@@ -9,6 +9,7 @@ import { activities } from '../data/activities';
 import { comparisons } from '../data/compare';
 import { platforms } from '../data/platforms';
 import { demo } from '../data/demo';
+import { news } from '../data/news';
 import { seoPages } from '../data/seoGraph';
 
 // Bump LASTMOD only when you push a meaningful content update (not every deploy / not daily),
@@ -39,6 +40,7 @@ export const GET: APIRoute = () => {
     ...topic('/platforms', platforms),
     ...topic('/compare', comparisons),
     ...topic('/demo', demo),
+    ...news.map((n) => ({ path: `/news/${n.slug}` })),
     ...previews.map((p) => ({ path: `/previews/${p.slug}`, images: [p.image] })),
     ...faqs.map((f) => ({ path: `/faq/${f.slug}` })),
     ...seoPages.map((p) => ({ path: p.path })),
