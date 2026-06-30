@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
+import YouTube from '../components/YouTube.astro';
 import PriorityLinks from '../components/PriorityLinks.astro';
 import { romancePriorityLinks } from '../data/priorityLinks';
 
@@ -52,6 +53,10 @@ const jsonLd = [
         what we will only verify once the game is live.
       </p>
 
+      <div class="romance-video">
+        <YouTube id="YFb9capELQw" title="Moonlight Peaks romance video" />
+      </div>
+
       <h2>The basics</h2>
       <p>
         Around two dozen residents are dateable, spread across the town's seven families — vampires,
@@ -102,4 +107,9 @@ const jsonLd = [
       </div>
     </div>
   </article>
+  <style>
+    .romance-video {
+      margin: clamp(1.6rem, 4vw, 2.6rem) 0 clamp(2rem, 5vw, 3rem);
+    }
+  </style>
 </Base>
