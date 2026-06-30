@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
+import YouTube from '../components/YouTube.astro';
 import PriorityLinks from '../components/PriorityLinks.astro';
 import { demo } from '../data/demo';
 import { demoPriorityLinks } from '../data/priorityLinks';
@@ -55,6 +56,8 @@ const jsonLd = [
         full launch on {GAME.releaseLabel}. This hub explains where to download it, what is inside,
         what does not carry over, and which demo pages to check next.
       </p>
+
+      <YouTube id="VL_15TiRRAM" title="Moonlight Peaks demo video" />
 
       <h2>Quick facts</h2>
       <table class="facts">
