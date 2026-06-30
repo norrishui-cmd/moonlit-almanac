@@ -28,7 +28,7 @@ const jsonLd = [
 ];
 ---
 <Base
-  title={`${f.q} | Moonlight Peaks Wiki & Guide`}
+  title={f.q.includes('Moonlight Peaks') ? f.q : `${f.q} · Moonlight Peaks`}
   description={plain.length > 155 ? plain.slice(0, 152) + '…' : plain}
   path={`/faq/${f.slug}`}
   jsonLd={jsonLd}
