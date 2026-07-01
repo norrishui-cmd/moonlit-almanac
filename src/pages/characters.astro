@@ -4,6 +4,7 @@ import { SITE, GAME } from '../consts';
 import PriorityLinks from '../components/PriorityLinks.astro';
 import { characters, typeLabels } from '../data/characters';
 import { characterPriorityLinks } from '../data/priorityLinks';
+import { dataminedNpcs, dataminedPetNames, dataminedSource } from '../data/npc-datamine';
 
 const types = [...new Set(characters.map((c) => c.type))];
 const hasProfile = (c) => c.status !== 'unconfirmed';
@@ -32,9 +33,10 @@ const jsonLd = [
       <h1>Moonlight Peaks <em>characters</em></h1>
       <p class="intro">
         The residents of {GAME.title} — their family, type, and whether you can romance them.
-        Confirmed and reported residents have full profiles (tap a card to open). Each is tagged
-        <strong>confirmed</strong>, <strong>reported</strong>, or <strong>unconfirmed</strong>
-        (portrait shown but name not yet sourced). Updated {SITE.updated}.
+        Confirmed, reported, and datamined residents have full profiles (tap a card to open). Each is
+        tagged <strong>confirmed</strong>, <strong>reported</strong>, <strong>datamined</strong>
+        (name verified via pre-launch game files, role unconfirmed), or <strong>unconfirmed</strong>
+        (portrait shown but name not yet sourced anywhere). Updated {SITE.updated}.
       </p>
 
       <div class="cfilters" id="cfilters">
@@ -60,7 +62,7 @@ const jsonLd = [
               <div class="cbody">
                 <h2 class="cname">
                   {c.name}
-                  <span class={`cbadge ${c.status === 'confirmed' ? 'is-conf' : c.status === 'reported' ? 'is-rep' : 'is-unc'}`}>{c.status}</span>
+                  <span class={`cbadge ${c.status === 'confirmed' ? 'is-conf' : c.status === 'reported' ? 'is-rep' : c.status === 'datamined' ? 'is-dm' : 'is-unc'}`}>{c.status}</span>
                 </h2>
                 <div class="ctags">
                   <span class="ctag fam">{typeLabels[c.type]}</span>
@@ -84,6 +86,27 @@ const jsonLd = [
         Trait reads on profiles are illustrative (personality-style, not combat stats) — Moonlight Peaks
         is a cozy life sim with no combat. "Unconfirmed" entries show art only; names and details are
         verified and updated when the game launches on {GAME.releaseLabel}.
+      </p>
+
+      <h2>More residents named in pre-launch datamined files</h2>
+      <p class="cdm-intro">
+        Beyond the profiled residents above, pre-launch game-file datamines list more names we don't
+        have art or other details for yet — so rather than invent a backstory, here's the honest list.
+        Source: <a href={dataminedSource.url} target="_blank" rel="noopener">{dataminedSource.label}</a>,
+        cross-referenced. Treat every name below as unverified until the developers confirm it.
+      </p>
+      <div class="cdm-grid">
+        {dataminedNpcs.map((n) => (
+          <div class="cdm-item">
+            <span class="cdm-name">{n.name}</span>
+            {n.note && <span class="cdm-note">{n.note}</span>}
+          </div>
+        ))}
+      </div>
+      <p class="cdm-pets">
+        A few other names in the same files (Vampster and Hellkitten icons) look like example pet
+        names rather than people — {dataminedPetNames.join(', ')}. See <a href="/farming">farming &
+        livestock</a> for what's confirmed about magical pets and animals.
       </p>
 
       <PriorityLinks
@@ -117,6 +140,7 @@ const jsonLd = [
     .cbadge { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 5px; padding: 2px 6px; }
     .cbadge.is-conf { color: #9be6b4; border: 1px solid #2f6a45; }
     .cbadge.is-rep { color: var(--faint); border: 1px solid var(--line); }
+    .cbadge.is-dm { color: #9ac6e0; border: 1px solid #2f5a70; }
     .cbadge.is-unc { color: #7c6e90; border: 1px dashed var(--line); }
     .ctags { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
     .ctag { font-family: var(--mono); font-size: 0.66rem; color: var(--candle); border: 1px solid var(--candle-dim); border-radius: 6px; padding: 2px 7px; }
@@ -125,6 +149,13 @@ const jsonLd = [
     .cdesc { color: #ded3e6; font-size: 0.9rem; margin: 6px 0 8px; }
     .cmore { font-family: var(--mono); font-size: 0.72rem; color: var(--candle); }
     .cnote { font-size: 0.74rem; color: var(--faint); margin: 16px 0 0; }
+    .cdm-intro { color: #ded3e6; font-size: 0.86rem; margin: 22px 0 12px; }
+    .cdm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 6px; }
+    @media (min-width: 640px) { .cdm-grid { grid-template-columns: repeat(4, 1fr); } }
+    .cdm-item { border: 1px dashed var(--line); border-radius: 10px; padding: 8px 10px; background: var(--surface); }
+    .cdm-name { display: block; font-family: var(--display); font-weight: 600; font-size: 0.88rem; color: var(--mist); }
+    .cdm-note { display: block; font-size: 0.68rem; color: var(--faint); margin-top: 3px; line-height: 1.3; }
+    .cdm-pets { font-size: 0.76rem; color: var(--faint); margin: 12px 0 0; }
   </style>
 
   <script>
