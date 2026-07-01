@@ -103,7 +103,7 @@ const knownPaths = new Set<string>([
   '/privacy',
   '/release-date',
   '/romance',
-  ...characters.filter((item) => item.status !== 'unconfirmed').map((item) => `/characters/${item.id}`),
+  ...characters.map((item) => `/characters/${item.id}`),
   ...locations.map((item) => `/locations/${item.slug}`),
   ...families.map((item) => `/families/${item.slug}`),
   ...activities.map((item) => `/activities/${item.slug}`),
@@ -487,6 +487,193 @@ const makeHubPage = (hub: Hub): SeoPage => ({
   ],
 });
 
+const characterSeoPages: SeoPage[] = characters
+  .filter((character) => character.status !== 'unconfirmed')
+  .flatMap((character) => {
+    const statusText =
+      character.status === 'confirmed'
+        ? 'developer-confirmed'
+        : character.status === 'reported'
+          ? 'reported from previews or coverage'
+          : 'verified from pre-launch game-file references, with role details still unconfirmed';
+    const baseRelated: SeoLink[] = [
+      { label: `${character.name} profile`, href: `/characters/${character.id}` },
+      { label: 'All characters', href: '/characters' },
+      { label: 'Romance guide', href: '/romance' },
+      { label: 'Romance Gift Finder', href: '/tools/romance-gift-finder' },
+    ];
+
+    return [
+      {
+        path: `/characters/${character.id}/gifts`,
+        hub: 'Character Hub',
+        hubPath: '/characters',
+        kind: 'guide' as const,
+        title: `${character.name} Gifts | Moonlight Peaks Character Guide`,
+        description: `${character.name} gift status in Moonlight Peaks: what is confirmed, what still needs launch verification, and where to check next.`,
+        h1: `${character.name} gifts`,
+        intro: `A launch-safe gift page for ${character.name}. It tracks gift intent without inventing loved gifts before reliable live-game data exists.`,
+        sections: [
+          { title: 'Gift data status', body: `${character.name} is currently marked as ${statusText}. Confirmed loved gifts, liked gifts, disliked gifts, birthdays, and gift limits will be added only when they can be verified.` },
+          { title: 'What to verify at launch', body: 'The useful data for this page is the exact gift table: loved gifts, liked gifts, neutral gifts, disliked gifts, birthday rules, relationship points, and whether any gifts are tied to quests or family events.' },
+          { title: 'Why this page exists', body: `Players search for ${character.name} gifts before the full data is available. This page keeps that query honest by separating profile facts from gift data that still needs confirmation.` },
+        ],
+        faqs: [
+          { q: `What gifts does ${character.name} like?`, a: `Confirmed ${character.name} gift preferences are not published yet. This page will update after the live game confirms them.` },
+          { q: `Is ${character.name} romanceable?`, a: character.romanceable === true ? `${character.name} is currently marked as romanceable.` : character.romanceable === false ? `${character.name} is not marked as a romance option.` : `${character.name}'s romance status is still to be confirmed.` },
+          { q: 'Are gift tables guessed here?', a: 'No. Gift tables are added only after reliable data exists, because guessed gift pages are bad for players and risky for search quality.' },
+        ],
+        related: baseRelated,
+        image: character.img,
+      },
+      {
+        path: `/characters/${character.id}/romance-status`,
+        hub: 'Character Hub',
+        hubPath: '/characters',
+        kind: 'guide' as const,
+        title: `${character.name} Romance Status | Moonlight Peaks Guide`,
+        description: `${character.name} romance status in Moonlight Peaks, with confirmed/reported status, relationship notes, and launch verification checklist.`,
+        h1: `${character.name} romance status`,
+        intro: `A focused relationship-status page for ${character.name}, built from the current character data and updated when the live game confirms more.`,
+        sections: [
+          { title: 'Current romance status', body: character.romanceable === true ? `${character.name} is currently marked as romanceable. Full heart events, dating steps, proposal rules, and favorite gifts still need launch verification.` : character.romanceable === false ? `${character.name} is currently marked as not romanceable. This page tracks that status so players do not confuse story characters with dateable residents.` : `${character.name}'s romance status is still unknown. This page will update once the live game confirms whether they can be dated.` },
+          { title: 'Known profile notes', body: character.knownInfo && character.knownInfo.length > 0 ? character.knownInfo.join(' ') : character.desc },
+          { title: 'Launch checklist', body: 'The details to verify are heart events, daily routine, date locations, gift preferences, birthday, marriage eligibility, and any family or story requirements.' },
+        ],
+        faqs: [
+          { q: `Can you romance ${character.name}?`, a: character.romanceable === true ? `Yes, ${character.name} is currently marked as romanceable.` : character.romanceable === false ? `No, ${character.name} is currently marked as not romanceable.` : `This has not been confirmed for ${character.name} yet.` },
+          { q: `Where is the main ${character.name} profile?`, a: `Use the ${character.name} profile page for the current biography, status, and related residents.` },
+          { q: 'Will this page change after launch?', a: 'Yes. Relationship pages should expand only when the live game confirms schedules, events, gifts, and marriage details.' },
+        ],
+        related: baseRelated,
+        image: character.img,
+      },
+    ];
+  });
+
+const platformSeoPages: SeoPage[] = platforms.flatMap((platform) => [
+  {
+    path: `/platforms/${platform.slug}/price`,
+    hub: 'Platform Hub',
+    hubPath: '/platforms',
+    kind: 'guide' as const,
+    title: `${platform.title} Price | Moonlight Peaks Platform Guide`,
+    description: `${platform.title} price notes, launch discount context, demo availability, and what still needs platform-specific confirmation.`,
+    h1: `${platform.title} price`,
+    intro: `A focused price and purchase-notes page for ${platform.title}.`,
+    sections: [
+      { title: 'Current platform summary', body: platform.dek },
+      { title: 'What is known', body: platform.body.join(' ') },
+      { title: 'What to verify', body: 'Final store pricing, regional prices, launch discount display, demo access, and platform-specific upgrade wording should be checked again after launch.' },
+    ],
+    faqs: platform.faq.length > 0 ? platform.faq : [{ q: `Is ${platform.title} confirmed?`, a: platform.dek }],
+    related: [{ label: platform.title, href: `/platforms/${platform.slug}` }, { label: 'All platforms', href: '/platforms' }, { label: 'Release date', href: '/release-date' }, { label: 'Demo guide', href: '/demo' }],
+  },
+  {
+    path: `/platforms/${platform.slug}/demo`,
+    hub: 'Platform Hub',
+    hubPath: '/platforms',
+    kind: 'guide' as const,
+    title: `${platform.title} Demo | Moonlight Peaks Platform Guide`,
+    description: `${platform.title} demo availability, download notes, and what to check before buying Moonlight Peaks.`,
+    h1: `${platform.title} demo`,
+    intro: `A platform-specific demo page for players checking whether they can try Moonlight Peaks before buying.`,
+    sections: [
+      { title: 'Demo status', body: platform.body.join(' ') },
+      { title: 'Best things to test', body: 'Use the demo to check controls, readability, character creation, fishing, flower arranging, embroidery, and general comfort on your preferred platform.' },
+      { title: 'Before buying', body: 'Compare the demo experience with the release date, price, and platform notes before choosing where to play.' },
+    ],
+    faqs: [{ q: `Is there a ${platform.title} demo?`, a: 'Demo availability depends on platform. Check the main demo page and this platform page for the current confirmed status.' }],
+    related: [{ label: platform.title, href: `/platforms/${platform.slug}` }, { label: 'Demo guide', href: '/demo' }, { label: 'What is in the demo', href: '/demo/whats-in-the-demo' }, { label: 'Platform picker', href: '/tools/platform-picker' }],
+  },
+]);
+
+const itemSeoPages: SeoPage[] = itemCategories.map((item) => ({
+  path: `/items/${item.slug}/launch-checklist`,
+  hub: 'Items Hub',
+  hubPath: '/items',
+  kind: 'guide' as const,
+  title: `${item.name} Launch Checklist | Moonlight Peaks Items`,
+  description: `${item.name} launch checklist for Moonlight Peaks: what to verify, which item details matter, and related guides.`,
+  h1: `${item.name} launch checklist`,
+  intro: `A controlled expansion page for ${item.name}, based on the existing item category data rather than guessed item tables.`,
+  sections: [
+    { title: 'Category overview', body: item.summary },
+    { title: 'Examples to watch for', body: `${item.examples.join(', ')}.` },
+    { title: 'Verification checklist', body: `${item.verify.join(', ')}.` },
+  ],
+  faqs: [
+    { q: `Is the ${item.name} list complete?`, a: 'No. This is a launch checklist, not a fabricated item list. Exact item names and effects should be added only after verification.' },
+    { q: `Where is the main ${item.name} page?`, a: `The main ${item.name} category page is available from the Items hub.` },
+    { q: 'Why not publish every item now?', a: 'Publishing guessed item tables would be low value. This page keeps the useful structure ready while waiting for real data.' },
+  ],
+  related: [{ label: item.name, href: `/items/${item.slug}` }, { label: 'Items hub', href: '/items' }, ...item.related],
+}));
+
+const demoSeoPages: SeoPage[] = demo.flatMap((entry) => [
+  {
+    path: `/demo/${entry.slug}/steam`,
+    hub: 'Demo Hub',
+    hubPath: '/demo',
+    kind: 'guide' as const,
+    title: `${entry.title} on Steam | Moonlight Peaks Demo`,
+    description: `${entry.title} with Steam-focused notes, download context, demo limits, and related Moonlight Peaks pages.`,
+    h1: `${entry.title} on Steam`,
+    intro: `A Steam-focused extension of the ${entry.title} page.`,
+    sections: [
+      { title: 'Demo facts', body: entry.body.join(' ') },
+      { title: 'Steam checklist', body: 'Check install size, controller support, Steam Deck comfort, save behavior, and whether the demo answers your main platform questions.' },
+      { title: 'Next step', body: 'Use the main demo guide for the full cross-platform overview, then compare Steam with Switch or Switch 2 if portability matters.' },
+    ],
+    faqs: entry.faq,
+    related: [{ label: entry.title, href: `/demo/${entry.slug}` }, { label: 'Demo guide', href: '/demo' }, { label: 'Steam Deck', href: '/platforms/steam-deck' }],
+  },
+  {
+    path: `/demo/${entry.slug}/switch`,
+    hub: 'Demo Hub',
+    hubPath: '/demo',
+    kind: 'guide' as const,
+    title: `${entry.title} on Switch | Moonlight Peaks Demo`,
+    description: `${entry.title} with Nintendo Switch and Switch 2 notes, demo context, and related Moonlight Peaks pages.`,
+    h1: `${entry.title} on Switch`,
+    intro: `A Switch-focused extension of the ${entry.title} page.`,
+    sections: [
+      { title: 'Demo facts', body: entry.body.join(' ') },
+      { title: 'Switch checklist', body: 'Check handheld readability, controls, performance feel, and whether the demo is comfortable enough for longer cozy sessions.' },
+      { title: 'Next step', body: 'Compare the original Switch and Switch 2 pages before choosing your launch platform.' },
+    ],
+    faqs: entry.faq,
+    related: [{ label: entry.title, href: `/demo/${entry.slug}` }, { label: 'Switch', href: '/platforms/switch' }, { label: 'Switch 2', href: '/platforms/switch-2' }],
+  },
+]);
+
+const locationSeoPages: SeoPage[] = locations.map((location) => ({
+  path: `/locations/${location.slug}/confirmed-details`,
+  hub: 'Map Hub',
+  hubPath: '/locations',
+  kind: 'guide' as const,
+  title: `${location.title} Confirmed Details | Moonlight Peaks Location Guide`,
+  description: `${location.title} in Moonlight Peaks: confirmed or reported details, related pages, and what still needs launch verification.`,
+  h1: `${location.title} confirmed details`,
+  intro: `A focused location-status page for ${location.title}.`,
+  sections: [
+    { title: 'Location summary', body: location.dek },
+    { title: 'What we know', body: location.body.join(' ') },
+    { title: 'What to verify', body: 'After launch, this page should add exact map position, shops or NPCs nearby, resource spawns, events, and quest connections if confirmed.' },
+  ],
+  faqs: location.faq || [{ q: `What is ${location.title}?`, a: location.dek }],
+  related: [{ label: location.title, href: `/locations/${location.slug}` }, { label: 'Locations', href: '/locations' }, ...(location.related || [])],
+  image: location.image,
+}));
+
+const trustedGenerated: SeoPage[] = [
+  ...platformSeoPages,
+  ...demoSeoPages,
+  ...characterSeoPages,
+  ...itemSeoPages,
+  ...locationSeoPages,
+];
+
 const generated = hubs.flatMap((hub) => {
   const entityPages = (hub.entities || []).flatMap((entity) => [
     makePage(hub, entity),
@@ -499,7 +686,8 @@ const generated = hubs.flatMap((hub) => {
   ];
 });
 
-const SEO_PAGE_LIMIT = 300;
+const SEO_START_DATE = '2026-07-02T00:00:00Z';
+const SEO_DAILY_MINIMUM_URLS = 30;
 
 const priorityHubs = new Map<string, number>([
   ['platforms', 0],
@@ -538,12 +726,19 @@ const scorePage = (page: SeoPage): number => {
 //     pages and risks a Google scaled-content-abuse penalty across the whole
 //     domain. The engine is kept intact so launch day is a one-line flip.
 // ──────────────────────────────────────────────────────────────────────────
-export const SEO_PROGRAM_ENABLED = false;
+// ACTIVE POLICY (2026-07-02):
+// Programmatic SEO is on, but only trustedGenerated is published.
+// The daily minimum is 30 URLs as a growth target, not a cap.
+// If future launch data creates more genuinely useful pages, publish them all.
+export const SEO_PROGRAM_ENABLED = true;
 
-const computedSeoPages: SeoPage[] = unique(generated, (page) => page.path)
+const seoMinimumTarget =
+  SEO_DAILY_MINIMUM_URLS *
+  Math.max(1, Math.floor((Date.now() - Date.parse(SEO_START_DATE)) / 86_400_000) + 1);
+
+const computedSeoPages: SeoPage[] = unique(trustedGenerated, (page) => page.path)
   .filter((page) => !knownPaths.has(page.path))
-  .sort((a, b) => scorePage(a) - scorePage(b) || a.path.localeCompare(b.path))
-  .slice(0, SEO_PAGE_LIMIT);
+  .sort((a, b) => scorePage(a) - scorePage(b) || a.path.localeCompare(b.path));
 
 export const seoPages: SeoPage[] = SEO_PROGRAM_ENABLED ? computedSeoPages : [];
 
@@ -552,4 +747,8 @@ export const seoPageByPath = new Map(seoPages.map((page) => [page.path, page]));
 export const seoStats = {
   hubs: hubs.length,
   urls: seoPages.length,
+  candidates: trustedGenerated.length,
+  dailyMinimumUrls: SEO_DAILY_MINIMUM_URLS,
+  minimumTarget: seoMinimumTarget,
+  meetsMinimumTarget: seoPages.length >= seoMinimumTarget,
 };
