@@ -380,7 +380,7 @@ export const previews: Preview[] = [
     slug: 'first-five-minutes', category: 'preview',
     title: 'Moonlight Peaks\u2019 First Five Minutes: What to Expect',
     dek: 'A hungover vampire, a bickering mayor, and a flirty warlock — what one press hands-on says happens right at the start.',
-    date: 'July 2026', readTime: '4 min', tag: 'Preview', image: '/hero-things-to-know-before-playing.webp',
+    date: 'July 2026', readTime: '4 min', tag: 'Preview', image: '/hero-first-five-minutes.webp',
     body: [
       { type: 'p', text: 'You know the basics — Dracula\u2019s skeptical, you\u2019ve got a farm to fix up — but what does the actual opening feel like? One outlet\u2019s six-hour hands-on account gives a specific, colorful answer.' },
       { type: 'h2', text: 'The family cottage, overgrown' },
@@ -396,7 +396,7 @@ export const previews: Preview[] = [
     slug: 'family-feud-explained', category: 'preview',
     title: 'The Old Feud Between Moonlight Peaks\u2019 Seven Families',
     dek: 'Press coverage hints at long-running tension between the town\u2019s supernatural families — here\u2019s what\u2019s actually been said.',
-    date: 'July 2026', readTime: '4 min', tag: 'Story', image: '/hero-families-and-residents.webp',
+    date: 'July 2026', readTime: '4 min', tag: 'Story', image: '/hero-family-feud-explained.webp',
     body: [
       { type: 'p', text: 'Moonlight Peaks isn\u2019t just cozy farming and flirting — there\u2019s a story hook, too. A press hands-on account mentions being introduced, over its first five hours, to an old feud between the town\u2019s supernatural families.' },
       { type: 'h2', text: 'What we actually know' },
@@ -411,7 +411,7 @@ export const previews: Preview[] = [
     slug: 'doomed-dinner-party-and-the-love-demon', category: 'preview',
     title: 'The Doomed Dinner Party and the Love Demon',
     dek: 'Two odd, specific story beats from a press hands-on — a dinner party gone wrong, and a demon that specializes in love.',
-    date: 'July 2026', readTime: '3 min', tag: 'Story', image: '/art-moonlit-date.webp',
+    date: 'July 2026', readTime: '3 min', tag: 'Story', image: '/hero-doomed-dinner-party-and-the-love-demon.webp',
     body: [
       { type: 'p', text: 'Beyond the family feud, a six-hour hands-on preview mentions two more specific story threads that pop up over the first several in-game hours: a dinner party that goes badly, and a character described as a "rogue love demon."' },
       { type: 'h2', text: 'What this suggests' },
@@ -425,7 +425,7 @@ export const previews: Preview[] = [
     slug: 'controller-or-keyboard', category: 'guide',
     title: 'Should You Use a Controller for Moonlight Peaks?',
     dek: 'One hands-on preview has a clear recommendation — but keyboard and mouse aren\u2019t left out.',
-    date: 'July 2026', readTime: '3 min', tag: 'Tips', image: '/hero-press-hands-on-impressions.webp',
+    date: 'July 2026', readTime: '3 min', tag: 'Tips', image: '/hero-controller-or-keyboard.webp',
     body: [
       { type: 'p', text: 'If you\u2019re deciding how to play Moonlight Peaks on PC, one detail from a hands-on preview is worth knowing before you start.' },
       { type: 'h2', text: 'The recommendation' },
@@ -440,7 +440,7 @@ export const previews: Preview[] = [
     slug: 'physical-switch-2-edition', category: 'guide',
     title: 'Moonlight Peaks Physical Switch 2 Edition: What\u2019s in the Box',
     dek: 'A European retail release is confirmed for August 28, 2026 — here\u2019s what comes with it.',
-    date: 'July 2026', readTime: '3 min', tag: 'Editions', image: '/hero-price-platforms-faq.webp',
+    date: 'July 2026', readTime: '3 min', tag: 'Editions', image: '/hero-physical-switch-2-edition.webp',
     body: [
       { type: 'p', text: 'While the digital version launches everywhere on July 7, 2026, publisher Marvelous Europe has separately confirmed a physical Nintendo Switch 2 Edition for players who prefer a boxed copy.' },
       { type: 'h2', text: 'Release date and price' },
@@ -460,7 +460,7 @@ export const previews: Preview[] = [
     slug: 'wholesome-direct-2026-recap', category: 'preview',
     title: 'Wholesome Direct 2026: What It Revealed for Moonlight Peaks',
     dek: 'A new trailer, an updated demo, and a physical edition announcement — recapping the showcase appearance.',
-    date: 'July 2026', readTime: '4 min', tag: 'News', image: '/hero-demo-versions-explained.webp',
+    date: 'July 2026', readTime: '4 min', tag: 'News', image: '/hero-wholesome-direct-2026-recap.webp',
     body: [
       { type: 'p', text: 'Marvelous Europe and Little Chicken Game Company used the Wholesome Direct showcase to give Moonlight Peaks a fresh spotlight about a month before launch. Here\u2019s everything the appearance confirmed.' },
       { type: 'h2', text: 'A new trailer' },
@@ -477,7 +477,7 @@ export const previews: Preview[] = [
     slug: 'one-players-demo-review', category: 'preview',
     title: 'One Player\u2019s Honest Demo Review, Explained',
     dek: 'A detailed community write-up praises the art and vibe, but flags one real gripe about pacing.',
-    date: 'July 2026', readTime: '4 min', tag: 'Community', image: '/hero-demo-complaints-rough-edges.webp',
+    date: 'July 2026', readTime: '4 min', tag: 'Community', image: '/hero-one-players-demo-review.webp',
     body: [
       { type: 'p', text: 'Beyond press previews, everyday players have been posting their own demo impressions in the Moonlight Peaks Steam Community. One detailed write-up is worth walking through, since it echoes a lot of what other players seem to feel.' },
       { type: 'h2', text: 'What they loved' },
@@ -494,7 +494,7 @@ export const previews: Preview[] = [
     slug: 'choosing-your-starting-farm', category: 'guide',
     title: 'Does Moonlight Peaks Let You Choose Your Starting Farm?',
     dek: 'One player\u2019s demo account mentions a choice of two farms — here\u2019s what that might mean for launch.',
-    date: 'July 2026', readTime: '2 min', tag: 'Tips', image: '/hero-night-farming-basics.webp',
+    date: 'July 2026', readTime: '2 min', tag: 'Tips', image: '/hero-choosing-your-starting-farm.webp',
     body: [
       { type: 'p', text: 'A recurring question for farm-sim fans: do you get any say in your starting plot? One detailed community demo write-up suggests the answer may be yes, at least in some form.' },
       { type: 'h2', text: 'What was reported' },
@@ -508,7 +508,7 @@ export const previews: Preview[] = [
     slug: 'the-traveling-toad-merchant', category: 'preview',
     title: 'Who Is the Traveling Toad Merchant?',
     dek: 'One community demo account describes buying seeds and decor from a mysterious toad. Here\u2019s what we know — and don\u2019t.',
-    date: 'July 2026', readTime: '3 min', tag: 'Community', image: '/art-shared-creations.webp',
+    date: 'July 2026', readTime: '3 min', tag: 'Community', image: '/hero-the-traveling-toad-merchant.webp',
     body: [
       { type: 'p', text: 'Among the odder details to surface from community demo write-ups: a toad merchant who sells you seeds and decoration items. It\u2019s a fun, on-brand touch for a game full of talking animals and supernatural residents, but the details are thin.' },
       { type: 'h2', text: 'What one player reported' },
@@ -523,7 +523,7 @@ export const previews: Preview[] = [
     slug: 'funny-crop-names', category: 'preview',
     title: 'The Punny Crop Names We Already Love',
     dek: 'A hands-on preview name-drops a couple of crops with names too good not to share.',
-    date: 'July 2026', readTime: '2 min', tag: 'Fun', image: '/hero-demo-impressions-roundup.webp',
+    date: 'July 2026', readTime: '2 min', tag: 'Fun', image: '/hero-funny-crop-names.webp',
     body: [
       { type: 'p', text: 'Every good cozy farm sim needs a sense of humor about its own crops, and based on one press hands-on account, Moonlight Peaks has it.' },
       { type: 'h2', text: 'What\u2019s been named so far' },
@@ -537,7 +537,7 @@ export const previews: Preview[] = [
     slug: 'is-logan-the-mayor', category: 'preview',
     title: 'Is Logan the Werewolf Mayor of Moonlight Peaks?',
     dek: 'Three separate hints — a press preview, a developer diary, and datamined files — all point the same direction.',
-    date: 'July 2026', readTime: '3 min', tag: 'Characters', image: '/art-confronting-the-unknown.webp',
+    date: 'July 2026', readTime: '3 min', tag: 'Characters', image: '/hero-is-logan-the-mayor.webp',
     body: [
       { type: 'p', text: 'Logan has been on this site as a reported werewolf resident for a while, but a few newer pieces of evidence let us make a more specific, still-cautious guess about his role in town.' },
       { type: 'h2', text: 'Three independent hints' },
