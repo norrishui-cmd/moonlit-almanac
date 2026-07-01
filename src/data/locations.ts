@@ -8,7 +8,7 @@ export const locationsSection: TopicSection = {
   schemaType: 'Place',
   title: 'Moonlight Peaks Locations — Town, Farm, Forest & More',
   description: 'A guide to the places in Moonlight Peaks: the magical mountain town, your farm and cottage, the forest, the lake, the mines and more — what is confirmed and what we expect at launch.',
-  intro: 'The places that make up Moonlight Peaks — the magical mountain town, your homestead, and the wild spots around it. We mark what is developer-confirmed versus reported or expected, and fill in detail as the July 7, 2026 launch lands.',
+  intro: 'The places that make up Moonlight Peaks — the magical mountain town, your homestead, and the wild spots around it. We mark what is developer-confirmed versus reported, datamined (from pre-launch game files, cross-referenced via community wikis), or expected, and fill in detail as the July 7, 2026 launch lands.',
 };
 
 export const locations: TopicItem[] = [
@@ -37,6 +37,7 @@ export const locations: TopicItem[] = [
     body: [
       'Your starting point is an abandoned family homestead, and restoring it into a working farm is the backbone of the game.',
       'You grow enchanted crops and glowing flowers and raise magical livestock like the Draculamb — all tended by night, since you head back to your coffin by sunrise.',
+      'Pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg) refer to this starting farmland internally as "the Plot" — not developer-confirmed as the in-game name players will see.',
     ],
     related: [{ label: 'Farming guide', href: '/farming' }, { label: 'Your cottage', href: '/locations/your-cottage' }, { label: 'Magic', href: '/magic' }],
     faq: [{ q: 'Do you farm during the day in Moonlight Peaks?', a: 'No — you farm by night and return to your coffin by sunrise.' }],
@@ -64,6 +65,7 @@ export const locations: TopicItem[] = [
     dek: 'The town\u2019s waters, home to fishing and to the mermaid family.',
     body: [
       'Water areas support fishing, one of the demo\u2019s featured activities. The town\u2019s mermaids — one of the seven families — are tied to the water.',
+      'Pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg) list a "Silverveil Lake" — likely this location\u2019s proper in-game name, though not yet developer-confirmed.',
       'Named fish and specific spots are confirmed at launch.',
     ],
     related: [{ label: 'Fishing', href: '/activities/fishing' }, { label: 'Mermaids', href: '/families/mermaids' }, { label: 'The pier', href: '/locations/pier' }],
@@ -82,18 +84,37 @@ export const locations: TopicItem[] = [
     dek: 'Underground areas you can explore — with no combat.',
     body: [
       'Hands-on press coverage describes a mines area you can explore, and confirms there is no combat anywhere in the game, so heading underground stays peaceful.',
+      'Pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg) reference several named underground areas — Cave of Echoes, Crystal Cave, Twilight Catacombs, and Lost Moon Alcove — suggesting the mines are split into distinct zones rather than one single cave. Not developer-confirmed.',
       'What you gather below, and how deep it goes, are confirmed at launch.',
     ],
     related: [{ label: 'Is there combat?', href: '/faq/is-there-combat-in-moonlight-peaks' }, { label: 'The town', href: '/locations/town' }],
     faq: [{ q: 'Is there combat in the mines?', a: 'No — previews confirm there is no combat anywhere in Moonlight Peaks, including the mines.' }],
   },
   {
-    slug: 'graveyard', title: 'The Graveyard', tag: 'Wilds', status: 'expected', image: '/hero-loc-graveyard.webp',
-    dek: 'A quiet, moonlit corner that fits the game\u2019s gentle gothic tone.',
+    slug: 'graveyard', title: 'The Graveyard', tag: 'Wilds', status: 'datamined', image: '/hero-loc-graveyard.webp',
+    dek: 'A quiet, moonlit corner — pre-launch datamined files name it Ambrosia Graveyard.',
     body: [
       'A graveyard suits the cozy-gothic setting, and the game leans into gentle spooky-season charm rather than horror.',
-      'Whether a graveyard is a named, visitable location is something we\u2019ll confirm at launch rather than assume.',
+      'Pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg) name this location "Ambrosia Graveyard," paired with a matching "Ambrosia Mansion" — likely the vampire family\u2019s ancestral estate. Not developer-confirmed; what you can actually do here is confirmed at launch.',
     ],
     related: [{ label: 'The town', href: '/locations/town' }, { label: 'Vampires', href: '/families/vampires' }],
+  },
+  {
+    slug: 'shops', title: 'Town Shops', tag: 'Town', status: 'datamined',
+    dek: 'The named shops around town, per pre-launch datamined game files — not yet developer-confirmed.',
+    body: [
+      'Beyond the general sense that Moonlight Peaks\u2019 town has shops to browse and buy from, pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg) name several specific storefronts: Howling Hammer, The Broken Lamp, Coffee & Coffins, Third Eye Threads, Webb of Wonders, Midnight Market, and Bloom Boutique.',
+      'We don\u2019t yet know what each shop sells, who runs it, or its opening hours — those details, and whether all seven make it into the final game unchanged, are confirmed at launch. Treat this as a name-only reference for now.',
+    ],
+    related: [{ label: 'The town', href: '/locations/town' }, { label: 'Landmarks', href: '/locations/landmarks' }, { label: 'Characters', href: '/characters' }],
+  },
+  {
+    slug: 'landmarks', title: 'Landmarks & Notable Places', tag: 'Wilds', status: 'datamined',
+    dek: 'Named places beyond the core areas, per pre-launch datamined game files — not yet developer-confirmed.',
+    body: [
+      'Alongside the town, farm, forest, lake, mines, and graveyard, pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg) name several other spots: the Crypt, Moonlit Pines, Howling Marshes, Misty Shores, Moonlight Tower, Luna Bay, and Pink Grove.',
+      'We don\u2019t know what happens at each of these yet — whether they\u2019re explorable areas, backdrops for events, or tied to specific characters and quests. This page exists so the names are documented somewhere honest rather than guessed at; full descriptions are confirmed at launch.',
+    ],
+    related: [{ label: 'The forest', href: '/locations/forest' }, { label: 'The mines', href: '/locations/mines' }, { label: 'Shops', href: '/locations/shops' }],
   },
 ];
