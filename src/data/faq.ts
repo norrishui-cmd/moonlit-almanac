@@ -245,6 +245,18 @@ export const faqs: Faq[] = [
     a: 'Yes — on Android, via Google Play, on launch day. No iOS or iPhone version has been announced.',
     related: [{ label: 'On Android', href: '/platforms/android' }, { label: 'Platforms', href: '/platforms' }],
   },
+  {
+    slug: 'does-moonlight-peaks-have-co-op', cat: 'general',
+    q: 'Does Moonlight Peaks have local or online co-op?',
+    a: 'No co-op has been announced. A player asked the developers directly about online co-op in the Steam Community discussions, and there has been no confirmation of it being added. Everything currently points to Moonlight Peaks being single-player.',
+    related: [{ label: 'Is it multiplayer?', href: '/faq/is-moonlight-peaks-multiplayer' }, { label: 'Platforms', href: '/platforms' }],
+  },
+  {
+    slug: 'what-age-rating-is-moonlight-peaks', cat: 'general',
+    q: 'What age rating does Moonlight Peaks have?',
+    a: 'As of our last check, Moonlight Peaks had not yet been rated by the ESRB. Given the game has no combat and a cozy, gentle gothic tone, it is likely to land in a low age bracket, but we will update this once an official rating is published.',
+    related: [{ label: 'Is there combat?', href: '/faq/is-there-combat-in-moonlight-peaks' }, { label: 'Is it cozy?', href: '/faq/is-moonlight-peaks-cozy' }],
+  },
 ];
 
 // ───────────────────────── PENDING (no confirmed answer yet — fill at launch, then move up) ─────────────────────────

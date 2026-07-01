@@ -93,6 +93,7 @@ export const guideHubPriorityLinks: PriorityLink[] = [
   { label: 'Romance', href: '/romance', note: 'Gifts, friendship, marriage, and characters.' },
   { label: 'Characters', href: '/characters', note: 'Every known resident and their status.' },
   { label: 'Compare with other sims', href: '/compare', note: 'How Moonlight Peaks differs from other cozy games.' },
+  { label: 'Behind the scenes', href: '/behind-the-scenes', note: 'What the dev team\u2019s own diaries reveal about making the game.' },
   { label: 'Release date & platforms', href: '/release-date', note: 'Date, price, and where to play.' },
 ];
 

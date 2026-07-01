@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+
+const faq = [
+  { q: 'Who is developing Moonlight Peaks?', a: 'Little Chicken Game Company, a Dutch studio, is developing the game. It is published in the Americas by XSEED Games and in Europe by Marvelous Europe.' },
+  { q: 'Is there a Moonlight Peaks developer blog?', a: 'Yes. Little Chicken has been posting behind-the-scenes dev diaries on the game\u2019s Steam Community news page, with team members walking through their work on the game.' },
+  { q: 'Is Logan a real Moonlight Peaks character?', a: 'Very likely yes. Beyond appearing in pre-launch datamined files, a Little Chicken 3D artist\u2019s own dev diary describes designing a werewolf-themed room for "Logan\u2019s house," which independently backs up the name — though it isn\u2019t developer-confirmed via an official announcement yet.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Behind the scenes', item: new URL('/behind-the-scenes', SITE.url).href },
+  ] },
+];
+---
+<Base
+  title="Moonlight Peaks Behind the Scenes — Meet the Dev Team"
+  description="What Little Chicken Game Company's own developer diaries reveal about making Moonlight Peaks, in the team's own words on Steam Community — paraphrased and sourced here."
+  path="/behind-the-scenes"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Behind the scenes' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Entry · Behind the scenes</p>
+      <h1>Behind the scenes of <em>{GAME.title}</em></h1>
+      <p class="intro">
+        Most Moonlight Peaks coverage focuses on gameplay. Less well known is that the developers
+        themselves have been publishing behind-the-scenes dev diaries on the game's
+        <a href="https://steamcommunity.com/app/2209900/allnews/" target="_blank" rel="noopener">Steam Community news page</a>.
+        Here's what they reveal about the people and process behind the game — paraphrased from their
+        posts, not quoted at length. Updated {SITE.updated}.
+      </p>
+
+      <h2>Little Chicken Game Company</h2>
+      <p>
+        {GAME.title} is developed by Little Chicken Game Company, an established studio with a back
+        catalogue spanning mobile titles to VR experiences, and published by {GAME.publisher} in the
+        Americas and by Marvelous Europe in Europe.
+      </p>
+
+      <h2>Meet the lead developer</h2>
+      <p>
+        In one dev diary, the game's lead developer — going by "Jor," with over a decade of programming
+        experience at the studio — describes building the core programming layer and internal tools that
+        the content design team uses to build the game, and spending much of the role on development
+        strategy, code review, and hands-on coding. Their path into games started as a kid sketching item
+        and location ideas in spreadsheets before searching online for how to make a video game and
+        picking up programming around age 12.
+      </p>
+
+      <h2>Designing a room: the Logan house</h2>
+      <p>
+        In another diary, a 3D artist on the team named Julia walks through her process for building one
+        of the game's cozy interiors from concept to final set dressing — specifically, a werewolf-themed
+        room for a resident's home, credited to concept artist Wietse Treurniet. Rather than copying the
+        original concept exactly, she treats it as a guideline, starting with a rough 3D blockout focused
+        on scale and layout before refining materials.
+      </p>
+      <p>
+        One detail worth knowing if you're theory-crafting the town: this post refers to the room as the
+        <strong>Logan house interior</strong>. Combined with "Logan's House" appearing in pre-launch
+        datamined game files, that's two independent hints pointing to a real werewolf resident named
+        Logan — see his <a href="/characters/logan">character profile</a> for what else is reported.
+      </p>
+
+      <h2>A night-time art challenge</h2>
+      <p>
+        The same diary notes a genuine production challenge specific to a night-set game: because
+        Moonlight Peaks uses darker purple lighting throughout, colors that read clearly in the art
+        tools don't always translate the same way once lit in-engine — yellows and greens in particular
+        were called out as tricky to preserve from the original concept art once night lighting is applied.
+        It's a small detail, but it explains why the game's actual palette can look moodier and more
+        blue-purple than early concept art might suggest.
+      </p>
+
+      <h2>Why this matters for players</h2>
+      <p>
+        None of this changes how you'll play the game, but it's a reminder that {GAME.title} is being
+        built by a small, visible team who post their own process publicly — which is also, incidentally,
+        a good source of quiet confirmations (like Logan) well before anything shows up in an official
+        trailer or press release.
+      </p>
+
+      <h2>FAQ</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+
+      <div class="callout wip">
+        Source: Little Chicken Game Company's own dev diaries on
+        <a href="https://steamcommunity.com/app/2209900/allnews/" target="_blank" rel="noopener">Steam Community</a>,
+        paraphrased here. Related: <a href="/characters/logan">Logan</a>, <a href="/characters">characters</a>,
+        <a href="/about">about this site</a>.
+      </div>
+    </div>
+  </article>
+</Base>

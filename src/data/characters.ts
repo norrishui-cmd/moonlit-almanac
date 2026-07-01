@@ -97,6 +97,7 @@ export const characters: Character[] = [
     knownInfo: [
       'A werewolf resident seen in gameplay footage.',
       'In dialogue he references an old church down the road on the edge of town.',
+      'A Little Chicken 3D artist\u2019s own dev-diary post (via Steam Community) describes redesigning a werewolf-themed room for Logan\u2019s house, which independently corroborates his name.',
     ],
   },
   {
