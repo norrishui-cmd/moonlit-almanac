@@ -1,5 +1,8 @@
 // Moonlight Peaks character roster.
-// status: 'confirmed' = named by devs/official; 'reported' = from coverage/previews; 'unconfirmed' = name not yet sourced (verify at launch).
+// status: 'confirmed' = named by devs/official; 'reported' = from coverage/previews;
+// 'datamined' = name verified via pre-launch game-file datamines (cross-referenced with
+// community wikis, primarily moonlightpeaks.wiki.gg) but role/family/relationships not yet
+// developer-confirmed; 'unconfirmed' = name not sourced anywhere yet (verify at launch).
 // romanceable: true / false / null (unknown -> "TBC"). TRAITS are illustrative placeholders; [] = none shown.
 // knownInfo: real, sourced bullets shown on the character's profile page. Keep factual; leave empty for unconfirmed.
 // IMAGE: square images in /public -> URL is /<id>.webp. img:'' falls back to the SVG letter avatar.
@@ -19,7 +22,7 @@ export type Character = {
   name: string;
   family: string;
   type: CharType;
-  status: 'confirmed' | 'reported' | 'unconfirmed';
+  status: 'confirmed' | 'reported' | 'datamined' | 'unconfirmed';
   romanceable: boolean | null;
   img?: string;
   c1: string; c2: string;
@@ -118,17 +121,40 @@ export const characters: Character[] = [
     ],
   },
 
-  // --- Portraits added; names NOT yet found in any source. No profile pages until verified at launch. ---
+  // --- Portrait added; name NOT found in the wiki.gg datamine roster or any other source. No profile page until verified at launch. ---
   { id: 'kai',     name: 'Kai',     family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/kai.webp',     c1: '#3a4a6a', c2: '#7aa2d0', desc: UNCONFIRMED_DESC, traits: [] },
   { id: 'celine',  name: 'Celine',  family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/celine.webp',  c1: '#5a3a5a', c2: '#c08ac0', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'ridge',   name: 'Ridge',   family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/ridge.webp',   c1: '#4a3a2a', c2: '#b08a4a', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'sabrina', name: 'Sabrina', family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/sabrina.webp', c1: '#3a3a4a', c2: '#8a8ab0', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'noel',    name: 'Noel',    family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/noel.webp',    c1: '#4a3a3a', c2: '#b08a8a', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'jada',    name: 'Jada',    family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/jada.webp',    c1: '#5a4a3a', c2: '#c0a07a', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'brook',   name: 'Brook',   family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/brook.webp',   c1: '#4a3a2a', c2: '#a08a5a', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'elvira',  name: 'Elvira',  family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/elvira.webp',  c1: '#5a2f4a', c2: '#c06a9a', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'jarvis',  name: 'Jarvis',  family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/jarvis.webp',  c1: '#2f4a5a', c2: '#6ab0c0', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'fiona',   name: 'Fiona',   family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/fiona.webp',   c1: '#4a2f5a', c2: '#a06ac0', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'dragan',  name: 'Dragan',  family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/dragan.webp',  c1: '#2f5a4a', c2: '#6ac0a0', desc: UNCONFIRMED_DESC, traits: [] },
-  { id: 'evan',    name: 'Evan',    family: '—', type: 'other', status: 'unconfirmed', romanceable: null, img: '/evan.webp',    c1: '#3a3a4a', c2: '#8a8ab0', desc: UNCONFIRMED_DESC, traits: [] },
+
+  // --- Names verified via pre-launch game-file datamines (moonlightpeaks.wiki.gg), cross-referenced.
+  // Role, family, and relationships are NOT developer-confirmed — do not treat as final. ---
+  { id: 'ridge',   name: 'Ridge',   family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/ridge.webp',   c1: '#4a3a2a', c2: '#b08a4a',
+    desc: 'Name verified via pre-launch datamined game files; role and family not yet confirmed by the developers.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg).', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
+  { id: 'sabrina', name: 'Sabrina', family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/sabrina.webp', c1: '#3a3a4a', c2: '#8a8ab0',
+    desc: 'Name verified via pre-launch datamined game files; role and family not yet confirmed by the developers.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg).', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
+  { id: 'noel',    name: 'Noel',    family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/noel.webp',    c1: '#4a3a3a', c2: '#b08a8a',
+    desc: 'Name verified via pre-launch datamined game files, which also list a "Noel\u2019s House" — role and family not yet confirmed.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg), which also reference a "Noel\u2019s House" as a named location.', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
+  { id: 'jada',    name: 'Jada',    family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/jada.webp',    c1: '#5a4a3a', c2: '#c0a07a',
+    desc: 'Name verified via pre-launch datamined game files; role and family not yet confirmed by the developers.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg).', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
+  { id: 'brook',   name: 'Brook',   family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/brook.webp',   c1: '#4a3a2a', c2: '#a08a5a',
+    desc: 'Name verified via pre-launch datamined game files; role and family not yet confirmed by the developers.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg).', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
+  { id: 'elvira',  name: 'Elvira',  family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/elvira.webp',  c1: '#5a2f4a', c2: '#c06a9a',
+    desc: 'Name verified via pre-launch datamined game files, which also list an "Elvira\u2019s House" — role and family not yet confirmed.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg), which also reference an "Elvira\u2019s House" as a named location.', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
+  { id: 'jarvis',  name: 'Jarvis',  family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/jarvis.webp',  c1: '#2f4a5a', c2: '#6ab0c0',
+    desc: 'Name verified via pre-launch datamined game files; role and family not yet confirmed by the developers.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg).', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
+  { id: 'fiona',   name: 'Fiona',   family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/fiona.webp',   c1: '#4a2f5a', c2: '#a06ac0',
+    desc: 'Name verified via pre-launch datamined game files, which also list a "Fiona\u2019s House" — role and family not yet confirmed.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg), which also reference a "Fiona\u2019s House" as a named location.', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
+  { id: 'dragan',  name: 'Dragan',  family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/dragan.webp',  c1: '#2f5a4a', c2: '#6ac0a0',
+    desc: 'Name verified via pre-launch datamined game files, which also list a "Dragan\u2019s House" — role and family not yet confirmed.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg), which also reference a "Dragan\u2019s House" as a named location.', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
+  { id: 'evan',    name: 'Evan',    family: '—', type: 'other', status: 'datamined', romanceable: null, img: '/evan.webp',    c1: '#3a3a4a', c2: '#8a8ab0',
+    desc: 'Name verified via pre-launch datamined game files; role and family not yet confirmed by the developers.',
+    traits: [], knownInfo: ['Listed as a Moonlight Peaks resident in pre-launch datamined game files (cross-referenced via moonlightpeaks.wiki.gg).', 'Family, species, and relationship status are not yet developer-confirmed — treat as unverified until launch.'] },
 ];
