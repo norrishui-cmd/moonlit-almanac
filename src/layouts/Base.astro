@@ -1,5 +1,5 @@
 ---
-import { SITE } from '../consts';
+import { SITE, GA_MEASUREMENT_ID } from '../consts';
 import '../styles/global.css';
 interface Crumb { label: string; href?: string; }
 interface Props {
@@ -67,6 +67,31 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap"
     />
     {ld.map((obj) => <script type="application/ld+json" set:html={JSON.stringify(obj)} />)}
+    {GA_MEASUREMENT_ID && (
+      <>
+        <script
+          is:inline
+          set:html={`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              ad_storage: 'denied',
+              analytics_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+            });
+            try {
+              if (localStorage.getItem('mp-consent') === 'granted') {
+                gtag('consent', 'update', { analytics_storage: 'granted' });
+              }
+            } catch (e) {}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}', { anonymize_ip: true });
+          `}
+        />
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+      </>
+    )}
   </head>
   <body>
     <header class="site-header">
@@ -141,10 +166,44 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
         </p>
       </div>
     </footer>
+    {GA_MEASUREMENT_ID && (
+      <div id="cookie-consent" class="cookie-consent" hidden role="dialog" aria-label="Cookie consent">
+        <p>
+          We use privacy-friendly analytics (Google Analytics) to see which guides help most.
+          Nothing is stored until you accept. See our <a href="/privacy">privacy page</a>.
+        </p>
+        <div class="cookie-consent-actions">
+          <button type="button" id="cookie-decline" class="cc-btn cc-decline">Decline</button>
+          <button type="button" id="cookie-accept" class="cc-btn cc-accept">Accept</button>
+        </div>
+      </div>
+    )}
     <script>
       document.querySelectorAll('[data-print-date]').forEach((el) => {
         el.textContent = 'Exported ' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
       });
     </script>
+    {GA_MEASUREMENT_ID && (
+      <script is:inline set:html={`
+        (function () {
+          var banner = document.getElementById('cookie-consent');
+          if (!banner) return;
+          var stored;
+          try { stored = localStorage.getItem('mp-consent'); } catch (e) { stored = null; }
+          if (stored !== 'granted' && stored !== 'denied') { banner.hidden = false; }
+          function choose(v) {
+            try { localStorage.setItem('mp-consent', v); } catch (e) {}
+            if (v === 'granted' && typeof gtag === 'function') {
+              gtag('consent', 'update', { analytics_storage: 'granted' });
+            }
+            banner.hidden = true;
+          }
+          var a = document.getElementById('cookie-accept');
+          var d = document.getElementById('cookie-decline');
+          if (a) a.addEventListener('click', function () { choose('granted'); });
+          if (d) d.addEventListener('click', function () { choose('denied'); });
+        })();
+      `} />
+    )}
   </body>
 </html>
