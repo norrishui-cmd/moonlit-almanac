@@ -256,6 +256,17 @@ ol.steps li::before { content: counter(s); position: absolute; left: 0; top: -1p
 
 /* callout */
 .callout { border-left: 2px solid var(--candle); background: var(--ink-2); padding: 12px 16px; border-radius: 0 10px 10px 0; color: var(--muted); font-size: 0.92rem; margin: 18px 0; }
+
+.export-pdf-row { margin: 14px auto 0; }
+.export-pdf-btn {
+  display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono);
+  font-size: 0.78rem; letter-spacing: 0.02em; color: var(--candle);
+  border: 1px solid color-mix(in srgb, var(--candle) 45%, var(--line)); border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent); padding: 8px 16px;
+  cursor: pointer; transition: border-color .15s ease, background .15s ease;
+}
+.export-pdf-btn::before { content: '⤓'; font-size: 0.95rem; }
+.export-pdf-btn:hover { border-color: var(--candle); background: color-mix(in srgb, var(--candle) 12%, var(--surface)); }
 .callout.wip { border-left-color: var(--wine); }
 
 /* chips */
@@ -401,4 +412,47 @@ ol.steps li::before { content: counter(s); position: absolute; left: 0; top: -1p
     padding: 5px 10px;
     background: color-mix(in srgb, var(--surface) 62%, transparent);
   }
+}
+
+/* ── PDF export (print) ──────────────────────────────────────────────────
+   The site is a dark gothic theme (plum background, cream text). Printed
+   as-is that means a nearly all-black page — wasteful and unreadable. This
+   stylesheet forces a plain light/dark-text layout for print, hides
+   navigation chrome, expands collapsed <details> (FAQ answers etc. are
+   collapsed on screen but must show fully on paper), and adds sensible
+   page-break behavior. Also styles the multi-guide PDF assembly used by
+   the /export selector page. */
+.print-only { display: none; }
+@media print {
+  * { color-adjust: exact; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: #ffffff !important; color: #1a1a1a !important; }
+  .site-header, .site-footer, .crumb, .export-pdf-row, .rel-grid, .callout.wip a[href^="#"],
+  .thub-filters, .selector-ui, #export-controls { display: none !important; }
+  .print-only { display: block; }
+  .print-header {
+    padding: 0 0 12px; margin-bottom: 18px; border-bottom: 2px solid #1a1a1a;
+    font-family: sans-serif; font-size: 0.78rem; color: #444;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .print-header strong { font-size: 1rem; color: #1a1a1a; }
+  main, .wrap, .page, article { max-width: 100% !important; background: transparent !important; box-shadow: none !important; }
+  h1, h2, h3 { color: #1a1a1a !important; page-break-after: avoid; }
+  p, li, .callout, .faq p { color: #1a1a1a !important; }
+  a { color: #1a1a1a !important; text-decoration: underline; }
+  .article-hero, .tp-hero, img { max-width: 100% !important; page-break-inside: avoid; filter: none !important; }
+  .callout { border: 1px solid #999 !important; background: #f4f4f4 !important; }
+  /* Force every collapsed <details> (FAQ answers, etc.) to render fully open on paper. */
+  details { page-break-inside: avoid; }
+  details > *:not(summary) { display: block !important; }
+  details summary { font-weight: 600; }
+  details summary::-webkit-details-marker, details summary::marker { display: none; }
+
+  /* Multi-guide combined export (used by /export) */
+  #pdf-assembly { display: block !important; }
+  .pdf-article { page-break-before: always; }
+  .pdf-article:first-child { page-break-before: avoid; }
+  .pdf-source { font-family: sans-serif; font-size: 0.72rem; color: #666; margin: 0 0 10px; }
+}
+@media screen {
+  #pdf-assembly { display: none; }
 }

@@ -9,8 +9,9 @@ interface Props {
   jsonLd?: object | object[];
   crumbs?: Crumb[];
   ogImage?: string;
+  showExport?: boolean;
 }
-const { title, description, path = '/', jsonLd, crumbs = [], ogImage } = Astro.props;
+const { title, description, path = '/', jsonLd, crumbs = [], ogImage, showExport = false } = Astro.props;
 const canonical = new URL(path, SITE.url).href;
 const ogImageUrl = ogImage ? new URL(ogImage, SITE.url).href : undefined;
 const nav = [
@@ -99,6 +100,18 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
         </nav>
       </div>
     )}
+    {showExport && (
+      <div class="wrap print-hide export-pdf-row">
+        <button type="button" class="export-pdf-btn" onclick="window.print()">
+          Export this page to PDF
+        </button>
+      </div>
+    )}
+    <div class="print-only print-header">
+      <strong>{SITE.brand}</strong>
+      <span>{canonical}</span>
+      <span class="print-date" data-print-date></span>
+    </div>
     <main>
       <slot />
     </main>
@@ -128,5 +141,10 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
         </p>
       </div>
     </footer>
+    <script>
+      document.querySelectorAll('[data-print-date]').forEach((el) => {
+        el.textContent = 'Exported ' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      });
+    </script>
   </body>
 </html>

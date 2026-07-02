@@ -1,0 +1,236 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, GAME } from '../consts';
+import { previews } from '../data/previews';
+
+// Evergreen guide pages — kept in sync by hand with the `showExport` pages elsewhere on the site.
+const coreGuides = [
+  { href: '/beginner-guide', title: 'Beginner guide', desc: 'Everything known so far, shaping into your day-one head start.' },
+  { href: '/release-date', title: 'Release date & platforms', desc: 'When, where, price, and the free demo.' },
+  { href: '/platforms', title: 'Platforms', desc: 'Switch, Switch 2, Steam, Steam Deck, and Android.' },
+  { href: '/demo', title: 'The demo', desc: 'What\u2019s in the free demo and how to download it.' },
+  { href: '/farming', title: 'Farming', desc: 'Enchanted crops, glowing flowers, and magical livestock.' },
+  { href: '/magic', title: 'Magic & potions', desc: 'Spells, wands, mana, and the Alter Ego Elixir.' },
+  { href: '/character-creator', title: 'Character creator', desc: 'Customization options in the demo\u2019s vampire creator.' },
+  { href: '/shapeshifting', title: 'Shapeshifting', desc: 'Turning into a bat and other hinted forms.' },
+  { href: '/romance', title: 'Romance & families', desc: 'The seven families, gifts, and who you can date.' },
+  { href: '/items', title: 'Items', desc: 'Tools, potions, decorations, and other categories.' },
+  { href: '/environment', title: 'Environment', desc: 'Weather, seasons, and festivals.' },
+  { href: '/nokturna', title: 'Nokturna card game', desc: 'How it works, cards, and how to win.' },
+  { href: '/cheats', title: 'Cheats & console', desc: 'Console commands and money cheats.' },
+  { href: '/moonlight-peaks-vs-stardew-valley', title: 'Vs Stardew Valley', desc: 'How the two cozy sims compare.' },
+  { href: '/behind-the-scenes', title: 'Behind the scenes', desc: 'What the dev team\u2019s own diaries reveal.' },
+];
+
+const guideArticles = previews.filter((p) => p.category === 'guide');
+const previewArticles = previews.filter((p) => p.category === 'preview');
+const dailyArticles = previews.filter((p) => p.category === 'daily');
+
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: 'Export guides to PDF', item: new URL('/export', SITE.url).href },
+  ],
+};
+---
+<Base
+  title="Export Moonlight Peaks Guides to PDF"
+  description="Pick the Moonlight Peaks guides and articles you want, then export them together as a single PDF you can save or print."
+  path="/export"
+  jsonLd={jsonLd}
+  crumbs={[{ label: 'Export to PDF' }]}
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Tool · Export</p>
+      <h1>Export guides to <em>PDF</em></h1>
+      <p class="intro">
+        Select any combination of guides and articles below, then export them together as one PDF —
+        handy for reading offline or printing. This uses your browser's built-in print-to-PDF, so
+        nothing is uploaded anywhere; everything happens on your device.
+      </p>
+
+      <div id="selector-ui">
+        <div class="exp-toolbar">
+          <button type="button" id="select-all">Select all</button>
+          <button type="button" id="select-none">Clear selection</button>
+          <span class="exp-count"><span id="exp-count-num">0</span> selected</span>
+        </div>
+
+        <h2>Core guides</h2>
+        <div class="exp-grid">
+          {coreGuides.map((g) => (
+            <label class="exp-item">
+              <input type="checkbox" data-href={g.href} data-title={g.title} />
+              <span>
+                <strong>{g.title}</strong>
+                <em>{g.desc}</em>
+              </span>
+            </label>
+          ))}
+        </div>
+
+        {guideArticles.length > 0 && (
+          <>
+            <h2>Guides & how-tos</h2>
+            <div class="exp-grid">
+              {guideArticles.map((p) => (
+                <label class="exp-item">
+                  <input type="checkbox" data-href={`/previews/${p.slug}`} data-title={p.title} />
+                  <span><strong>{p.title}</strong><em>{p.dek}</em></span>
+                </label>
+              ))}
+            </div>
+          </>
+        )}
+
+        {previewArticles.length > 0 && (
+          <>
+            <h2>Demo impressions & press</h2>
+            <div class="exp-grid">
+              {previewArticles.map((p) => (
+                <label class="exp-item">
+                  <input type="checkbox" data-href={`/previews/${p.slug}`} data-title={p.title} />
+                  <span><strong>{p.title}</strong><em>{p.dek}</em></span>
+                </label>
+              ))}
+            </div>
+          </>
+        )}
+
+        {dailyArticles.length > 0 && (
+          <>
+            <h2>Daily updates</h2>
+            <div class="exp-grid">
+              {dailyArticles.map((p) => (
+                <label class="exp-item">
+                  <input type="checkbox" data-href={`/previews/${p.slug}`} data-title={p.title} />
+                  <span><strong>{p.title}</strong><em>{p.dek}</em></span>
+                </label>
+              ))}
+            </div>
+          </>
+        )}
+
+        <div class="exp-export-row">
+          <button type="button" id="export-btn" class="export-pdf-btn" disabled>
+            Export selected as PDF
+          </button>
+          <p class="exp-hint">Tip: in the print dialog that opens, choose "Save as PDF" as the destination.</p>
+        </div>
+      </div>
+
+      <div id="pdf-assembly"></div>
+    </div>
+  </article>
+
+  <style>
+    .exp-toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 8px 0 20px; }
+    .exp-toolbar button {
+      font-family: var(--mono); font-size: 0.76rem; color: var(--muted);
+      border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+      padding: 7px 14px; cursor: pointer; transition: color .15s ease, border-color .15s ease;
+    }
+    .exp-toolbar button:hover { color: var(--candle); border-color: color-mix(in srgb, var(--candle) 45%, var(--line)); }
+    .exp-count { font-family: var(--mono); font-size: 0.76rem; color: var(--faint); margin-left: auto; }
+    .exp-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0 0 24px; }
+    @media (min-width: 640px) { .exp-grid { grid-template-columns: 1fr 1fr; } }
+    .exp-item {
+      display: flex; align-items: flex-start; gap: 10px; border: 1px solid var(--line);
+      border-radius: 12px; background: var(--surface); padding: 12px 14px; cursor: pointer;
+      transition: border-color .15s ease;
+    }
+    .exp-item:has(input:checked) { border-color: color-mix(in srgb, var(--candle) 55%, var(--line)); }
+    .exp-item input { margin-top: 3px; accent-color: var(--candle); flex: 0 0 auto; }
+    .exp-item span { display: flex; flex-direction: column; gap: 2px; }
+    .exp-item strong { font-family: var(--display); font-weight: 600; font-size: 0.92rem; color: var(--mist); }
+    .exp-item em { font-style: normal; font-size: 0.78rem; color: var(--faint); }
+    .exp-export-row { position: sticky; bottom: 12px; margin-top: 8px; text-align: center; }
+    .exp-export-row .export-pdf-btn { font-size: 0.88rem; padding: 12px 24px; }
+    .exp-export-row .export-pdf-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .exp-hint { font-size: 0.74rem; color: var(--faint); margin: 8px 0 0; }
+    #pdf-assembly { display: none; }
+  </style>
+
+  <script>
+    var boxes = function () {
+      return Array.prototype.slice.call(document.querySelectorAll('.exp-item input[type=checkbox]'));
+    };
+    var countEl = document.getElementById('exp-count-num');
+    var exportBtn = document.getElementById('export-btn');
+
+    function refreshCount() {
+      var n = boxes().filter(function (b) { return b.checked; }).length;
+      if (countEl) countEl.textContent = String(n);
+      if (exportBtn) exportBtn.disabled = n === 0;
+    }
+    boxes().forEach(function (b) { b.addEventListener('change', refreshCount); });
+
+    var selectAllBtn = document.getElementById('select-all');
+    if (selectAllBtn) selectAllBtn.addEventListener('click', function () {
+      boxes().forEach(function (b) { b.checked = true; });
+      refreshCount();
+    });
+    var selectNoneBtn = document.getElementById('select-none');
+    if (selectNoneBtn) selectNoneBtn.addEventListener('click', function () {
+      boxes().forEach(function (b) { b.checked = false; });
+      refreshCount();
+    });
+
+    function exportSelected() {
+      var selected = boxes().filter(function (b) { return b.checked; });
+      if (selected.length === 0) return;
+
+      var originalLabel = exportBtn ? exportBtn.textContent : '';
+      if (exportBtn) { exportBtn.disabled = true; exportBtn.textContent = 'Preparing PDF\u2026'; }
+
+      var assembly = document.getElementById('pdf-assembly');
+      if (assembly) assembly.innerHTML = '';
+
+      var fetchOne = function (box) {
+        var href = box.getAttribute('data-href');
+        return fetch(href)
+          .then(function (res) { return res.text(); })
+          .then(function (html) {
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+            var content = doc.querySelector('article.page');
+            if (!content || !assembly) return;
+            var junk = content.querySelectorAll('.print-hide, .export-pdf-row, .rel-grid, script');
+            for (var i = 0; i < junk.length; i++) { junk[i].parentNode.removeChild(junk[i]); }
+            var wrap = document.createElement('div');
+            wrap.className = 'pdf-article';
+            var source = document.createElement('p');
+            source.className = 'pdf-source';
+            source.textContent = 'moonlightpeakswiki.com' + href;
+            wrap.appendChild(source);
+            wrap.innerHTML += content.innerHTML;
+            assembly.appendChild(wrap);
+          })
+          .catch(function (e) {
+            // If one page fails to fetch, skip it and continue with the rest rather than
+            // failing the whole export.
+            console.warn('Export: failed to fetch', href, e);
+          });
+      };
+
+      var chain = Promise.resolve();
+      selected.forEach(function (box) {
+        chain = chain.then(function () { return fetchOne(box); });
+      });
+
+      chain.then(function () {
+        var ui = document.getElementById('selector-ui');
+        if (ui) ui.style.display = 'none';
+        if (exportBtn) { exportBtn.textContent = originalLabel; exportBtn.disabled = false; }
+        window.print();
+      });
+    }
+
+    if (exportBtn) exportBtn.addEventListener('click', exportSelected);
+
+    window.addEventListener('afterprint', function () {
+      var ui = document.getElementById('selector-ui');
+      if (ui) ui.style.display = '';
+    });
+  </script>
+</Base>
