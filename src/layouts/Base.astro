@@ -15,13 +15,12 @@ interface Props {
 const { title, description, path = '/', jsonLd, crumbs = [], ogImage, showExport = false } = Astro.props;
 const canonical = new URL(path, SITE.url).href;
 const ogImageUrl = ogImage ? new URL(ogImage, SITE.url).href : undefined;
-const nav = [
+const navPeople = [
   { href: '/characters', label: 'Characters' },
   { href: '/families', label: 'Families' },
   { href: '/romance', label: 'Romance' },
-  { href: '/locations', label: 'Locations' },
-  { href: '/activities', label: 'Activities' },
-  { href: '/items', label: 'Items' },
+];
+const navUtility = [
   { href: '/tools', label: 'Tools' },
   { href: '/faq', label: 'FAQ' },
   { href: '/about', label: 'About' },
@@ -36,9 +35,19 @@ const guideGroup = {
     { href: '/platforms', label: 'Platforms' },
   ],
 };
+const worldGroup = {
+  label: 'World',
+  href: '/locations',
+  children: [
+    { href: '/locations', label: 'Locations' },
+    { href: '/activities', label: 'Activities' },
+    { href: '/items', label: 'Items' },
+  ],
+};
 const here = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => here === href || (href !== '/' && here.startsWith(`${href}/`));
 const isGuideGroupActive = guideGroup.children.some((c) => isActive(c.href));
+const isWorldGroupActive = worldGroup.children.some((c) => isActive(c.href));
 const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
 ---
 <!doctype html>
@@ -110,7 +119,18 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
               ))}
             </div>
           </details>
-          {nav.map((n) => (
+          {navPeople.map((n) => (
+            <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>
+          ))}
+          <details class="nav-dd" open={isWorldGroupActive ? true : undefined}>
+            <summary aria-current={isWorldGroupActive ? 'page' : undefined}>{worldGroup.label}</summary>
+            <div class="nav-dd-menu">
+              {worldGroup.children.map((c) => (
+                <a href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>{c.label}</a>
+              ))}
+            </div>
+          </details>
+          {navUtility.map((n) => (
             <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>
           ))}
         </nav>
