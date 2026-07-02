@@ -70,6 +70,35 @@ button, input, select, textarea { font: inherit; }
 .nav { display: flex; gap: 18px; flex-wrap: wrap; justify-content: flex-end; font-size: 0.9rem; }
 .nav a { color: var(--muted); transition: color .15s ease; }
 .nav a:hover, .nav a[aria-current="page"] { color: var(--candle); }
+
+/* Guides dropdown — zero-JS via native <details>/<summary>. Desktop: absolute popup under the
+   trigger (.nav has no overflow clipping). Mobile: fixed popup, since .nav scrolls horizontally
+   and would otherwise clip an absolutely-positioned menu. */
+.nav-dd { position: relative; }
+.nav-dd > summary {
+  list-style: none; cursor: pointer; color: var(--muted); transition: color .15s ease;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.nav-dd > summary::-webkit-details-marker { display: none; }
+.nav-dd > summary::after {
+  content: ''; width: 6px; height: 6px; margin-top: -2px;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg); transition: transform .15s ease;
+}
+.nav-dd[open] > summary::after { transform: rotate(-135deg); margin-top: 2px; }
+.nav-dd > summary:hover, .nav-dd > summary[aria-current="page"], .nav-dd[open] > summary { color: var(--candle); }
+.nav-dd-menu {
+  position: absolute; top: calc(100% + 10px); right: 0; z-index: 60;
+  display: flex; flex-direction: column; gap: 2px; min-width: 168px;
+  background: color-mix(in srgb, var(--ink) 96%, transparent);
+  border: 1px solid var(--line); border-radius: 12px; padding: 6px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+}
+.nav-dd-menu a {
+  display: block; padding: 8px 10px; border-radius: 8px; font-size: 0.86rem;
+  color: var(--muted); transition: color .15s ease, background .15s ease;
+}
+.nav-dd-menu a:hover, .nav-dd-menu a[aria-current="page"] { color: var(--candle); background: color-mix(in srgb, var(--surface) 80%, transparent); }
 @media (max-width: 760px) {
   .site-header {
     position: sticky;
@@ -116,6 +145,32 @@ button, input, select, textarea { font: inherit; }
     color: #20160a;
     border-color: transparent;
     background: var(--candle);
+  }
+  .nav-dd > summary {
+    flex: 0 0 auto;
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 11px;
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+  }
+  .nav-dd[open] > summary,
+  .nav-dd > summary[aria-current="page"] {
+    color: #20160a;
+    border-color: transparent;
+    background: var(--candle);
+  }
+  /* .nav scrolls horizontally on mobile (overflow-x: auto), which would clip an absolutely-
+     positioned menu. Fixed positioning escapes that clipping; the top offset is an estimate of
+     the mobile header's rendered height (brand row + nav row), not a precise measurement. */
+  .nav-dd-menu {
+    position: fixed;
+    top: 104px;
+    left: 16px;
+    right: 16px;
+    min-width: 0;
   }
 }
 
