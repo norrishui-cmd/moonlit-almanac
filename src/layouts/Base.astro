@@ -1,6 +1,7 @@
 ---
 import { SITE, GA_MEASUREMENT_ID } from '../consts';
 import '../styles/global.css';
+import SiteSearch from '../components/SiteSearch.astro';
 interface Crumb { label: string; href?: string; }
 interface Props {
   title: string;
@@ -113,6 +114,7 @@ const ld = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
             <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>
           ))}
         </nav>
+        <SiteSearch />
       </div>
     </header>
     {crumbs.length > 0 && (

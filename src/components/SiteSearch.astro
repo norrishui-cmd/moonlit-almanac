@@ -1,0 +1,162 @@
+---
+// Site search — zero-dependency, client-side fuzzy search over /search-index.json.
+// Renders a small trigger button; clicking it opens an overlay with an input and
+// live results. The index is fetched once on first open and cached.
+---
+<button type="button" id="site-search-trigger" class="search-trigger" aria-label="Search the site">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>
+  <span class="search-trigger-label">Search</span>
+</button>
+
+<div id="site-search-overlay" class="search-overlay" hidden role="dialog" aria-modal="true" aria-label="Site search">
+  <div class="search-panel">
+    <div class="search-input-row">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="site-search-input" placeholder="Search characters, guides, FAQ, items…" autocomplete="off" spellcheck="false" aria-label="Search query" />
+      <button type="button" id="site-search-close" class="search-close" aria-label="Close search">Esc</button>
+    </div>
+    <ul id="site-search-results" class="search-results" role="listbox"></ul>
+    <p id="site-search-empty" class="search-empty" hidden>No matches — try a shorter or different term.</p>
+    <p class="search-hint">Tip: search by character name, item, guide topic, or a question.</p>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var trigger = document.getElementById('site-search-trigger');
+    var overlay = document.getElementById('site-search-overlay');
+    var input = document.getElementById('site-search-input');
+    var results = document.getElementById('site-search-results');
+    var empty = document.getElementById('site-search-empty');
+    var closeBtn = document.getElementById('site-search-close');
+    if (!trigger || !overlay || !input || !results) return;
+
+    var index = null;
+    var loading = false;
+    var activeIndex = -1;
+    var current = [];
+
+    function loadIndex() {
+      if (index || loading) return;
+      loading = true;
+      fetch('/search-index.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) { index = data; loading = false; if (input.value) run(input.value); })
+        .catch(function () { loading = false; });
+    }
+
+    function norm(s) { return (s || '').toLowerCase(); }
+
+    // Lightweight scoring: exact substring in title beats substring in description;
+    // a subsequence (fuzzy) match still counts but scores lower. No dependencies.
+    function subseq(needle, hay) {
+      var i = 0, j = 0;
+      while (i < needle.length && j < hay.length) {
+        if (needle[i] === hay[j]) i++;
+        j++;
+      }
+      return i === needle.length;
+    }
+
+    function score(q, doc) {
+      var t = norm(doc.t), d = norm(doc.d), k = norm(doc.k);
+      if (t === q) return 100;
+      if (t.indexOf(q) === 0) return 90;
+      if (t.indexOf(q) > -1) return 75;
+      if (k.indexOf(q) > -1) return 60;
+      if (d.indexOf(q) > -1) return 45;
+      if (subseq(q, t)) return 30;
+      if (subseq(q, d)) return 15;
+      return 0;
+    }
+
+    function run(raw) {
+      var q = norm(raw).trim();
+      results.innerHTML = '';
+      activeIndex = -1;
+      if (!q) { empty.hidden = true; current = []; return; }
+      if (!index) { loadIndex(); return; }
+
+      var scored = [];
+      for (var i = 0; i < index.length; i++) {
+        var s = score(q, index[i]);
+        if (s > 0) scored.push({ s: s, doc: index[i] });
+      }
+      scored.sort(function (a, b) { return b.s - a.s; });
+      current = scored.slice(0, 12);
+
+      if (current.length === 0) { empty.hidden = false; return; }
+      empty.hidden = true;
+
+      for (var n = 0; n < current.length; n++) {
+        var doc = current[n].doc;
+        var li = document.createElement('li');
+        li.className = 'search-result';
+        li.setAttribute('role', 'option');
+        var a = document.createElement('a');
+        a.href = doc.u;
+        a.innerHTML =
+          '<span class="sr-kind">' + doc.k + '</span>' +
+          '<span class="sr-title"></span>' +
+          '<span class="sr-desc"></span>';
+        a.querySelector('.sr-title').textContent = doc.t;
+        a.querySelector('.sr-desc').textContent = doc.d;
+        li.appendChild(a);
+        results.appendChild(li);
+      }
+    }
+
+    function open() {
+      overlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      loadIndex();
+      setTimeout(function () { input.focus(); }, 20);
+    }
+    function close() {
+      overlay.hidden = true;
+      document.body.style.overflow = '';
+      input.value = '';
+      results.innerHTML = '';
+      empty.hidden = true;
+    }
+
+    function setActive(next) {
+      var items = results.querySelectorAll('.search-result');
+      if (!items.length) return;
+      if (activeIndex > -1 && items[activeIndex]) items[activeIndex].classList.remove('is-active');
+      activeIndex = (next + items.length) % items.length;
+      items[activeIndex].classList.add('is-active');
+      items[activeIndex].scrollIntoView({ block: 'nearest' });
+    }
+
+    trigger.addEventListener('click', open);
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    input.addEventListener('input', function () { run(input.value); });
+
+    input.addEventListener('keydown', function (e) {
+      var items = results.querySelectorAll('.search-result');
+      if (e.key === 'ArrowDown') { e.preventDefault(); setActive(activeIndex + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(activeIndex - 1); }
+      else if (e.key === 'Enter') {
+        if (activeIndex > -1 && items[activeIndex]) { var link = items[activeIndex].querySelector('a'); if (link) window.location.href = link.href; }
+        else if (items.length) { var f = items[0].querySelector('a'); if (f) window.location.href = f.href; }
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !overlay.hidden) close();
+      // "/" opens search when not already typing in a field
+      if (e.key === '/' && overlay.hidden) {
+        var tag = (document.activeElement && document.activeElement.tagName) || '';
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA') { e.preventDefault(); open(); }
+      }
+    });
+  })();
+</script>
