@@ -1,4 +1,4 @@
----
+﻿---
 import Base from '../../layouts/Base.astro';
 import { SITE, GAME } from '../../consts';
 import { characters, typeLabels } from '../../data/characters';
@@ -44,7 +44,7 @@ const jsonLd = [
 ];
 ---
 <Base
-  title={`${c.name} —Moonlight Peaks Character Guide`}
+  title={`${c.name} 鈥?Moonlight Peaks Character Guide`}
   description={`${c.name} in Moonlight Peaks: ${c.desc} Family, romance status, and what we know so far.`}
   path={`/characters/${c.id}`}
   jsonLd={jsonLd}
@@ -58,7 +58,7 @@ const jsonLd = [
       <div class="chead">
         <div class="cavatar">
           {c.img ? (
-            <img src={c.img} alt={`${c.name} —Moonlight Peaks character portrait`} width="160" height="160" />
+            <img src={c.img} alt={`${c.name} 鈥?Moonlight Peaks character portrait`} width="160" height="160" />
           ) : (
             <svg viewBox="0 0 160 160" width="160" height="160" aria-hidden="true">
               <defs><linearGradient id={`g-${c.id}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color={c.c1} /><stop offset="1" stop-color={c.c2} /></linearGradient></defs>
@@ -92,13 +92,13 @@ const jsonLd = [
       <p>
         {c.romanceable === true && `${c.name} is reported to be romanceable. Gift preferences and heart events will be added once they are confirmed in the live game.`}
         {c.romanceable === false && `${c.name} is not a romance option.`}
-        {c.romanceable === null && `Whether ${c.name} can be romanced has not been confirmed yet —we will update this at launch.`}
+        {c.romanceable === null && `Whether ${c.name} can be romanced has not been confirmed yet 鈥?we will update this at launch.`}
       </p>
 
       {c.traits.length > 0 && (
         <>
           <h2>Personality read</h2>
-          <p class="cnote">Illustrative personality traits (not in-game combat stats) —Moonlight Peaks has no combat. Replaced with confirmed detail at launch.</p>
+          <p class="cnote">Illustrative personality traits (not in-game combat stats) 鈥?Moonlight Peaks has no combat. Replaced with confirmed detail at launch.</p>
           <div class="ctraits">
             {c.traits.map((t) => (
               <div class="ctrait"><span class="ctrait-l">{t[0]}</span><span class="cbar"><i style={`width:${t[1]}%`}></i></span></div>
@@ -116,7 +116,7 @@ const jsonLd = [
         {related.map((r) => (
           <li>
             <a href={`/characters/${r.id}`}>
-              {r.img && <img src={r.img} alt={`${r.name} —Moonlight Peaks`} width="48" height="48" loading="lazy" />}
+              {r.img && <img src={r.img} alt={`${r.name} 鈥?Moonlight Peaks`} width="48" height="48" loading="lazy" />}
               <span class="rel-body"><span class="rel-name">{r.name}</span><span class="rel-tag">{typeLabels[r.type]}</span></span>
             </a>
           </li>
