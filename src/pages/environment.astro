@@ -1,17 +1,17 @@
-﻿---
+---
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
 
 const systems: { name: string; note: string }[] = [
   { name: 'Weather', note: 'Day-to-day conditions that likely affect farming, foraging, or what you can do outdoors.' },
-  { name: 'Seasons', note: 'A season or calendar system to structure crops and events 鈥?exact names and length unconfirmed.' },
+  { name: 'Seasons', note: 'A season or calendar system to structure crops and events —exact names and length unconfirmed.' },
   { name: 'Festivals', note: 'Town-wide celebrations. A theatrical event host has already been shown livening up gatherings.' },
 ];
 
 const faq = [
   { q: 'Does Moonlight Peaks have seasons?', a: 'Pre-launch datamined game files list a "Seasons" system, suggesting the game structures its calendar around them, similar to other farming sims. Specific season names and lengths are not yet developer-confirmed.' },
   { q: 'Does Moonlight Peaks have weather?', a: 'Yes, based on datamined files, which list a "Weather" system. How weather affects farming or activities is confirmed at launch.' },
-  { q: 'Are there festivals in Moonlight Peaks?', a: 'Datamined files list a "Festivals" system, and a theatrical event host has already been shown livening up town gatherings in coverage 鈥?consistent with seasonal celebrations being part of town life.' },
+  { q: 'Are there festivals in Moonlight Peaks?', a: 'Datamined files list a "Festivals" system, and a theatrical event host has already been shown livening up town gatherings in coverage —consistent with seasonal celebrations being part of town life.' },
 ];
 
 const jsonLd = [
@@ -23,8 +23,8 @@ const jsonLd = [
 ];
 ---
 <Base
-  title="Moonlight Peaks Environment 鈥?Weather, Seasons & Festivals"
-  description="What's known about weather, seasons, and festivals in Moonlight Peaks, based on pre-launch datamined game files 鈥?what's confirmed, what's expected, and what's still unknown."
+  title="Moonlight Peaks Environment —Weather, Seasons & Festivals"
+  description="What's known about weather, seasons, and festivals in Moonlight Peaks, based on pre-launch datamined game files —what's confirmed, what's expected, and what's still unknown."
   path="/environment"
   jsonLd={jsonLd}
   crumbs={[{ label: 'Environment' }]}
@@ -34,7 +34,7 @@ const jsonLd = [
       <p class="eyebrow">Hub 路 Environment</p>
       <h1>Moonlight Peaks <em>environment</em></h1>
       <p class="intro">
-        How the world of {GAME.title} changes over time 鈥?weather, seasons, and town festivals.
+        How the world of {GAME.title} changes over time —weather, seasons, and town festivals.
         The systems below are named in pre-launch datamined game files and treated as launch-pending:
         useful for tracking likely systems, but not enough to confirm exact rules. Updated {SITE.updated}.
       </p>
@@ -76,7 +76,7 @@ const jsonLd = [
       </div>
 
       <div class="callout wip">
-        Pre-launch entry 鈥?season, weather, and festival specifics land at launch. Related:
+        Pre-launch entry —season, weather, and festival specifics land at launch. Related:
         <a href="/farming">farming</a>, <a href="/items">items</a>, <a href="/locations">locations</a>.
       </div>
     </div>

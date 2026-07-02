@@ -1,4 +1,4 @@
-﻿---
+---
 import Base from '../layouts/Base.astro';
 import { SITE, GAME } from '../consts';
 import type { TopicSection, TopicItem } from '../data/topic';
@@ -9,9 +9,9 @@ const { section, item, prev, next } = Astro.props;
 const url = new URL(`${section.base}/${item.slug}`, SITE.url).href;
 const statusLabel =
   item.status === 'confirmed' ? 'Developer-confirmed'
-  : item.status === 'expected' ? 'Expected 鈥?not yet confirmed'
-  : item.status === 'datamined' ? 'Datamined 鈥?from pre-launch game files, cross-referenced against pre-launch references; verify at launch'
-  : 'Reported 鈥?verify at launch';
+  : item.status === 'expected' ? 'Expected —not yet confirmed'
+  : item.status === 'datamined' ? 'Datamined —from pre-launch game files, cross-referenced against pre-launch references; verify at launch'
+  : 'Reported —verify at launch';
 
 const ld: object[] = [
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
@@ -29,7 +29,7 @@ if (item.faq && item.faq.length > 0) {
 }
 ---
 <Base
-  title={item.title.includes('Moonlight Peaks') ? `${item.title} 鈥?${section.label}` : `${item.title} 鈥?Moonlight Peaks ${section.label}`}
+  title={item.title.includes('Moonlight Peaks') ? `${item.title} —${section.label}` : `${item.title} —Moonlight Peaks ${section.label}`}
   description={item.dek}
   path={`${section.base}/${item.slug}`}
   jsonLd={ld}
@@ -39,7 +39,7 @@ if (item.faq && item.faq.length > 0) {
   <article class="page">
     <div class="wrap">
       <p class="eyebrow">{section.eyebrow} 路 {item.tag}</p>
-      {item.image && <img class="tp-hero" src={item.image} alt={`${item.title} 鈥?Moonlight Peaks`} width="1200" height="630" />}
+      {item.image && <img class="tp-hero" src={item.image} alt={`${item.title} —Moonlight Peaks`} width="1200" height="630" />}
       <h1>{item.title}</h1>
       <p class="intro">{item.dek}</p>
 
@@ -47,7 +47,7 @@ if (item.faq && item.faq.length > 0) {
       {item.body.map((p) => (<p>{p}</p>))}
 
       <div class="callout">
-        <strong>Status:</strong> {statusLabel}. We keep developer-confirmed facts separate from reported or expected details and never invent data 鈥?full details are added at launch on {GAME.releaseLabel}.
+        <strong>Status:</strong> {statusLabel}. We keep developer-confirmed facts separate from reported or expected details and never invent data —full details are added at launch on {GAME.releaseLabel}.
       </div>
 
       {item.faq && item.faq.length > 0 && (
