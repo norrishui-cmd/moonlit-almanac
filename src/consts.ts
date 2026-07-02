@@ -6,6 +6,12 @@ export const SITE = {
   contact: 'norris.hui@gmail.com',
 };
 
+// Google Analytics 4 measurement ID. Paste your own ID here (looks like 'G-XXXXXXXXXX').
+// While this is an empty string, NO analytics/consent code loads at all — the site behaves
+// exactly as before. As soon as you fill it in, GA4 loads in consent-gated mode (see Base.astro):
+// nothing is sent until the visitor accepts the cookie banner.
+export const GA_MEASUREMENT_ID = 'G-SBKWNJHDT1';
+
 export const GAME = {
   title: 'Moonlight Peaks',
   developer: 'Little Chicken Game Company',
